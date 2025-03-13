@@ -18,10 +18,11 @@ An example CRUD api. Has a minimum of dependencies. Appropriate for enterprise s
   - pgx
 - TSDR-006 DB initial data load
   - **Pending** Postgress image docker initdb folder 
-- TSDR-007 ORM
-  - **PENDING**
-- TSDR-008 DB migrations
-  - **PENDING**
+- TSDR-007 Linters
+  - **Pending**
+- TSDR-008 Coding Standards
+  - **Pending**
+
 - TSDR-009 Other DB packages
   - **PENDING**
 - TSDR-010 Live reload of code
