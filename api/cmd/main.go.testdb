@@ -1,0 +1,80 @@
+package main
+
+import (
+	"api/internal/database"
+	"context"
+	"fmt"
+	"os"
+
+	"github.com/jackc/pgx/v5/pgtype"
+)
+
+func main() {
+	println("Hello, World!")
+
+	ctx := context.Background()
+
+	pg, err := database.NewPG(ctx)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "unable to create postgresql connection:", err)
+		os.Exit(1)
+	}
+
+	err = pg.Ping(ctx)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "unable to ping postgresql:", err)
+		os.Exit(1)
+	}
+
+	client := database.Client{
+		Name: "Test Client",
+		Address: pgtype.Text{
+			String: "1234 Test St.",
+			Valid:  true,
+		},
+	}
+
+	err = pg.InsertClient(ctx, client)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "unable to insert client:", err)
+		os.Exit(1)
+	}
+
+	clients := []database.Client{
+		{Name: "Alice", Address: pgtype.Text{String: "30", Valid: true}},
+		{Name: "Bob", Address: pgtype.Text{String: "25", Valid: true}},
+		{Name: "Charlie", Address: pgtype.Text{String: "35", Valid: true}},
+	}
+
+	err = pg.BulkInsertClients(ctx, clients)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "unable to bulk insert client:", err)
+		os.Exit(1)
+	}
+
+	clients = []database.Client{
+		{Name: "AliceC", Address: pgtype.Text{String: "30", Valid: true}},
+		{Name: "BobC", Address: pgtype.Text{String: "25", Valid: true}},
+		{Name: "CharlieC", Address: pgtype.Text{String: "35", Valid: true}},
+	}
+
+	err = pg.CopyInsertClients(ctx, clients)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "unable to copy insert client:", err)
+		os.Exit(1)
+	}
+
+	clients, err = pg.GetClients(ctx)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "unable to get clients:", err)
+		os.Exit(1)
+	}
+
+	for _, c := range clients {
+		fmt.Printf("Client: %s\n", c.Name)
+	}
+
+	pg.Close()
+
+	println("Goodbye, World!")
+}

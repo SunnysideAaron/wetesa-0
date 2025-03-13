@@ -1,0 +1,34 @@
+# TSDR-003 Data storage  
+
+## Status
+
+Accepted
+
+## Context
+
+
+
+## Decision
+
+PostgreSQL
+
+## Why / Notes
+
+  - Pros. Enterprise scale.
+  - TODO (Can't remember off hand why it's better than MariaDB. Scale? ACID? I remember there were good reasons just can't remember them right now. I'm sure there are articles on topic.)
+
+## Consequences
+
+Data store lock in. Changing databases is something we like to talk about but in practice it is way too costly down the road.
+
+## Other Options
+
+Possibilities:
+- MariaDB
+  - Strong option.
+- MySQL
+  - Oracle dependency.
+
+Not an option:
+- SQLite
+  - Limited features. Not appropriate for enterprise scale.
