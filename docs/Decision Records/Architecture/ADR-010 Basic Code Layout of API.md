@@ -7,7 +7,10 @@ Accepted, Proposed, Deprecated or Superseded (list DR)
 
 ## Context
 
-https://www.reddit.com/r/golang/comments/1j4lt7o/production_ready_auth_server_examples/
+- file structure of go
+  - https://www.reddit.com/r/golang/comments/1ak3mmm/internal_package/
+  - https://go.dev/doc/modules/layout#server-project
+
 
 ## Decision
 
@@ -24,8 +27,6 @@ https://www.reddit.com/r/golang/comments/1j4lt7o/production_ready_auth_server_ex
 ## Other Options
 
 Possibilities:
-- [gotth-auth](https://github.com/lordaris/gotth-auth)
-  - Example we don't use tech stack
 
 Not an option:
 

@@ -14,17 +14,17 @@ An example CRUD api. Has a minimum of dependencies. Appropriate for enterprise s
   - Using Bitnami PostgreSQL Image
 - TSDR-004 API framework
   - **Pending**
-- TSDR-005 SQL driver
+- TSDR-005 SQL Driver
   - pgx
-- TSDR-006 DB initial data load
+- TSDR-006 DB Initial Data Load
   - **Pending** Postgress image docker initdb folder 
 - TSDR-007 Linters
   - **Pending**
 - TSDR-008 Coding Standards
   - **Pending**
 
-- TSDR-009 Other DB packages
+- TSDR-009 Other DB Packages
   - **PENDING**
-- TSDR-010 Live reload of code
+- TSDR-010 Live Reload of Code
   - **PENDING**
 

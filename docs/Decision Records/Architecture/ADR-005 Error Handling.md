@@ -12,6 +12,9 @@ https://www.youtube.com/watch?v=CxcxRgwWtAk
 
 https://www.reddit.com/r/golang/comments/1iwmeaw/in_larger_programs_how_do_you_handle_errors_so/
 
+https://www.reddit.com/r/golang/comments/1in0tiw/simple_strategy_to_understand_error_handling_in_go/
+
+
 ## Decision
 
 

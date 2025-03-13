@@ -26,6 +26,8 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
   - **PENDING**
 - ADR-009 Automated Testing
   - **PENDING**
+- ADR-010 Basic Code Layout of API
+  - **PENDING**
 
 ## TODO 
 
@@ -37,3 +39,5 @@ utf8 (other encodings?)
 db table logging
 
 postgress what not to do doc
+
+concurancy for api calls?

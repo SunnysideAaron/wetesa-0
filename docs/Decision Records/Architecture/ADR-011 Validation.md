@@ -7,7 +7,7 @@ Accepted, Proposed, Deprecated or Superseded (list DR)
 
 ## Context
 
-https://www.reddit.com/r/golang/comments/1j4lt7o/production_ready_auth_server_examples/
+https://www.reddit.com/r/golang/comments/1j3ag4v/zog_v0172_is_now_one_of_the_fastest_validation/
 
 ## Decision
 
@@ -24,8 +24,6 @@ https://www.reddit.com/r/golang/comments/1j4lt7o/production_ready_auth_server_ex
 ## Other Options
 
 Possibilities:
-- [gotth-auth](https://github.com/lordaris/gotth-auth)
-  - Example we don't use tech stack
 
 Not an option:
 
