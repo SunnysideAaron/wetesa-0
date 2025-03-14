@@ -39,6 +39,7 @@ Known options (started from post at [reddit](https://www.reddit.com/r/golang/com
 - Spec → SDK
   - https://packagemain.tech/p/practical-openapi-in-golang **SHORT LIST TO TRY**
   - oapi-codegen
+    doesn't do OpenAPI 3?
   - ogen **TRIED**
   - openapi-generator
   - swagger-codegen
@@ -54,6 +55,9 @@ Known options (started from post at [reddit](https://www.reddit.com/r/golang/com
 - OpenAPI Implementation (these appear to be more about validation testing spec? look into later)
   - libopenapi
   - kin-openapi (seems semi-abandoned as of 2024-02-22)
+
+- go restful
+  - generates open api spec from code.
 
 ### Other example tech stacks
 
