@@ -14,6 +14,11 @@ https://www.reddit.com/r/golang/comments/1iwmeaw/in_larger_programs_how_do_you_h
 
 https://www.reddit.com/r/golang/comments/1in0tiw/simple_strategy_to_understand_error_handling_in_go/
 
+pkg.errors = wrapping errors
+	look into from podcast
+	wrapping errror msg is about the thing you just called not the what is doing the calling.
+
+waterfall library for msging?
 
 ## Decision
 

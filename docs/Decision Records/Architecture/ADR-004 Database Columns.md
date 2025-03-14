@@ -29,6 +29,9 @@ nameing convention of date columns
 created_date, created_time, created, etc? time stamp
 if time column time with and without date
 
+### All times in UTC
+    Store timezone of user entering as well.
+
 ## Decision
 
 - table_id not id

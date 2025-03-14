@@ -16,6 +16,7 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
   - table_id not id
   - Use UUIDs for primary keys
   - PENDING Date columns
+  - All times in UTC
 - ADR-005 Error Handling 
   - **PENDING**
 - ADR-006 Logging 
@@ -43,4 +44,8 @@ DB default encodings
 utf8 (other encodings?)
 
 UTC for server and db
+
+ACID Compliant
+
+DB knows user logged in. Not just a general web log in.
 

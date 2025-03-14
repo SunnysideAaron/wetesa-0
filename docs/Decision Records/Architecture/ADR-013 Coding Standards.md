@@ -20,6 +20,13 @@ THESE SHOULD BE IN THE LINTErs if possibles
 - https://go.dev/wiki/CodeReviewComments
 - https://www.reddit.com/r/golang/comments/1j45zgn/what_language_guidelinesstandards_will_you_put_in/
 
+Look up United Kingdoms GDS departments website access guidlines
+	?must work without javascript?
+
+
+API Toolkit
+	project for verifing api contract.
+    
 ## Decision
 
 

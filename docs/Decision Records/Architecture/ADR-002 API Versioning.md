@@ -8,6 +8,10 @@ Accepted, Proposed, Deprecated or Superseded (list DR)
 
 API Versioning can be tricky. Research to attempt something from 0.0.1
 
+content negotiation
+	api version, way to change. content of http. what is being sent over wire. how do changes happen
+	
+    
 ## Decision
 
 

@@ -18,6 +18,7 @@ Go does not include sql drivers in the standard library. [Driver listing](https:
 
 - Often recommended package. 
 - Is more than just a sql driver. But not an all db problems in one like Bun.
+- Support for approximately 70 different PostgreSQL types
 - [Choosing Between the pgx and database/sql Interfaces](https://github.com/jackc/pgx#choosing-between-the-pgx-and-databasesql-interfaces)
 - We are 100% committed to PostgreSQL. Use the pgx interface.
 - Don't bother with pgx's database/sql interface. pgx interface is more performative.

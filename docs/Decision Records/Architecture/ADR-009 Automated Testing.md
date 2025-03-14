@@ -8,6 +8,8 @@ Accepted, Proposed, Deprecated or Superseded (list DR)
 
 Automated testing has burned me hard on multiple occasions. Need further research.
 
+Automated testing 100% coverage?
+
 ## Decision
 
 

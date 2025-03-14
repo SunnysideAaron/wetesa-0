@@ -10,6 +10,9 @@ Accepted, Proposed, Deprecated or Superseded (list DR)
 
 ## Decision
 
+DB knows user logged in. Not just a general web log in.
+
+full tracking of who did what
 
 
 ## Why / Notes

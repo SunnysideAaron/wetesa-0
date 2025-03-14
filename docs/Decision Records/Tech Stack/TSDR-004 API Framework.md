@@ -6,6 +6,20 @@ Pending
 
 ## Context
 
+API with open auth login, return 1 table
+	You might want something like SCS for sessions, maybe Goth for Google/Apple authentication/authorization if you need it.
+	
+		
+	research gRPC vrs rest API
+		https://www.reddit.com/r/golang/comments/1c1hwbf/is_grpc_a_good_alternative_for_rest_when_building/
+		"My advice: don't use gRPC if you need to make calls from your browser. It should only be used for server-to-server communication in my opinion. The browser support is not there for the trailers or use of HTTP/2. "
+	
+	
+Alex Edwards’ book “Let’s Go” which features a CRUD app
+
+Primeagen’s 2+ hour video on building an HTMX app.
+
+
 We want auto code generation for (should include basic validation):
 - API End points
 - API to DB crud
