@@ -1,5 +1,5 @@
-# ADR-00: 
-# TSDR-00:  
+# ADR-00
+# TSDR-00
 
 ## Status
 

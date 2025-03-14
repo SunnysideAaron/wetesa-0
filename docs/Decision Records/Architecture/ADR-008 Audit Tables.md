@@ -1,5 +1,4 @@
-# ADR-00: 
-# TSDR-00:  
+# ADR-008 Audit Tables
 
 ## Status
 

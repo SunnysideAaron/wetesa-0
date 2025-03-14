@@ -1,4 +1,4 @@
-# ADR-005: Error handling
+# ADR-005 Error Handling
 
 ## Status
 

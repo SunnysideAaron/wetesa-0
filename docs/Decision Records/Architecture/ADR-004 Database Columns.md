@@ -1,4 +1,4 @@
-# ADR-004 Database columns
+# ADR-004 Database Columns
 
 ## Status
 

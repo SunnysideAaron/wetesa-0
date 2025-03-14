@@ -1,4 +1,4 @@
-# TSDR-000 What and TLDR
+# ADR-000 What and TLDR
 
 ## What we are building.
 
@@ -28,6 +28,12 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
   - **PENDING**
 - ADR-010 Basic Code Layout of API
   - **PENDING**
+- ADR-011 Validation
+  - **Pending**
+- ADR-012 Linters
+  - **Pending**
+- ADR-013 Coding Standards
+  - **Pending**
 
 ## TODO 
 
@@ -36,8 +42,5 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
 DB default encodings
 utf8 (other encodings?)
 
-db table logging
+UTC for server and db
 
-postgress what not to do doc
-
-concurancy for api calls?

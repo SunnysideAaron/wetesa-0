@@ -1,4 +1,4 @@
-# TSDR-010: Live reload of code
+# TSDR-008 Live reload of code
 
 ## Status
 
