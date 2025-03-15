@@ -1,0 +1,36 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with "go test -c"
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Dependency directories
+# vendor/
+
+# Go workspace file
+go.work
+tmp/
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Environment files
+.env
+
+# Project build
+main
+*templ.go
+
+# OS X generated file
+.DS_Store
+
+# Datastore persistence
+datastore/persistence/
