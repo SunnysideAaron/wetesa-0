@@ -102,6 +102,7 @@ Same issue as goa. Tutorial was working well until it didn't, couldn't troublesh
 
 #### new api examples 2025-03-12
 
+https://www.youtube.com/watch?v=eqvDSkuBihs
 - [go-rest-api-service-template](https://github.com/p2p-b2b/go-rest-api-service-template/tree/main)
 - [go-zero](https://github.com/zeromicro/go-zero)
 https://www.reddit.com/r/golang/comments/15y5wiq/lets_say_you_want_to_build_a_go_rest_api_should/
