@@ -12,14 +12,6 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-// Validator is an object that can be validated.
-type Validator interface {
-	// Valid checks the object and returns any
-	// problems. If len(problems) == 0 then
-	// the object is valid.
-	Valid(ctx context.Context) (problems map[string]string)
-}
-
 type Client struct {
 	Client_id int         `json:"client_id"`
 	Name      string      `json:"name"`

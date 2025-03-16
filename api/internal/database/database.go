@@ -17,6 +17,14 @@ type Postgres struct {
 	pool *pgxpool.Pool
 }
 
+// Validator is an object that can be validated.
+type Validator interface {
+	// Valid checks the object and returns any
+	// problems. If len(problems) == 0 then
+	// the object is valid.
+	Valid(ctx context.Context) (problems map[string]string)
+}
+
 var (
 	pgInstance *Postgres
 	pgOnce     sync.Once
@@ -71,13 +79,6 @@ func NewPG(ctx context.Context) *Postgres {
 
 	return pgInstance
 }
-
-func (pg *Postgres) Ping(ctx context.Context) error {
-	return pg.pool.Ping(ctx)
-}
-
-// https://pkg.go.dev/github.com/jackc/pgx/v5@v5.7.2/pgxpool#Stat
-// TODO health check
 
 func (pg *Postgres) Close() {
 	pg.pool.Close()
