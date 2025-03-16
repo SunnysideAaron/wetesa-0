@@ -13,6 +13,7 @@ import (
 )
 
 // NewServer creates a new HTTP server
+// [The NewServer constructor](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#the-newserver-constructor)
 func NewServer(logger *log.Logger, db *database.Postgres) http.Handler {
 	mux := http.NewServeMux()
 	addRoutes(mux, logger, db)
@@ -26,8 +27,9 @@ func NewServer(logger *log.Logger, db *database.Postgres) http.Handler {
 	return handler
 }
 
-// TODO why is encode() and decode() different than article as written
 // encode encodes the response as JSON
+// [Handle decoding/encoding in one place](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#handle-decodingencoding-in-one-place)
+// TODO why is encode() and decode() different than article as written
 func encode(w http.ResponseWriter, r *http.Request, status int, v interface{}) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)

@@ -12,8 +12,6 @@ import (
 	"os/signal"
 	"time"
 
-	//"github.com/jackc/pgx/v5/pgtype"
-
 	"api/internal/database"
 	"api/internal/server"
 )
