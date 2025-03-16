@@ -10,6 +10,14 @@ We want to turn on linters. Which ones?
 
 All 3 linter stages turned on from book.
 
+aaron does not like single line if else statements
+they easily hide scope and lessen readability.
+have to reedit later when maintaining anyway.
+can these be linted out?
+    https://www.calhoun.io/one-liner-if-statements-with-errors/
+
+markdown linter
+
 ## Decision
 
 

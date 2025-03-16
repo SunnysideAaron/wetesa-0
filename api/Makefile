@@ -9,7 +9,10 @@ test:
 exec:
 	@./tmp/main
 
+run:
+	@go run ./cmd/main.go
+
 watch:
 	@air ./cmd/main.go
 
-.PHONY: build test exec watch
+.PHONY: build test exec run watch

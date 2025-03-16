@@ -29,7 +29,12 @@ An example CRUD api. Uses Go as the language and PostgreSQL as a datastore. Has 
 
 Additional make commands are provided for running the containers independently. This could be helpful depending on what one is trying to accomplish. For example:
 
+in command prompt 1:
+
     make ds-up
+
+in command prompt 2:
+
     make api-bash
 
 Will launch the datastore service and leave you on the command line in the api service. Once inside the api service you can run go commands on the code as needed.

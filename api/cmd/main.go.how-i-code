@@ -1,3 +1,5 @@
+// Generated from poe using cluade
+
 package main
 
 import (
@@ -17,9 +19,9 @@ import (
 
 // User represents a user in our system
 type User struct {
-	ID       string `json:"id"`
-	Name     string `json:"name"`
-	Email    string `json:"email"`
+	ID        string    `json:"id"`
+	Name      string    `json:"name"`
+	Email     string    `json:"email"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -95,17 +97,17 @@ type CreateUserRequest struct {
 // Valid validates the create user request
 func (r CreateUserRequest) Valid(ctx context.Context) map[string]string {
 	problems := make(map[string]string)
-	
+
 	if r.Name == "" {
 		problems["name"] = "name is required"
 	}
-	
+
 	if r.Email == "" {
 		problems["email"] = "email is required"
 	} else if !strings.Contains(r.Email, "@") {
 		problems["email"] = "email must be valid"
 	}
-	
+
 	return problems
 }
 
@@ -118,11 +120,11 @@ type UpdateUserRequest struct {
 // Valid validates the update user request
 func (r UpdateUserRequest) Valid(ctx context.Context) map[string]string {
 	problems := make(map[string]string)
-	
+
 	if r.Email != "" && !strings.Contains(r.Email, "@") {
 		problems["email"] = "email must be valid"
 	}
-	
+
 	return problems
 }
 
@@ -135,10 +137,10 @@ type Validator interface {
 func NewServer(logger *log.Logger, userStore *UserStore) http.Handler {
 	mux := http.NewServeMux()
 	addRoutes(mux, logger, userStore)
-	
+
 	var handler http.Handler = mux
 	handler = loggingMiddleware(logger, handler)
-	
+
 	return handler
 }
 
@@ -152,6 +154,8 @@ func addRoutes(mux *http.ServeMux, logger *log.Logger, userStore *UserStore) {
 	mux.Handle("GET /healthz", handleHealthz())
 	mux.Handle("/", http.NotFoundHandler())
 }
+
+//TODO middleware and middleware grouping
 
 // loggingMiddleware is middleware that logs requests
 func loggingMiddleware(logger *log.Logger, next http.Handler) http.Handler {
@@ -190,13 +194,13 @@ func handleGetUser(logger *log.Logger, store *UserStore) http.Handler {
 			http.Error(w, "Missing ID", http.StatusBadRequest)
 			return
 		}
-		
+
 		user, found := store.Get(id)
 		if !found {
 			http.NotFound(w, r)
 			return
 		}
-		
+
 		if err := encode(w, r, http.StatusOK, user); err != nil {
 			logger.Printf("error encoding response: %v", err)
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -213,22 +217,22 @@ func handleCreateUser(logger *log.Logger, store *UserStore) http.Handler {
 			http.Error(w, "Invalid request body", http.StatusBadRequest)
 			return
 		}
-		
+
 		if problems := req.Valid(r.Context()); len(problems) > 0 {
 			w.WriteHeader(http.StatusBadRequest)
 			encode(w, r, http.StatusBadRequest, problems)
 			return
 		}
-		
+
 		user := User{
 			ID:        fmt.Sprintf("user_%d", time.Now().UnixNano()),
 			Name:      req.Name,
 			Email:     req.Email,
 			CreatedAt: time.Now(),
 		}
-		
+
 		store.Create(user)
-		
+
 		if err := encode(w, r, http.StatusCreated, user); err != nil {
 			logger.Printf("error encoding response: %v", err)
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -245,24 +249,24 @@ func handleUpdateUser(logger *log.Logger, store *UserStore) http.Handler {
 			http.Error(w, "Missing ID", http.StatusBadRequest)
 			return
 		}
-		
+
 		user, found := store.Get(id)
 		if !found {
 			http.NotFound(w, r)
 			return
 		}
-		
+
 		var req UpdateUserRequest
 		if err := decode(r, &req); err != nil {
 			http.Error(w, "Invalid request body", http.StatusBadRequest)
 			return
 		}
-		
+
 		if problems := req.Valid(r.Context()); len(problems) > 0 {
 			encode(w, r, http.StatusBadRequest, problems)
 			return
 		}
-		
+
 		// Update fields if provided
 		if req.Name != "" {
 			user.Name = req.Name
@@ -270,12 +274,12 @@ func handleUpdateUser(logger *log.Logger, store *UserStore) http.Handler {
 		if req.Email != "" {
 			user.Email = req.Email
 		}
-		
+
 		if success := store.Update(user); !success {
 			http.NotFound(w, r)
 			return
 		}
-		
+
 		if err := encode(w, r, http.StatusOK, user); err != nil {
 			logger.Printf("error encoding response: %v", err)
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -292,16 +296,17 @@ func handleDeleteUser(logger *log.Logger, store *UserStore) http.Handler {
 			http.Error(w, "Missing ID", http.StatusBadRequest)
 			return
 		}
-		
+
 		if success := store.Delete(id); !success {
 			http.NotFound(w, r)
 			return
 		}
-		
+
 		w.WriteHeader(http.StatusNoContent)
 	})
 }
 
+// TODO why is encode() and decode() different than article as written
 // encode encodes the response as JSON
 func encode(w http.ResponseWriter, r *http.Request, status int, v interface{}) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -318,29 +323,31 @@ func decode(r *http.Request, v interface{}) error {
 func run(ctx context.Context, w io.Writer, args []string) error {
 	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)
 	defer cancel()
-	
+
 	logger := log.New(w, "", log.LstdFlags)
-	
+
 	// Create a new user store
 	userStore := NewUserStore()
-	
+
 	// Create a new server
 	srv := NewServer(logger, userStore)
-	
+
 	// Configure the HTTP server
 	httpServer := &http.Server{
 		Addr:    net.JoinHostPort("localhost", "8080"),
 		Handler: srv,
 	}
-	
+
 	// Start the server in a goroutine
+	// TODO should this have context?
+	// how do handlers know context?
 	go func() {
 		logger.Printf("server listening on %s", httpServer.Addr)
 		if err := httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			fmt.Fprintf(os.Stderr, "error listening and serving: %s\n", err)
 		}
 	}()
-	
+
 	// Wait for interrupt signal
 	var wg sync.WaitGroup
 	wg.Add(1)
@@ -348,18 +355,18 @@ func run(ctx context.Context, w io.Writer, args []string) error {
 		defer wg.Done()
 		<-ctx.Done()
 		logger.Println("shutting down server...")
-		
+
 		// Create a deadline to wait for
 		shutdownCtx, shutdownCancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer shutdownCancel()
-		
+
 		// Doesn't block if no connections, but will otherwise wait
 		// until the timeout deadline
 		if err := httpServer.Shutdown(shutdownCtx); err != nil {
 			fmt.Fprintf(os.Stderr, "error shutting down http server: %s\n", err)
 		}
 	}()
-	
+
 	wg.Wait()
 	return nil
 }
@@ -372,32 +379,30 @@ func main() {
 	}
 }
 
+// This implementation follows Mat Ryer's guidelines:
 
+//     NewServer constructor pattern: The server setup is handled in a constructor function that takes dependencies and returns an http.Handler.
 
-This implementation follows Mat Ryer's guidelines:
+//     Routes mapping in one place: All API routes are defined in the addRoutes function for clarity.
 
-    NewServer constructor pattern: The server setup is handled in a constructor function that takes dependencies and returns an http.Handler.
+//     main() only calls run(): The main function just calls the run function, which does all the work and returns an error.
 
-    Routes mapping in one place: All API routes are defined in the addRoutes function for clarity.
+//     Maker funcs return the handler: All handler functions like handleListUsers return http.Handler types.
 
-    main() only calls run(): The main function just calls the run function, which does all the work and returns an error.
+//     Validation interface: Uses a Validator interface with a Valid method that returns a map of problems.
 
-    Maker funcs return the handler: All handler functions like handleListUsers return http.Handler types.
+//     Middleware pattern: Implements middleware as functions that take an http.Handler and return a new one.
 
-    Validation interface: Uses a Validator interface with a Valid method that returns a map of problems.
+//     Graceful shutdown: Properly handles shutdown signals and gives running requests time to complete.
 
-    Middleware pattern: Implements middleware as functions that take an http.Handler and return a new one.
+//     Encode/decode helpers: Uses helper functions to handle JSON encoding/decoding in one place.
 
-    Graceful shutdown: Properly handles shutdown signals and gives running requests time to complete.
+// The example provides a complete CRUD API for managing users with:
 
-    Encode/decode helpers: Uses helper functions to handle JSON encoding/decoding in one place.
+//     List all users (GET /api/users)
+//     Get a single user (GET /api/users/{id})
+//     Create a user (POST /api/users)
+//     Update a user (PUT /api/users/{id})
+//     Delete a user (DELETE /api/users/{id})
 
-The example provides a complete CRUD API for managing users with:
-
-    List all users (GET /api/users)
-    Get a single user (GET /api/users/{id})
-    Create a user (POST /api/users)
-    Update a user (PUT /api/users/{id})
-    Delete a user (DELETE /api/users/{id})
-
-Would you like me to explain any specific part of this implementation in more detail?
+// Would you like me to explain any specific part of this implementation in more detail?
