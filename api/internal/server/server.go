@@ -29,11 +29,17 @@ func NewServer(logger *log.Logger, db *database.Postgres) http.Handler {
 
 // encode encodes the response as JSON
 // [Handle decoding/encoding in one place](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#handle-decodingencoding-in-one-place)
-// TODO why is encode() and decode() different than article as written
 func encode(w http.ResponseWriter, r *http.Request, status int, v interface{}) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	return json.NewEncoder(w).Encode(v)
+
+	err := json.NewEncoder(w).Encode(v)
+	if err != nil {
+		//TODO logging / error handling
+		// we can probably refactor this to do the http error return. here
+		return fmt.Errorf("encode json: %w", err)
+	}
+	return nil
 }
 
 // decode decodes the request body

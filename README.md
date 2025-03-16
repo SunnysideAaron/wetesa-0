@@ -2,6 +2,8 @@
 
 An example CRUD api. Uses Go as the language and PostgreSQL as a datastore. Has a minimum of dependencies.
 
+Fork me, please! I know I will! :-)
+
 ## Requirements
 
 - [Docker](https://www.docker.com/)
