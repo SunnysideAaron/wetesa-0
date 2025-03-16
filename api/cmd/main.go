@@ -9,135 +9,22 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"net"
 	"net/http"
 	"os"
 	"os/signal"
+	"strconv"
 	"strings"
-	"sync"
 	"time"
+
+	//"github.com/jackc/pgx/v5/pgtype"
+
+	"api/internal/database"
 )
 
-// User represents a user in our system
-type User struct {
-	ID        string    `json:"id"`
-	Name      string    `json:"name"`
-	Email     string    `json:"email"`
-	CreatedAt time.Time `json:"created_at"`
-}
-
-// UserStore is a simple in-memory store for users
-type UserStore struct {
-	sync.RWMutex
-	users map[string]User
-}
-
-// NewUserStore creates a new user store
-func NewUserStore() *UserStore {
-	return &UserStore{
-		users: make(map[string]User),
-	}
-}
-
-// Get returns a user by ID
-func (s *UserStore) Get(id string) (User, bool) {
-	s.RLock()
-	defer s.RUnlock()
-	user, ok := s.users[id]
-	return user, ok
-}
-
-// List returns all users
-func (s *UserStore) List() []User {
-	s.RLock()
-	defer s.RUnlock()
-	users := make([]User, 0, len(s.users))
-	for _, user := range s.users {
-		users = append(users, user)
-	}
-	return users
-}
-
-// Create adds a new user
-func (s *UserStore) Create(user User) {
-	s.Lock()
-	defer s.Unlock()
-	s.users[user.ID] = user
-}
-
-// Update modifies an existing user
-func (s *UserStore) Update(user User) bool {
-	s.Lock()
-	defer s.Unlock()
-	_, exists := s.users[user.ID]
-	if !exists {
-		return false
-	}
-	s.users[user.ID] = user
-	return true
-}
-
-// Delete removes a user
-func (s *UserStore) Delete(id string) bool {
-	s.Lock()
-	defer s.Unlock()
-	_, exists := s.users[id]
-	if !exists {
-		return false
-	}
-	delete(s.users, id)
-	return true
-}
-
-// CreateUserRequest is the request body for creating a user
-type CreateUserRequest struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
-}
-
-// Valid validates the create user request
-func (r CreateUserRequest) Valid(ctx context.Context) map[string]string {
-	problems := make(map[string]string)
-
-	if r.Name == "" {
-		problems["name"] = "name is required"
-	}
-
-	if r.Email == "" {
-		problems["email"] = "email is required"
-	} else if !strings.Contains(r.Email, "@") {
-		problems["email"] = "email must be valid"
-	}
-
-	return problems
-}
-
-// UpdateUserRequest is the request body for updating a user
-type UpdateUserRequest struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
-}
-
-// Valid validates the update user request
-func (r UpdateUserRequest) Valid(ctx context.Context) map[string]string {
-	problems := make(map[string]string)
-
-	if r.Email != "" && !strings.Contains(r.Email, "@") {
-		problems["email"] = "email must be valid"
-	}
-
-	return problems
-}
-
-// Validator is an object that can be validated
-type Validator interface {
-	Valid(ctx context.Context) map[string]string
-}
-
 // NewServer creates a new HTTP server
-func NewServer(logger *log.Logger, userStore *UserStore) http.Handler {
+func NewServer(logger *log.Logger, db *database.Postgres) http.Handler {
 	mux := http.NewServeMux()
-	addRoutes(mux, logger, userStore)
+	addRoutes(mux, logger, db)
 
 	var handler http.Handler = mux
 	handler = loggingMiddleware(logger, handler)
@@ -146,12 +33,12 @@ func NewServer(logger *log.Logger, userStore *UserStore) http.Handler {
 }
 
 // addRoutes maps all the API routes
-func addRoutes(mux *http.ServeMux, logger *log.Logger, userStore *UserStore) {
-	mux.Handle("GET /api/users", handleListUsers(logger, userStore))
-	mux.Handle("GET /api/users/{id}", handleGetUser(logger, userStore))
-	mux.Handle("POST /api/users", handleCreateUser(logger, userStore))
-	mux.Handle("PUT /api/users/{id}", handleUpdateUser(logger, userStore))
-	mux.Handle("DELETE /api/users/{id}", handleDeleteUser(logger, userStore))
+func addRoutes(mux *http.ServeMux, logger *log.Logger, db *database.Postgres) {
+	mux.Handle("GET /api/clients", handleListClients(logger, db))
+	mux.Handle("GET /api/clients/{id}", handleGetClient(logger, db))
+	mux.Handle("POST /api/clients", handleCreateClient(logger, db))
+	mux.Handle("PUT /api/clients/{id}", handleUpdateClient(logger, db))
+	mux.Handle("DELETE /api/clients/{id}", handleDeleteClient(logger, db))
 	mux.Handle("GET /healthz", handleHealthz())
 	mux.Handle("/", http.NotFoundHandler())
 }
@@ -175,20 +62,25 @@ func handleHealthz() http.Handler {
 	})
 }
 
-// handleListUsers handles requests to list all users
-func handleListUsers(logger *log.Logger, store *UserStore) http.Handler {
+// handleListClients handles requests to list all clients
+func handleListClients(logger *log.Logger, db *database.Postgres) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		users := store.List()
-		if err := encode(w, r, http.StatusOK, users); err != nil {
-			logger.Printf("error encoding response: %v", err)
+		clients, err := db.GetClients(r.Context())
+		if err != nil {
+			logger.Printf("error getting clients: %v", err)
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
+		}
+
+		if err := encode(w, r, http.StatusOK, clients); err != nil {
+			logger.Printf("error encoding response: %v", err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		}
 	})
 }
 
 // handleGetUser handles requests to get a specific user
-func handleGetUser(logger *log.Logger, store *UserStore) http.Handler {
+func handleGetClient(logger *log.Logger, db *database.Postgres) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		id := r.PathValue("id")
 		if id == "" {
@@ -196,13 +88,14 @@ func handleGetUser(logger *log.Logger, store *UserStore) http.Handler {
 			return
 		}
 
-		user, found := store.Get(id)
-		if !found {
-			http.NotFound(w, r)
+		client, err := db.GetClient(r.Context(), id)
+		if err != nil {
+			logger.Printf("error getting client: %v", err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
 
-		if err := encode(w, r, http.StatusOK, user); err != nil {
+		if err := encode(w, r, http.StatusOK, client); err != nil {
 			logger.Printf("error encoding response: %v", err)
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
@@ -210,11 +103,12 @@ func handleGetUser(logger *log.Logger, store *UserStore) http.Handler {
 	})
 }
 
-// handleCreateUser handles requests to create a new user
-func handleCreateUser(logger *log.Logger, store *UserStore) http.Handler {
+// handleCreateClient handles requests to create a new client
+func handleCreateClient(logger *log.Logger, db *database.Postgres) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var req CreateUserRequest
-		if err := decode(r, &req); err != nil {
+		client := database.Client{}
+
+		if err := decode(r, &client); err != nil {
 			logger.Printf("error decoding request: %v", err)
 			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(http.StatusBadRequest)
@@ -224,22 +118,26 @@ func handleCreateUser(logger *log.Logger, store *UserStore) http.Handler {
 			return
 		}
 
-		if problems := req.Valid(r.Context()); len(problems) > 0 {
+		if problems := client.Valid(r.Context()); len(problems) > 0 {
 			w.WriteHeader(http.StatusBadRequest)
 			encode(w, r, http.StatusBadRequest, problems)
 			return
 		}
 
-		user := User{
-			ID:        fmt.Sprintf("usr_%d", time.Now().UnixNano()),
-			Name:      req.Name,
-			Email:     req.Email,
-			CreatedAt: time.Now(),
+		err := db.InsertClient(r.Context(), client)
+		if err != nil {
+			logger.Printf("error creating client: %v", err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			return
 		}
 
-		store.Create(user)
+		// Return the client data
+		response := map[string]string{
+			"name":    client.Name,
+			"address": client.Address.String,
+		}
 
-		if err := encode(w, r, http.StatusCreated, user); err != nil {
+		if err := encode(w, r, http.StatusCreated, response); err != nil {
 			logger.Printf("error encoding response: %v", err)
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
@@ -247,8 +145,8 @@ func handleCreateUser(logger *log.Logger, store *UserStore) http.Handler {
 	})
 }
 
-// handleUpdateUser handles requests to update an existing user
-func handleUpdateUser(logger *log.Logger, store *UserStore) http.Handler {
+// handleUpdateClient handles requests to update an existing client
+func handleUpdateClient(logger *log.Logger, db *database.Postgres) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		id := r.PathValue("id")
 		if id == "" {
@@ -256,37 +154,56 @@ func handleUpdateUser(logger *log.Logger, store *UserStore) http.Handler {
 			return
 		}
 
-		user, found := store.Get(id)
-		if !found {
-			http.NotFound(w, r)
+		// First get the existing client
+		_, err := db.GetClient(r.Context(), id)
+		if err != nil {
+			logger.Printf("error getting client: %v", err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
 
-		var req UpdateUserRequest
-		if err := decode(r, &req); err != nil {
-			http.Error(w, "Invalid request body", http.StatusBadRequest)
+		// Decode the update request
+		var updateClient database.Client
+		if err := decode(r, &updateClient); err != nil {
+			logger.Printf("error decoding request: %v", err)
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusBadRequest)
+			encode(w, r, http.StatusBadRequest, map[string]string{
+				"error": err.Error(),
+			})
 			return
 		}
 
-		if problems := req.Valid(r.Context()); len(problems) > 0 {
+		clientID, err := strconv.Atoi(id)
+		if err != nil {
+			http.Error(w, "Invalid ID format", http.StatusBadRequest)
+			return
+		}
+
+		updateClient.Client_id = clientID
+
+		// Validate the update request
+		if problems := updateClient.Valid(r.Context()); len(problems) > 0 {
+			w.WriteHeader(http.StatusBadRequest)
 			encode(w, r, http.StatusBadRequest, problems)
 			return
 		}
 
-		// Update fields if provided
-		if req.Name != "" {
-			user.Name = req.Name
-		}
-		if req.Email != "" {
-			user.Email = req.Email
-		}
-
-		if success := store.Update(user); !success {
-			http.NotFound(w, r)
+		// Perform the update
+		err = db.UpdateClient(r.Context(), updateClient)
+		if err != nil {
+			logger.Printf("error updating client: %v", err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
 
-		if err := encode(w, r, http.StatusOK, user); err != nil {
+		// Return the updated client
+		response := map[string]string{
+			"name":    updateClient.Name,
+			"address": updateClient.Address.String,
+		}
+
+		if err := encode(w, r, http.StatusOK, response); err != nil {
 			logger.Printf("error encoding response: %v", err)
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
@@ -294,20 +211,29 @@ func handleUpdateUser(logger *log.Logger, store *UserStore) http.Handler {
 	})
 }
 
-// handleDeleteUser handles requests to delete a user
-func handleDeleteUser(logger *log.Logger, store *UserStore) http.Handler {
+// handleDeleteClient handles requests to delete a client
+func handleDeleteClient(logger *log.Logger, db *database.Postgres) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		id := r.PathValue("id")
+
+		// TODO research i don't think it's possible to get to this method without an id
 		if id == "" {
 			http.Error(w, "Missing ID", http.StatusBadRequest)
 			return
 		}
 
-		if success := store.Delete(id); !success {
-			http.NotFound(w, r)
+		err := db.DeleteClient(r.Context(), id)
+		if err != nil {
+			if strings.Contains(err.Error(), "not found") {
+				http.Error(w, "Client not found", http.StatusNotFound)
+				return
+			}
+			logger.Printf("error deleting client: %v", err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
 
+		// Return 204 No Content for successful deletion
 		w.WriteHeader(http.StatusNoContent)
 	})
 }
@@ -366,84 +292,60 @@ func run(ctx context.Context, w io.Writer, args []string) error {
 
 	logger := log.New(w, "", log.LstdFlags)
 
-	// Create a new user store
-	userStore := NewUserStore()
+	// Create database connection
+	//db, err := database.NewPG(ctx)
+
+	db := database.NewPG(ctx)
+
+	// if err != nil {
+	// 	return fmt.Errorf("failed to connect to database: %w", err)
+	// }
+	defer db.Close()
 
 	// Create a new server
-	srv := NewServer(logger, userStore)
+	srv := NewServer(logger, db)
+
+	port := os.Getenv("API_PORT")
+	if port == "" {
+		port = "8080"
+	}
 
 	// Configure the HTTP server
 	httpServer := &http.Server{
-		Addr: net.JoinHostPort("0.0.0.0", "8080"),
-		//Addr:    fmt.Sprintf("0.0.0.0:%s", port),
+		Addr:    fmt.Sprintf(":%s", port),
 		Handler: srv,
 	}
 
 	// Start the server in a goroutine
-	// TODO should this have context?
-	// how do handlers know context?
+	serverErrors := make(chan error, 1)
 	go func() {
 		logger.Printf("server listening on %s", httpServer.Addr)
-		if err := httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			fmt.Fprintf(os.Stderr, "error listening and serving: %s\n", err)
-		}
+		serverErrors <- httpServer.ListenAndServe()
 	}()
 
-	// Wait for interrupt signal
-	var wg sync.WaitGroup
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		<-ctx.Done()
+	// Wait for interrupt or error
+	select {
+	case err := <-serverErrors:
+		return fmt.Errorf("server error: %w", err)
+	case <-ctx.Done():
 		logger.Println("shutting down server...")
 
-		// Create a deadline to wait for
-		shutdownCtx, shutdownCancel := context.WithTimeout(context.Background(), 10*time.Second)
+		// Create shutdown context with timeout
+		shutdownCtx, shutdownCancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer shutdownCancel()
 
-		// Doesn't block if no connections, but will otherwise wait
-		// until the timeout deadline
+		// Attempt graceful shutdown
 		if err := httpServer.Shutdown(shutdownCtx); err != nil {
-			fmt.Fprintf(os.Stderr, "error shutting down http server: %s\n", err)
+			return fmt.Errorf("server shutdown error: %w", err)
 		}
-	}()
+	}
 
-	wg.Wait()
 	return nil
 }
 
 func main() {
-	ctx := context.Background()
-	if err := run(ctx, os.Stdout, os.Args); err != nil {
+	if err := run(context.Background(), os.Stdout, os.Args[1:]); err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(1)
 	}
 }
-
-// This implementation follows Mat Ryer's guidelines:
-
-//     NewServer constructor pattern: The server setup is handled in a constructor function that takes dependencies and returns an http.Handler.
-
-//     Routes mapping in one place: All API routes are defined in the addRoutes function for clarity.
-
-//     main() only calls run(): The main function just calls the run function, which does all the work and returns an error.
-
-//     Maker funcs return the handler: All handler functions like handleListUsers return http.Handler types.
-
-//     Validation interface: Uses a Validator interface with a Valid method that returns a map of problems.
-
-//     Middleware pattern: Implements middleware as functions that take an http.Handler and return a new one.
-
-//     Graceful shutdown: Properly handles shutdown signals and gives running requests time to complete.
-
-//     Encode/decode helpers: Uses helper functions to handle JSON encoding/decoding in one place.
-
-// The example provides a complete CRUD API for managing users with:
-
-//     List all users (GET /api/users)
-//     Get a single user (GET /api/users/{id})
-//     Create a user (POST /api/users)
-//     Update a user (PUT /api/users/{id})
-//     Delete a user (DELETE /api/users/{id})
-
-// Would you like me to explain any specific part of this implementation in more detail?

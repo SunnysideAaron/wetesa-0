@@ -12,10 +12,30 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+// Validator is an object that can be validated.
+type Validator interface {
+	// Valid checks the object and returns any
+	// problems. If len(problems) == 0 then
+	// the object is valid.
+	Valid(ctx context.Context) (problems map[string]string)
+}
+
 type Client struct {
 	Client_id int         `json:"client_id"`
 	Name      string      `json:"name"`
 	Address   pgtype.Text `json:"address"`
+}
+
+func (c Client) Valid(ctx context.Context) map[string]string {
+	problems := make(map[string]string)
+
+	if c.Name == "" {
+		problems["name"] = "name is required"
+	}
+
+	// Address is optional, so no validation needed
+
+	return problems
 }
 
 func (pg *Postgres) InsertClient(ctx context.Context, c Client) error {
@@ -101,4 +121,58 @@ func (pg *Postgres) GetClients(ctx context.Context) ([]Client, error) {
 	defer rows.Close()
 
 	return pgx.CollectRows(rows, pgx.RowToStructByName[Client])
+}
+
+func (pg *Postgres) GetClient(ctx context.Context, id string) (Client, error) {
+	var client Client
+
+	query := `SELECT client_id, name, address FROM client WHERE client_id = $1`
+
+	row := pg.pool.QueryRow(ctx, query, id)
+
+	err := row.Scan(&client.Client_id, &client.Name, &client.Address)
+	if err != nil {
+		return client, err
+	}
+	return client, nil
+}
+
+func (pg *Postgres) UpdateClient(ctx context.Context, c Client) error {
+	query := `UPDATE client 
+			  SET name = @name, address = @address 
+			  WHERE client_id = @client_id`
+
+	args := pgx.NamedArgs{
+		"client_id": c.Client_id,
+		"name":      c.Name,
+		"address":   c.Address,
+	}
+
+	result, err := pg.pool.Exec(ctx, query, args)
+	if err != nil {
+		return fmt.Errorf("unable to update client: %w", err)
+	}
+
+	// Check if any row was actually updated
+	if result.RowsAffected() == 0 {
+		return fmt.Errorf("client with id %d not found", c.Client_id)
+	}
+
+	return nil
+}
+
+func (pg *Postgres) DeleteClient(ctx context.Context, id string) error {
+	query := `DELETE FROM client WHERE client_id = $1`
+
+	result, err := pg.pool.Exec(ctx, query, id)
+	if err != nil {
+		return fmt.Errorf("unable to delete client: %w", err)
+	}
+
+	// Check if any row was actually deleted
+	if result.RowsAffected() == 0 {
+		return fmt.Errorf("client with id %s not found", id)
+	}
+
+	return nil
 }
