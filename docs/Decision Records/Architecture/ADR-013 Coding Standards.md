@@ -27,6 +27,10 @@ Look up United Kingdoms GDS departments website access guidlines
 API Toolkit
 	project for verifing api contract.
     
+
+[The Twelve-Factor App](https://12factor.net/)
+	https://www.reddit.com/r/golang/comments/1jcvcsb/how_you_guys_write_your_server_config_db_config/
+
 ## Decision
 
 

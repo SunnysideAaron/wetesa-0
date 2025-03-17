@@ -43,6 +43,9 @@ Will launch the datastore service and leave you on the command line in the api s
 
 See ./Makefile and ./api/Makefile for additional commands.
 
-## Notes
+## Credits
 
-Much of the original code was generated using [Go Blueprint](https://github.com/Melkeydev/go-blueprint). Thank you Go Blueprint team!
+This project borrows heavily from many sources. While it has traveled a bit from them we would like to thank them. Please check them out.
+
+- [How I write HTTP services in Go after 13 years](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/) by Mat Ryer
+- [Go Blueprint](https://github.com/Melkeydev/go-blueprint).

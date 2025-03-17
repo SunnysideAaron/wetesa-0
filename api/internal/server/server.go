@@ -18,8 +18,10 @@ func NewServer(logger *log.Logger, db *database.Postgres) http.Handler {
 	mux := http.NewServeMux()
 	addRoutes(mux, logger, db)
 
-	// how to handle route groups?
-	// how to apply middleware to some routes but not others?
+	// TODO most "middlewares" need to go before routes. and order matters for example logging before auth.
+	// TODO put middlewates into addRoutes
+	// TODO how to handle route groups?
+	// TODO how to apply middleware to some routes but not others?
 	var handler http.Handler = mux
 	handler = loggingMiddleware(logger, handler)
 	handler = corsMiddleware(logger, handler)

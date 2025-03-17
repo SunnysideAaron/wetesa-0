@@ -7,9 +7,6 @@ import (
 	"strconv"
 )
 
-// https://pkg.go.dev/github.com/jackc/pgx/v5@v5.7.2/pgxpool#Stat
-// TODO health check
-
 // Health checks the health of the database connection by pinging the database.
 // It returns a map with keys indicating various health statistics.
 func (pg *Postgres) Health(ctx context.Context) map[string]string {

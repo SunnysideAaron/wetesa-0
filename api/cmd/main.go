@@ -1,5 +1,5 @@
-// Following guidelines from
-// https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#the-newserver-constructor
+// Following guidelines from:
+// [How I write HTTP services in Go after 13 years](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/)
 package main
 
 import (
@@ -12,14 +12,14 @@ import (
 	"os/signal"
 	"time"
 
+	"api/internal/config"
 	"api/internal/database"
 	"api/internal/server"
 )
 
 // run is the actual main function
 // [func main() only calls run()](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#func-main-only-calls-run)
-// TODO why args instead of just using os.Getenv() when needed? a testing thing?
-func run(ctx context.Context, w io.Writer, args []string) error {
+func run(ctx context.Context, w io.Writer, cfg *config.APIConfig) error {
 	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)
 	defer cancel()
 
@@ -32,18 +32,13 @@ func run(ctx context.Context, w io.Writer, args []string) error {
 	// Create a new server
 	srv := server.NewServer(logger, db)
 
-	port := os.Getenv("API_PORT")
-	if port == "" {
-		port = "8080"
-	}
-
 	// Configure the HTTP server
 	httpServer := &http.Server{
-		Addr:         fmt.Sprintf(":%s", port),
+		Addr:         fmt.Sprintf("%s:%s", cfg.APIHost, cfg.APIPort),
 		Handler:      srv,
-		ReadTimeout:  15 * time.Second,
-		WriteTimeout: 30 * time.Second,
-		IdleTimeout:  60 * time.Second,
+		ReadTimeout:  cfg.APIReadTimeout * time.Second,
+		WriteTimeout: cfg.APIWriteTimeout * time.Second,
+		IdleTimeout:  cfg.APIIdleTimeout * time.Second,
 	}
 
 	// Start the server in a goroutine
@@ -77,7 +72,10 @@ func run(ctx context.Context, w io.Writer, args []string) error {
 
 func main() {
 	ctx := context.Background()
-	if err := run(ctx, os.Stdout, os.Args); err != nil {
+	cfg := config.LoadAPIConfig()
+
+	// TODO break all these single line error check statements into multiple lines.
+	if err := run(ctx, os.Stdout, cfg); err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(1)
 	}

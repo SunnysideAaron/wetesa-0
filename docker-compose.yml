@@ -35,7 +35,11 @@ services:
     networks:
       - app-tier
     environment:
+      API_HOST: ${API_HOST}
       API_PORT: ${API_PORT}
+      API_ReadTimeout:  ${API_ReadTimeout}
+      API_WriteTimeout: ${API_WriteTimeout}
+      API_IdleTimeout:  ${API_IdleTimeout}
       DATASTORE_HOST: ${DATASTORE_HOST}
       DATASTORE_PORT: ${DATASTORE_PORT}
       POSTGRESQL_DATABASE: ${POSTGRESQL_DATABASE}
