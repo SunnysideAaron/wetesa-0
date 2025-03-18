@@ -15,18 +15,25 @@ import (
 	"api/internal/config"
 	"api/internal/database"
 	"api/internal/server"
+
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 // run is the actual main function
 // [func main() only calls run()](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#func-main-only-calls-run)
-func run(ctx context.Context, w io.Writer, cfg *config.APIConfig) error {
+func run(
+	ctx context.Context,
+	w io.Writer,
+	cfg *config.APIConfig,
+	pCfg *pgxpool.Config,
+) error {
 	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)
 	defer cancel()
 
 	logger := log.New(w, "", log.LstdFlags)
 
 	// Create database connection
-	db := database.NewPG(ctx)
+	db := database.NewPG(ctx, pCfg)
 	defer db.Close()
 
 	// Create a new server
@@ -73,9 +80,11 @@ func run(ctx context.Context, w io.Writer, cfg *config.APIConfig) error {
 func main() {
 	ctx := context.Background()
 	cfg := config.LoadAPIConfig()
+	pCfg := config.LoadDBConfig()
 
 	// TODO break all these single line error check statements into multiple lines.
-	if err := run(ctx, os.Stdout, cfg); err != nil {
+	// finder linter and formatter
+	if err := run(ctx, os.Stdout, cfg, pCfg); err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(1)
 	}
