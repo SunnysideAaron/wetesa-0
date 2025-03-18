@@ -1,6 +1,7 @@
-# build (compile) code
 # TODO why does this end in "."?
 build:
+	@go fmt ./...
+	@go mod tidy
 	@go build -o ./tmp/main ./cmd/.
 
 test:
@@ -10,6 +11,8 @@ exec:
 	@./tmp/main
 
 run:
+	@go fmt ./...
+	@go mod tidy
 	@go run ./cmd/main.go
 
 watch:

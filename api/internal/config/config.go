@@ -1,3 +1,4 @@
+// [The Twelve-Factor App III. Config](https://12factor.net/config)
 package config
 
 import (
