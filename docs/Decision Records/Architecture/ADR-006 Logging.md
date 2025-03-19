@@ -21,7 +21,7 @@ Advice was to send all logs to standard out (standard error?) and then use a dif
 
 https://www.reddit.com/r/golang/comments/1iw07rm/what_is_your_logging_monitoring_observability/
 
-
+https://www.reddit.com/r/golang/comments/1jd4ibv/adding_logging_to_a_library/
 
 ## Decision
 

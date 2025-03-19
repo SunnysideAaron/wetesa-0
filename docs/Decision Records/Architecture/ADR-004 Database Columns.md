@@ -19,6 +19,9 @@ example should show aliased tables. and why on complex joins having column names
 
 Simple incrementing integers make replication difficult. Use of UUIDs makes replication far easier.
 
+TODO RESEARCH:
+https://www.reddit.com/r/golang/comments/1jdakzs/recommended_way_to_use_uuid_typesto_type_or_not/
+
 ### Date Columns
 
 TODO write up date columns
