@@ -23,6 +23,8 @@ https://www.reddit.com/r/golang/comments/1iw07rm/what_is_your_logging_monitoring
 
 https://www.reddit.com/r/golang/comments/1jd4ibv/adding_logging_to_a_library/
 
+https://www.reddit.com/r/golang/comments/1jegx5e/log_aggregationreading_in_a_container/
+
 ## Decision
 
 

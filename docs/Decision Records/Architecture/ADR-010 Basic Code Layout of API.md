@@ -10,6 +10,8 @@ Accepted, Proposed, Deprecated or Superseded (list DR)
   - https://www.reddit.com/r/golang/comments/1ak3mmm/internal_package/
   - https://go.dev/doc/modules/layout#server-project
 
+- https://eblog.fly.dev/backendbasics.html
+  - https://www.reddit.com/r/golang/comments/1jehpba/starting_systems_programming_pt_1_programmers/
 - concurancy for api calls?
 - https://zuplo.com/blog/2025/03/04/holistic-view-of-apis
 - https://github.com/Muga20/Go-Modular-Application
