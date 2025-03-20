@@ -44,11 +44,13 @@ func encode(w http.ResponseWriter, r *http.Request, status int, v interface{}) e
 	return nil
 }
 
-// decode decodes the request body
-func decode(r *http.Request, v interface{}) error {
+// [Validating data](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#validating-data)
+func decode[T database.Validator](r *http.Request) (T, map[string]string, error) {
+	var v T
+
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		return fmt.Errorf("reading body: %w", err)
+		return v, nil, fmt.Errorf("reading body: %w", err)
 	}
 
 	// Log the received body
@@ -56,29 +58,32 @@ func decode(r *http.Request, v interface{}) error {
 
 	// Check for common JSON formatting issues
 	if len(body) == 0 {
-		return fmt.Errorf("empty request body")
+		return v, nil, fmt.Errorf("empty request body")
 	}
 
 	if body[0] == '\'' {
-		return fmt.Errorf("invalid JSON: use double quotes (\") instead of single quotes (')")
+		return v, nil, fmt.Errorf("invalid JSON: use double quotes (\") instead of single quotes (')")
 	}
 
 	if !strings.Contains(string(body), "\"") {
-		return fmt.Errorf("invalid JSON: property names and string values must be enclosed in double quotes")
+		return v, nil, fmt.Errorf("invalid JSON: property names and string values must be enclosed in double quotes")
 	}
 
-	// Try to decode
-	err = json.NewDecoder(bytes.NewReader(body)).Decode(v)
+	err = json.NewDecoder(bytes.NewReader(body)).Decode(&v)
 	if err != nil {
 		switch {
 		case strings.Contains(err.Error(), "looking for beginning of value"):
-			return fmt.Errorf("invalid JSON format: please check your JSON syntax")
+			return v, nil, fmt.Errorf("invalid JSON format: please check your JSON syntax")
 		case strings.Contains(err.Error(), "cannot unmarshal"):
-			return fmt.Errorf("invalid data type in JSON: %v", err)
+			return v, nil, fmt.Errorf("invalid data type in JSON: %v", err)
 		default:
-			return fmt.Errorf("JSON decode error: %v", err)
+			return v, nil, fmt.Errorf("JSON decode error: %v", err)
 		}
 	}
 
-	return nil
+	if problems := v.Valid(r.Context()); len(problems) > 0 {
+		return v, problems, fmt.Errorf("invalid %T: %d problems", v, len(problems))
+	}
+
+	return v, nil, nil
 }
