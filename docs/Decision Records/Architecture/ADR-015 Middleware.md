@@ -16,7 +16,6 @@ Accepted, Proposed, Deprecated or Superseded (list DR)
 ## Why / Notes
 
 
-
 ## Consequences
 
 
@@ -24,6 +23,8 @@ Accepted, Proposed, Deprecated or Superseded (list DR)
 ## Other Options
 
 Example code:
+- https://vishnubharathi.codes/blog/exploring-middlewares-in-go/
+  - lists some built into standard library middlewares
 - https://github.com/avelino/awesome-go?tab=readme-ov-file#middlewares
 - [How I write HTTP services in Go after 13 years](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/)
   - [The adapter pattern for middleware](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#the-adapter-pattern-for-middleware)
@@ -36,7 +37,9 @@ Example code:
 - https://github.com/youngjun827/api-std-lib
   - writen for go 1.21 but does have some interesting things like rate limiting middleware. logging with slog package and data validation
 - https://github.com/ngamux/ngamux?tab=readme-ov-file#provided-middlewares
-  
+- https://echo.labstack.com/docs/category/middleware
+  - will they work with standard library? example code if nothing else
+
 Possibilities:
 
 Not an option:

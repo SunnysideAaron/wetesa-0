@@ -18,9 +18,17 @@ Needed:
 Go 1.22 (2024-FEB) added ServeMux,better routing, path parameters
 
 - [The standard library now has all you need for advanced routing in Go.](https://www.youtube.com/watch?v=H7tbjKFSg58&t=8s) (2024-MAR)
+  [summary](https://gist.ly/youtube-summarizer/advanced-http-routing-with-go-122-path-parameters-http-methods-middleware-and-more)
   - example loging middleware, wrapping middleware, v1 api, of middleware to
     specific routes (uses sub routers), context to pass values
 - [Confused by http.HandlerFunc? This post makes it click](https://www.willem.dev/articles/http-handler-func/) (2023-APR)
+- https://go.dev/blog/routing-enhancements
+- https://douglasmakey.medium.com/go-1-22s-http-package-updates-42aca70ceb9b
+  - shows how to do {$} wildcard feature 
+- https://www.reddit.com/r/golang/comments/1aoxlsr/middleware_in_go_1220/
+  - drannoc-dono has example of passing types to middleware
+- https://drstearns.github.io/tutorials/gomiddleware/
+- https://vishnubharathi.codes/blog/exploring-middlewares-in-go/
 
 ### simple examples
 
@@ -32,6 +40,7 @@ Go 1.22 (2024-FEB) added ServeMux,better routing, path parameters
 - CHI features in standard library
     - [Middleware and grouping with stdlib](https://gist.github.com/alexaandru/747f9d7bdfb1fa35140b359bf23fa820)
     - [reddit post on why still chi](https://www.reddit.com/r/golang/comments/1avn6ih/is_chi_relevant_anymore/)
+- https://codewithflash.com/advanced-routing-with-go-122
 
 ### complex examples
 

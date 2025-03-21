@@ -37,6 +37,8 @@ Chi for routing and mixing, for JSON req-res, I'll use connectrpc. In case I nee
 - [Beego](https://github.com/beego/beego) - beego is an open-source, high-performance web framework for the Go programming language.
 - [Chi]()
   - **SHORT LIST TO TRY** should complement standard library
+- [Chimera](https://github.com/matt1484/chimera)
+  - Chi based rest api framework
 - [Confetti Framework](https://confetti-framework.github.io/docs/) - Confetti is a Go web application framework with an expressive, elegant syntax. Confetti combines the elegance of Laravel and the simplicity of Go.
 - [Don](https://github.com/abemedia/go-don) - A highly performant and simple to use API framework.
 - [Echo](https://github.com/labstack/echo) - High performance, minimalist Go web framework.
@@ -71,6 +73,8 @@ Chi for routing and mixing, for JSON req-res, I'll use connectrpc. In case I nee
 - [templui](https://github.com/axzilla/templui) - Modern UI Components for Go & Templ.
 - [uAdmin](https://github.com/uadmin/uadmin) - Fully featured web framework for Golang, inspired by Django.
 - [WebGo](https://github.com/naughtygopher/webgo) - A micro-framework to build web apps with handler chaining, middleware, and context injection. With standard library-compliant HTTP handlers (i.e., `http.HandlerFunc`)..
+- [xun](https://github.com/yaitoo/xun)
+  - uses go 1.22 mux
 - [Yokai](https://github.com/ankorstore/yokai) - Simple, modular, and observable Go framework for backend applications.
   - (built on echo)
   - [demo](https://ankorstore.github.io/yokai/demos/http-application/)
