@@ -21,6 +21,7 @@ Simple incrementing integers make replication difficult. Use of UUIDs makes repl
 
 TODO RESEARCH:
 https://www.reddit.com/r/golang/comments/1jdakzs/recommended_way_to_use_uuid_typesto_type_or_not/
+https://github.com/avelino/awesome-go?tab=readme-ov-file#uuid
 
 ### Date Columns
 

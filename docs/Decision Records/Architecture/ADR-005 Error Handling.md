@@ -35,6 +35,7 @@ waterfall library for msging?
 ## Other Options
 
 Possibilities:
+https://github.com/avelino/awesome-go?tab=readme-ov-file#error-handling
 
 Not an option:
 

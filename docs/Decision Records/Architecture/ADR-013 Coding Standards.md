@@ -8,6 +8,9 @@ Accepted, Proposed, Deprecated or Superseded (list DR)
 
 THESE SHOULD BE IN THE LINTErs if possibles
 
+- https://github.com/avelino/awesome-go?tab=readme-ov-file#style-guides
+
+
 - google  https://cloud.google.com/apis/design
 - meta
 - uber

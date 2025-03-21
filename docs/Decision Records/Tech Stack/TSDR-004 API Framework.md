@@ -2,138 +2,86 @@
 
 ## Status
 
-Pending
+Accepted
 
 ## Context
 
-API with open auth login, return 1 table
-	You might want something like SCS for sessions, maybe Goth for Google/Apple authentication/authorization if you need it.
-	
-		
-	research gRPC vrs rest API
-		https://www.reddit.com/r/golang/comments/1c1hwbf/is_grpc_a_good_alternative_for_rest_when_building/
-		"My advice: don't use gRPC if you need to make calls from your browser. It should only be used for server-to-server communication in my opinion. The browser support is not there for the trailers or use of HTTP/2. "
-	
-	
-Alex Edwards’ book “Let’s Go” which features a CRUD app
-
-Primeagen’s 2+ hour video on building an HTMX app.
-
-
-We want auto code generation for (should include basic validation):
-- API End points
-- API to DB crud
-- DB Schema
-- OpenAPI 3 (Swagger 1 and 2 are previous versions of OpenAPI)
-- Web Client use of API
-- Mobile Client use of API
-
-[Awesome Go's List of Web Frameworks](https://github.com/avelino/awesome-go?tab=readme-ov-file#web-frameworks)
-
-Known options (started from post at [reddit](https://www.reddit.com/r/golang/comments/1avsog1/go_openapi_codegen/)):
-- Code → Spec
-  - swaggo/swag (OAS3 Beta) **TRIED**
-    supported frameworks
-    - gin **SHORT LIST TO TRY**
-    - echo
-    - buffalo
-    - net/http (standard library) **SHORT LIST TO TRY**
-    - gorilla/mux
-      - was abandoned and then restarted. old
-    - go-chi/chi  **SHORT LIST TO TRY** should complement standard library
-    - flamingo
-    - fiber
-    - atreugo
-    - hertz
-  - Huma by
-  - Fuego (built with go 1.22 uses generics and standard http started end of 2023)
-  - Tonic
-  - Astra by
-  - (Gin-only, Echo & Fiber WIP as of 2024-02-22)
-- Spec → SDK
-  - https://packagemain.tech/p/practical-openapi-in-golang **SHORT LIST TO TRY**
-  - oapi-codegen
-    doesn't do OpenAPI 3?
-  - ogen **TRIED**
-  - openapi-generator
-  - swagger-codegen
-  - microsoft/kiota
-- DSL → Spec + Code
-  - goa  **TRIED**
-- Unknown if Spec or SDK first
-  - [swaggest - rest](https://github.com/swaggest/rest)
-  - [swaggest - openapi-go](https://github.com/swaggest/openapi-go)
-- Just Code ie (Web Framework)
-  -  Yokai (built on echo)
-      - [demo](https://ankorstore.github.io/yokai/demos/http-application/)
-- OpenAPI Implementation (these appear to be more about validation testing spec? look into later)
-  - libopenapi
-  - kin-openapi (seems semi-abandoned as of 2024-02-22)
-
-- go restful
-  - generates open api spec from code.
-
-### Other example tech stacks
-
-From [reddit post](https://www.reddit.com/r/golang/comments/15y5wiq/lets_say_you_want_to_build_a_go_rest_api_should/) Chi, connectrpc, sqlc, squirrel, 3rd party auth
-Chi for routing and mixing, for JSON req-res, I'll use connectrpc. In case I need cookie auth or file upload I use Chi I'll go with connectrpc.com for the transport and application layer. You get the protobuf as API spec and you can also generate the client SDK. It works like twirp but complies with grpc. For db access I'll use SQLC, query is validated and faster than ORM layer. You can use query builder like Squirel for complex dynamic query Use 3rd party auth, so you don't spent too much time working on authentication
-
-### goa
-
-Looked into goa. new user documentation / steps kept being painful. Everything just slightly not working and requiring troubleshooting. If new user experience is like that than can't trust code.
-
-### Huma
-
-Same issue as goa. Tutorial was working well until it didn't, couldn't troubleshoot and fix without time / pain.
-
-### net/http (Go standard library)
-
-- [oto](https://github.com/pacedotdev/oto/tree/main/otohttp) by Mat Ryer **liked this** can generate anything I want from templates.
-- [how-i-write-http-services-in-go-after-13-years](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/) by Mat Ryer
-- [The standard library now has all you need for advanced routing in Go.](https://www.youtube.com/watch?v=H7tbjKFSg58&t=8s) (video)
-- [Go Blueprint Code](https://github.com/Melkeydev/go-blueprint) - [Go Blueprint Web](https://go-blueprint.dev/)
-- [ardanlabs](https://github.com/ardanlabs/service) Seems a bit overly complex but may be a good study example
-  - seems to store vendors??? TODO
-- [golang-rest-api-example](https://golang.cafe/blog/golang-rest-api-example.html)
-- [Building REST APIs With Go 1.22 http.ServeMux](https://shijuvar.medium.com/building-rest-apis-with-go-1-22-http-servemux-2115f242f02b)
-- CHI features
-    - [Middleware and grouping with stdlib](https://gist.github.com/alexaandru/747f9d7bdfb1fa35140b359bf23fa820)
-    - [reddit post on why still chi](https://www.reddit.com/r/golang/comments/1avn6ih/is_chi_relevant_anymore/)
-
-#### new api examples 2025-03-12
-
-https://www.youtube.com/watch?v=eqvDSkuBihs
-- [go-rest-api-service-template](https://github.com/p2p-b2b/go-rest-api-service-template/tree/main)
-- [go-zero](https://github.com/zeromicro/go-zero)
-https://www.reddit.com/r/golang/comments/15y5wiq/lets_say_you_want_to_build_a_go_rest_api_should/
-https://github.com/youngjun827/api-std-lib
-
-
-
-
-### ogen
-
-Similar problem as goa. Intro docs are light and not complete. Had limited patience for documentation that wasn't working.
-
-###  [swag](https://github.com/swaggo/swag)
-
-Seems to just be special comments in code. Ie writing the api spec inline with the code. Not bad but doesn't save typing. That's just typing in the same place.
-
-### Additional urls
-
-- [reddit go_openapi_codegen](https://www.reddit.com/r/golang/comments/1avsog1/go_openapi_codegen/)
-- [reddit confused_by_the_openapi_options](https://www.reddit.com/r/golang/comments/1gmhz08/confused_by_the_openapi_options_for_go/)
-- [Laurence de Jong](https://ldej.nl/post/generating-go-from-openapi-3/)
-- [speakeasy](https://www.speakeasy.com/docs/languages/golang/oss-comparison-go) trying to sell speakeasy
+frameworks are way to quickly packages a set of solutions to common problems.
+Allowing development to get going quickly.
 
 ## Decision
 
+Use the standard library.
 
 ## Why / Notes
 
+It is repeatedly recommended to not use a framework. Using the standard library
+instead. Most frameworks in Go were developed before Go 1.22 (2024-FEB) added
+better routing. Using them will lock code into their middleware and way of doing
+things.
 
 ## Consequences
 
-## Other Options
+Having to build things from scratch takes longer.
 
-Possibilities:
+## Other Possible Options
+
+- Example tech stack from [reddit post](https://www.reddit.com/r/golang/comments/15y5wiq/lets_say_you_want_to_build_a_go_rest_api_should/) Chi, connectrpc, sqlc, squirrel, 3rd party auth
+Chi for routing and mixing, for JSON req-res, I'll use connectrpc. In case I need cookie auth or file upload I use Chi I'll go with connectrpc.com for the transport and application layer. You get the protobuf as API spec and you can also generate the client SDK. It works like twirp but complies with grpc. For db access I'll use SQLC, query is validated and faster than ORM layer. You can use query builder like Squirel for complex dynamic query Use 3rd party auth, so you don't spent too much time working on authentication
+
+- [Awesome Go's List of Web Frameworks](https://github.com/avelino/awesome-go?tab=readme-ov-file#web-frameworks)
+
+### Web Frameworks Listing
+
+- [Atreugo](https://github.com/savsgio/atreugo) - High performance and extensible micro web framework with zero memory allocations in hot paths.
+- [Beego](https://github.com/beego/beego) - beego is an open-source, high-performance web framework for the Go programming language.
+- [Chi]()
+  - **SHORT LIST TO TRY** should complement standard library
+- [Confetti Framework](https://confetti-framework.github.io/docs/) - Confetti is a Go web application framework with an expressive, elegant syntax. Confetti combines the elegance of Laravel and the simplicity of Go.
+- [Don](https://github.com/abemedia/go-don) - A highly performant and simple to use API framework.
+- [Echo](https://github.com/labstack/echo) - High performance, minimalist Go web framework.
+  - **SHORTISH LIST TO TRY**
+- [Fastschema](https://github.com/fastschema/fastschema) - A flexible Go web framework and Headless CMS.
+- [Fiber](https://github.com/gofiber/fiber) - An Express.js inspired web framework build on Fasthttp.
+  - **SHORTISH LIST TO TRY**
+- [Flamingo](https://github.com/i-love-flamingo/flamingo) - Framework for pluggable web projects. Including a concept for modules and offering features for DI, Configareas, i18n, template engines, graphql, observability, security, events, routing & reverse routing etc.
+- [Flamingo Commerce](https://github.com/i-love-flamingo/flamingo-commerce) - Providing e-commerce features using clean architecture like DDD and ports and adapters, that you can use to build flexible e-commerce applications.
+- [Fuego](https://github.com/go-fuego/fuego) - The framework for busy Go developers! Web framework generating OpenAPI 3 spec from source code.
+- [Gin](https://github.com/gin-gonic/gin) - Gin is a web framework written in Go! It features a martini-like API with much better performance, up to 40 times faster. If you need performance and good productivity.
+  - **SHORT LIST TO TRY**
+- [Ginrpc](https://github.com/xxjwxc/ginrpc) - Gin parameter automatic binding tool,gin rpc tools.
+- [GoFr](https://github.com/gofr-dev/gofr) - Gofr is an opinionated microservice development framework.
+- [GoFrame](https://github.com/gogf/gf) - GoFrame is a modular, powerful, high-performance and enterprise-class application development framework of Golang.
+- [golamb](https://github.com/twharmon/golamb) - Golamb makes it easier to write API endpoints for use with AWS Lambda and API Gateway.
+- [Gone](https://github.com/gone-io/gone) - A lightweight dependency injection and web framework inspired by Spring.
+- [goravel](https://github.com/goravel/goravel) - A Laravel-inspired web framework with ORM, authentication, queue, task scheduling, and more built-in features.
+- [gorilla/mux]()
+  - was abandoned and then restarted. old
+- [Goyave](https://github.com/go-goyave/goyave) - Feature-complete REST API framework aimed at clean code and fast development, with powerful built-in functionalities.
+- [Hertz](https://github.com/cloudwego/hertz) - A high-performance and strong-extensibility Go HTTP framework that helps developers build microservices.
+- [hiboot](https://github.com/hidevopsio/hiboot) - hiboot is a high performance web application framework with auto configuration and dependency injection support.
+- [iWF](https://github.com/indeedeng/iwf) - iWF is an all-in-one platform for developing long-running business processes. It offers a convenient abstraction for utilizing databases, ElasticSearch, message queues, durable timers, and more, with a clean, simple, and user-friendly interface.
+- [Lit](https://github.com/jvcoutinho/lit) - Highly performant declarative web framework for Golang, aiming for simplicity and quality of life.
+- [Microservice](https://github.com/claygod/microservice) - The framework for the creation of microservices, written in Golang.
+- [patron](https://github.com/beatlabs/patron) - Patron is a microservice framework following best cloud practices with a focus on productivity.
+- [Pnutmux](https://gitlab.com/fruitygo/pnutmux) - Pnutmux is a powerful Go web framework that uses regex for matching and handling HTTP requests. It offers features such as CORS handling, structured logging, URL parameters extraction, middlewares, and concurrency limiting.
+- [Revel](https://github.com/revel/revel) - High-productivity web framework for the Go language.
+- [rk-boot](https://github.com/rookie-ninja/rk-boot) - A bootstrapper library for building enterprise go microservice with Gin and gRPC quickly and easily.
+- [rux](https://github.com/gookit/rux) - Simple and fast web framework for build golang HTTP applications.
+- [templui](https://github.com/axzilla/templui) - Modern UI Components for Go & Templ.
+- [uAdmin](https://github.com/uadmin/uadmin) - Fully featured web framework for Golang, inspired by Django.
+- [WebGo](https://github.com/naughtygopher/webgo) - A micro-framework to build web apps with handler chaining, middleware, and context injection. With standard library-compliant HTTP handlers (i.e., `http.HandlerFunc`)..
+- [Yokai](https://github.com/ankorstore/yokai) - Simple, modular, and observable Go framework for backend applications.
+  - (built on echo)
+  - [demo](https://ankorstore.github.io/yokai/demos/http-application/)
+
+## Not an Option
+
+- [Goa](https://github.com/goadesign/goa) - Goa provides a holistic approach for developing remote APIs and microservices in Go.
+  - Looked into goa. new user documentation / steps kept being painful. Everything just slightly not working and requiring troubleshooting. If new user experience is like that than can't trust code. May be willing to try again.
+- [Huma](https://github.com/danielgtaylor/huma/) - Framework for modern REST/GraphQL APIs with built-in OpenAPI 3, generated documentation, and a CLI.
+  - Same issue as goa. Tutorial was working well until it didn't, couldn't troubleshoot and fix without time / pain.
+- [ogen]()
+  - Similar problem as goa. Intro docs are light and not complete. Had limited patience for documentation that wasn't working.
+- [swag](https://github.com/swaggo/swag)
+  - Seems to just be special comments in code. Ie writing the api spec inline with the code. Not bad but doesn't save typing. That's just typing in the same place.

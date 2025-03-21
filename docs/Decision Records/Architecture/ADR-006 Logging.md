@@ -40,8 +40,11 @@ https://www.reddit.com/r/golang/comments/1jegx5e/log_aggregationreading_in_a_con
 ## Other Options
 
 Possibilities:
+- https://github.com/avelino/awesome-go?tab=readme-ov-file#logging
 - https://caddyserver.com/docs/logging
   - example of structuring logs
-
+- https://github.com/youngjun827/api-std-lib
+  - writen for go 1.21 but does have some interesting things like rate limiting middleware. logging with slog package and data validation
+  
 Not an option:
 

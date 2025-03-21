@@ -28,6 +28,8 @@ when starting to do testing. if using run to do tests. why not just testing of a
 ## Other Options
 
 Possibilities:
+- https://github.com/avelino/awesome-go?tab=readme-ov-file#testing
+- https://github.com/avelino/awesome-go?tab=readme-ov-file#mock
 
 Not an option:
 
