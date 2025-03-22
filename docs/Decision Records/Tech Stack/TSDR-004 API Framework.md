@@ -37,6 +37,7 @@ Chi for routing and mixing, for JSON req-res, I'll use connectrpc. In case I nee
 - [Beego](https://github.com/beego/beego) - beego is an open-source, high-performance web framework for the Go programming language.
 - [Chi]()
   - **SHORT LIST TO TRY** should complement standard library
+  - "Chi's middleware, httplog and render packages are fantastic."
 - [Chimera](https://github.com/matt1484/chimera)
   - Chi based rest api framework
 - [Confetti Framework](https://confetti-framework.github.io/docs/) - Confetti is a Go web application framework with an expressive, elegant syntax. Confetti combines the elegance of Laravel and the simplicity of Go.

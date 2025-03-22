@@ -12,7 +12,7 @@
 
 https://www.reddit.com/r/golang/comments/1jdmzw5/lightweight_zero_dependency_http_router_library/
 
-https://www.reddit.com/r/golang/comments/1jf1inr/timeout_middleware_in_go_simple_in_theory_complex/
+
 
 - [ ] [The adapter pattern for middleware](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#the-adapter-pattern-for-middleware)
 - [ ] [Sometimes I return the middleware](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#sometimes-i-return-the-middleware)
@@ -25,7 +25,7 @@ https://www.reddit.com/r/golang/comments/1jf1inr/timeout_middleware_in_go_simple
 - Alex Edwards’ book “Let’s Go” which features a CRUD app
 - [ardanlabs](https://github.com/ardanlabs/service) Seems a bit overly complex but may be a good study example
   - seems to store vendors??? TODO
-  
+
 ## Todo later after implementing testing
 
 - [ ] [Use inline request/response types for additional storytelling in tests](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#use-inline-requestresponse-types-for-additional-storytelling-in-tests)
@@ -36,6 +36,9 @@ https://www.reddit.com/r/golang/comments/1jf1inr/timeout_middleware_in_go_simple
   - [ ] [Waiting for readiness](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#waiting-for-readiness)
 
 ## TODO wetesa 1
+- https://github.com/spf13/viper
+  - allows for hot loading of config.
+  - what other features would we actually use?
 - [Awesome Go - Database](https://github.com/avelino/awesome-go?tab=readme-ov-file#database)
 https://github.com/avelino/awesome-go?tab=readme-ov-file#date-and-time
 https://github.com/avelino/awesome-go?tab=readme-ov-file#email

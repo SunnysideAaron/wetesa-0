@@ -20,6 +20,9 @@ pkg.errors = wrapping errors
 
 waterfall library for msging?
 
+https://pkg.go.dev/net/http#pkg-constants
+  - lists constants for http status codes
+
 ## Decision
 
 
