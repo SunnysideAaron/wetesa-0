@@ -20,7 +20,7 @@ Needed:
 Use the standard library for routing.
 
 There appears to be 3 ways to pass information between middleware / handlers:
-- setting middleware as a method of of a type (possibly a struct)
+- setting middleware as a method of a type (possibly a struct)
 - context
   - good for globlal key value pairs. ie user id, session id, request id, etc.
 - method parameter
@@ -63,6 +63,7 @@ This is further supported by the fact that many routers are now abandoned.
     - [Middleware and grouping with stdlib](https://gist.github.com/alexaandru/747f9d7bdfb1fa35140b359bf23fa820)
     - [reddit post on why still chi](https://www.reddit.com/r/golang/comments/1avn6ih/is_chi_relevant_anymore/)
 - https://codewithflash.com/advanced-routing-with-go-122
+- [RapidGo](https://github.com/rwiteshbera/rapidgo)
 
 ### complex examples
 

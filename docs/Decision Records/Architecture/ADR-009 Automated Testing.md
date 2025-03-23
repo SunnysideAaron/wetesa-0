@@ -13,6 +13,8 @@ Automated testing 100% coverage?
 TODO revisit https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#the-newserver-constructor
 when starting to do testing. if using run to do tests. why not just testing of api end points? probably both
 
+https://jestjs.io/docs/snapshot-testing
+
 ## Decision
 
 

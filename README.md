@@ -2,6 +2,15 @@
 
 An example CRUD api. Uses Go as the language and PostgreSQL as a datastore. Has a minimum of dependencies.
 
+TODO rewrite this
+Only 1 dependency. pgx and only becuase standard library does not include a sql driver. see decision record tsdr-o05 ssql driver
+
+Not a framework! Like a frame work but not. like LAMP but not
+
+Probably wouldn't use myself as is.
+
+Ways to use.
+
 Fork me, please! I know I will! :-)
 
 ## Requirements

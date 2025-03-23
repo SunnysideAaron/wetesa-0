@@ -10,9 +10,8 @@
 - [x] [Handle decoding/encoding in one place](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#handle-decodingencoding-in-one-place)
 - [x] [Validating data](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#validating-data)
 
-https://www.reddit.com/r/golang/comments/1jdmzw5/lightweight_zero_dependency_http_router_library/
-
-
+end point that sits and waits so can verify that context cancels
+404 not found vs default home url
 
 - [ ] [The adapter pattern for middleware](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#the-adapter-pattern-for-middleware)
 - [ ] [Sometimes I return the middleware](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#sometimes-i-return-the-middleware)

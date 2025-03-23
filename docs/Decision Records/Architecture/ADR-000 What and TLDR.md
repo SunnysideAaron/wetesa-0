@@ -49,3 +49,4 @@ ACID Compliant
 
 DB knows user logged in. Not just a general web log in.
 
+how to handle api breaking changes.

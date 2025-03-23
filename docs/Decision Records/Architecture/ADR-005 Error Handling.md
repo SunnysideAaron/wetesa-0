@@ -8,6 +8,8 @@ Accepted, Proposed, Deprecated or Superseded (list DR)
 
 How exactly to handle errors. Wrapping, how to structure messages. stack trace?
 
+https://blog.lobocv.com/posts/richer_golang_errors/
+
 https://www.youtube.com/watch?v=CxcxRgwWtAk
 
 https://www.reddit.com/r/golang/comments/1iwmeaw/in_larger_programs_how_do_you_handle_errors_so/
@@ -22,6 +24,7 @@ waterfall library for msging?
 
 https://pkg.go.dev/net/http#pkg-constants
   - lists constants for http status codes
+
 
 ## Decision
 
