@@ -93,6 +93,7 @@ func handleCreateClient(logger *log.Logger, db *database.Postgres) http.Handler 
 }
 
 // handleUpdateClient handles requests to update an existing client
+// TODO this is for a PUT request. Which is OK but we might want to use PATCH instead.
 func handleUpdateClient(logger *log.Logger, db *database.Postgres) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {

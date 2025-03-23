@@ -37,12 +37,13 @@ func run(
 	defer db.Close()
 
 	// Create a new server
-	srv := server.NewServer(logger, db)
+	//srv := server.NewServer(logger, db)
+	handle := server.AddRoutes(logger, db)
 
 	// Configure the HTTP server
 	httpServer := &http.Server{
 		Addr:         fmt.Sprintf("%s:%s", cfg.APIHost, cfg.APIPort),
-		Handler:      srv,
+		Handler:      handle,
 		ReadTimeout:  cfg.APIReadTimeout * time.Second,
 		WriteTimeout: cfg.APIWriteTimeout * time.Second,
 		IdleTimeout:  cfg.APIIdleTimeout * time.Second,

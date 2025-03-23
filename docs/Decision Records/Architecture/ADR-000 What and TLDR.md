@@ -35,6 +35,8 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
   - **Pending**
 - ADR-013 Coding Standards
   - **Pending**
+- ADR-014 Routing
+  - Standard library for routing. Adaptor pattern for middleware.
 
 ## TODO 
 

@@ -12,23 +12,6 @@ import (
 	"api/internal/database"
 )
 
-// NewServer creates a new HTTP server
-// [The NewServer constructor](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#the-newserver-constructor)
-func NewServer(logger *log.Logger, db *database.Postgres) http.Handler {
-	mux := http.NewServeMux()
-	addRoutes(mux, logger, db)
-
-	// TODO most "middlewares" need to go before routes. and order matters for example logging before auth.
-	// TODO put middlewates into addRoutes
-	// TODO how to handle route groups?
-	// TODO how to apply middleware to some routes but not others?
-	//var handler http.Handler = mux
-	// handler = loggingMiddleware(logger, handler)
-	// handler = corsMiddleware(logger, handler)
-
-	return mux
-}
-
 // encode encodes the response as JSON
 // [Handle decoding/encoding in one place](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#handle-decodingencoding-in-one-place)
 func encode(w http.ResponseWriter, r *http.Request, status int, v interface{}) error {

@@ -1,5 +1,4 @@
-# ADR-00
-# TSDR-00
+# ADR-014 Routing
 
 ## Status
 
@@ -8,35 +7,35 @@ Accepted, Proposed, Deprecated or Superseded (list DR)
 ## Context
 
 Needed:
+- routing
+- grouping routes
 - middleware
-- groupging routes
 - middleware grouping
-- $ wildcard feature
-- route default to home
-- route not found error as well?
 
 ## Decision
 
-Use the standard library for routing.
+Standard library for routing. Adaptor pattern for middleware.
 
-There appears to be 4 ways to pass information between middleware / handlers:
-[Sharing Values with Go Handlers](https://drstearns.github.io/tutorials/gohandlerctx/)
-- setting middleware as a method of a type (possibly a struct)
-- context
-  - good for request scoped key value pairs. ie user id, session id, request id, etc.
-- method parameter
-  - breaks the (ResponseWriter, *Request) method call, but there are ways around that.
-  - Going to avoid this pattern for now.
-- global variables
-  - shame on you for considering globals.
-
-Will use the "http.MethodGet" etc constants. [pkg.go.dev](https://pkg.go.dev/net/http#pkg-constants)
+Will use the "http.MethodGet" etc constants.
+ [pkg.go.dev](https://pkg.go.dev/net/http#pkg-constants)
 This will allow the compiler to catch mistypes.
+
+For now choosing not to code a radix tree for routing.
 
 ## Why / Notes
 Since Go 1.22 (2024-FEB) added ServeMux, better routing, and path parameters the
 standard library is recommended by the community for routing.
 This is further supported by the fact that many routers are now abandoned.
+
+There are 4 ways to pass information between middleware / handlers:
+[Sharing Values with Go Handlers](https://drstearns.github.io/tutorials/gohandlerctx/)
+- setting middleware as a method of a type (possibly a struct)
+- context
+  - good for request scoped key value pairs. ie user id, session id, request id, etc.
+- adaptor pattern - method parameter
+  - breaks the (ResponseWriter, *Request) method call
+- global variables
+  - shame on you for considering globals.
 
 ### information
 
@@ -50,8 +49,8 @@ This is further supported by the fact that many routers are now abandoned.
   - shows how to do {$} wildcard feature 
 - https://www.reddit.com/r/golang/comments/1aoxlsr/middleware_in_go_1220/
   - drannoc-dono has example of passing types to middleware
-- https://drstearns.github.io/tutorials/gomiddleware/
-  - https://drstearns.github.io/tutorials/gohandlerctx/
+- [Middleware Patterns in Go](https://drstearns.github.io/tutorials/gomiddleware/)
+  - [Sharing Values with Go Handlers](https://drstearns.github.io/tutorials/gohandlerctx/)
   -  has part about using methods on types (structs) to pass values to middleware
 - https://vishnubharathi.codes/blog/exploring-middlewares-in-go/
   - Section "Enter http.Handler" has part about using methods on types (structs) to pass values to middleware
@@ -68,7 +67,6 @@ This is further supported by the fact that many routers are now abandoned.
     - [Middleware and grouping with stdlib](https://gist.github.com/alexaandru/747f9d7bdfb1fa35140b359bf23fa820)
     - [reddit post on why still chi](https://www.reddit.com/r/golang/comments/1avn6ih/is_chi_relevant_anymore/)
 - https://codewithflash.com/advanced-routing-with-go-122
-- [RapidGo](https://github.com/rwiteshbera/rapidgo)
 
 ### complex examples
 
@@ -81,7 +79,9 @@ Don't have support of other developers on framework. Don't get any of the other 
 ## Other Possible Options
 - chi
 - https://github.com/ngamux/ngamux
-
+- [RapidGo](https://github.com/rwiteshbera/rapidgo)
+  - Uses a radix tree for routing. Which is supposed to be faster than standard library.?
+- [supermuxer](https://github.com/dbarbosadev/supermuxer)
 
 ## Not an Option
 

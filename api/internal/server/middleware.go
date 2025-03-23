@@ -7,8 +7,6 @@ import (
 	"time"
 )
 
-//TODO middleware and middleware grouping
-
 // loggingMiddleware is middleware that logs requests
 func loggingMiddleware(logger *log.Logger, next http.Handler) http.Handler {
 	return http.HandlerFunc(
