@@ -19,13 +19,16 @@ Needed:
 
 Use the standard library for routing.
 
-There appears to be 3 ways to pass information between middleware / handlers:
+There appears to be 4 ways to pass information between middleware / handlers:
+[Sharing Values with Go Handlers](https://drstearns.github.io/tutorials/gohandlerctx/)
 - setting middleware as a method of a type (possibly a struct)
 - context
   - good for request scoped key value pairs. ie user id, session id, request id, etc.
 - method parameter
   - breaks the (ResponseWriter, *Request) method call, but there are ways around that.
   - Going to avoid this pattern for now.
+- global variables
+  - shame on you for considering globals.
 
 Will use the "http.MethodGet" etc constants. [pkg.go.dev](https://pkg.go.dev/net/http#pkg-constants)
 This will allow the compiler to catch mistypes.
@@ -57,6 +60,8 @@ This is further supported by the fact that many routers are now abandoned.
 
 - [How I write HTTP services in Go after 13 years](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/)
   - [Maker funcs return the handler](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#maker-funcs-return-the-handler)
+  - [Writing middleware in #golang and how Go makes it so much fun.](https://medium.com/@matryer/writing-middleware-in-golang-and-how-go-makes-it-so-much-fun-4375c1246e81)
+    - explains adaptor pattern for middleware.
 - [Building REST APIs With Go 1.22 http.ServeMux](https://shijuvar.medium.com/building-rest-apis-with-go-1-22-http-servemux-2115f242f02b) (2024-FEB)
   - also has using methods on types (structs) to pass values to handlers
 - CHI features in standard library

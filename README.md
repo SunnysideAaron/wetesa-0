@@ -11,6 +11,8 @@ Probably wouldn't use myself as is.
 
 Ways to use.
 
+Not business logic.
+
 Fork me, please! I know I will! :-)
 
 ## Requirements

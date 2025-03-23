@@ -22,11 +22,11 @@ func NewServer(logger *log.Logger, db *database.Postgres) http.Handler {
 	// TODO put middlewates into addRoutes
 	// TODO how to handle route groups?
 	// TODO how to apply middleware to some routes but not others?
-	var handler http.Handler = mux
-	handler = loggingMiddleware(logger, handler)
-	handler = corsMiddleware(logger, handler)
+	//var handler http.Handler = mux
+	// handler = loggingMiddleware(logger, handler)
+	// handler = corsMiddleware(logger, handler)
 
-	return handler
+	return mux
 }
 
 // encode encodes the response as JSON
