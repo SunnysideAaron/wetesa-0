@@ -22,7 +22,7 @@ Use the standard library for routing.
 There appears to be 3 ways to pass information between middleware / handlers:
 - setting middleware as a method of a type (possibly a struct)
 - context
-  - good for globlal key value pairs. ie user id, session id, request id, etc.
+  - good for request scoped key value pairs. ie user id, session id, request id, etc.
 - method parameter
   - breaks the (ResponseWriter, *Request) method call, but there are ways around that.
   - Going to avoid this pattern for now.
