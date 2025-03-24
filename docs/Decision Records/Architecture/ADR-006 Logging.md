@@ -45,6 +45,7 @@ Advice was to send all logs to standard out (standard error?) and then use a dif
 - [Which log library should I use in Go?](https://www.bytesizego.com/blog/which-log-library-go)
   - slog, or zerolog (fastest but a dependency)
 
+- https://stackoverflow.com/questions/76970895/change-log-level-of-go-lang-slog-in-runtime
 
 
 ### which levels to use and their meanings
