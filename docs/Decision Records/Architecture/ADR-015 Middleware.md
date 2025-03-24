@@ -1,9 +1,8 @@
-# ADR-00
-# TSDR-00
+# ADR-015 Middleware
 
 ## Status
 
-Accepted, Proposed, Deprecated or Superseded (list DR)
+Accepted
 
 ## Context
 
@@ -11,25 +10,25 @@ Accepted, Proposed, Deprecated or Superseded (list DR)
 
 ## Decision
 
-Implementing the following middleware:
-
-- [Exploring Middlewares in Go - Standard Library](https://vishnubharathi.codes/blog/exploring-middlewares-in-go/#Standard-library-Middlewares)
-  - AllowQuerySemicolons
-  - MaxBytesHandler
-  - TimeoutHandler
-- RequestID
-- Logging
+Installed middleware:
+- AllowQuerySemicolons (Standard Library)
 - CORS
-
-r.Use(middleware.Recoverer)
+- Logging
+- MaxBytesHandler (Standard Library)
+- Recover
+- RequestID
+- TimeoutHandler (Standard Library)
 
 ### Pending
 
 What other middleware should be implemented? RealIP? Rate limiting?
 
 Rate limiting seems a smidge complex with saving IPs. I'm punting that ball for now.
+- [api-std-lib](https://github.com/youngjun827/api-std-lib/blob/main/cmd/api/middleware.go)
+  - has a simple rate limiter.
 
 ## Why / Notes
+
 
 
 ## Consequences
@@ -57,6 +56,8 @@ Rate limiting seems a smidge complex with saving IPs. I'm punting that ball for 
   - https://github.com/labstack/echo/blob/master/middleware/request_id.go
     - https://echo.labstack.com/docs/middleware/request-id
 - Rate Limiter
+  - [api-std-lib](https://github.com/youngjun827/api-std-lib/blob/main/cmd/api/middleware.go)
+    - has a simple rate limiter.
   - [Tollboth](https://github.com/didip/tollbooth)
     - strong contender but would require a dependency.
   - [echo](https://github.com/labstack/echo/blob/master/middleware/rate_limiter.go)

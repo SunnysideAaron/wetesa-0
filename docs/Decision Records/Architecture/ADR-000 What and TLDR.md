@@ -37,6 +37,18 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
   - **Pending**
 - ADR-014 Routing
   - Standard library for routing. Adaptor pattern for middleware.
+- ADR-015 Middleware
+  - Installed middleware:
+    - AllowQuerySemicolons
+    - CORS
+    - Logging
+    - MaxBytesHandler 
+    - Recover
+    - RequestID
+    - TimeoutHandler
+- ADR-016 gRPC
+  - Not using gRPC.
+
 
 ## TODO 
 
