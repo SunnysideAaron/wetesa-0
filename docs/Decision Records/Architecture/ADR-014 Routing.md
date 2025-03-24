@@ -20,7 +20,7 @@ Will use the "http.MethodGet" etc constants.
  [pkg.go.dev](https://pkg.go.dev/net/http#pkg-constants)
 This will allow the compiler to catch mistypes.
 
-For now choosing not to code a radix tree for routing.
+For now, choosing not to code a radix tree for routing.
 
 ## Why / Notes
 Since Go 1.22 (2024-FEB) added ServeMux, better routing, and path parameters the

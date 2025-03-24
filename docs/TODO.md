@@ -34,6 +34,8 @@ Not sure when I'll want this
   - [ ] [An opportunity to hide the request/response types away](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#an-opportunity-to-hide-the-requestresponse-types-away)
 
 ## TODO wetesa 1
+- [Tollboth](https://github.com/didip/tollbooth)
+  - if we need rate limiting.
 - https://github.com/spf13/viper
   - allows for hot loading of config.
   - what other features would we actually use?

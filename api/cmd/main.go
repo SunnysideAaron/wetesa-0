@@ -38,7 +38,7 @@ func run(
 
 	// Create a new server
 	//srv := server.NewServer(logger, db)
-	handle := server.AddRoutes(logger, db)
+	handle := server.AddRoutes(logger, cfg, db)
 
 	// Configure the HTTP server
 	httpServer := &http.Server{

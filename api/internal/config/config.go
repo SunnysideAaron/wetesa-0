@@ -16,6 +16,8 @@ type APIConfig struct {
 	APIReadTimeout  time.Duration
 	APIWriteTimeout time.Duration
 	APIIdleTimeout  time.Duration
+	RequestMaxBytes int64
+	RequestTimeout  time.Duration
 }
 
 // LoadAPIConfig loads the api configuration from environment variables. Default values are
@@ -27,6 +29,9 @@ func LoadAPIConfig() *APIConfig {
 		APIReadTimeout:  15,
 		APIWriteTimeout: 30,
 		APIIdleTimeout:  60,
+		// common values default is 8k, Other defaults might be 4k, 16k, or 48k.
+		RequestMaxBytes: 8192,
+		RequestTimeout:  60,
 	}
 
 	// Read and validate environment variables.
@@ -55,6 +60,18 @@ func LoadAPIConfig() *APIConfig {
 	if err == nil {
 		cnf.APIIdleTimeout = time.Duration(idleTimeout)
 	} // else if there is an error this will use the default value.
+
+	maxBytesStr := os.Getenv("API_REQUEST_MAX_BYTES")
+	maxBytes, err := strconv.ParseInt(maxBytesStr, 10, 64)
+	if err == nil && maxBytes > 0 {
+		cnf.RequestMaxBytes = maxBytes
+	} // else if there is an error this will use the default value.
+
+	timeoutStr := os.Getenv("API_REQUEST_TIMEOUT")
+	timeout, err := strconv.Atoi(timeoutStr)
+	if err == nil && timeout > 0 {
+		cnf.RequestTimeout = time.Duration(timeout)
+	}
 
 	// TODO log values if set to debug
 	// log.Printf("APIHost: %s", cnf.APIHost)
