@@ -47,6 +47,7 @@ Rate limiting seems a smidge complex with saving IPs. I'm punting that ball for 
   - [rk-gin](https://github.com/rookie-ninja/rk-gin)
   - [gin-contrib](https://github.com/gin-contrib)
 - [rye](https://github.com/InVisionApp/rye)
+- [For slog](https://go.dev/wiki/Resources-for-slog#logging-middleware)
 
 ## Examples for specific problems
 - RequestID

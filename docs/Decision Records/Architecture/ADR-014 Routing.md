@@ -10,7 +10,7 @@ Needed:
 - routing
 - grouping routes
 - middleware
-- middleware grouping
+- middleware chaining
 
 ## Decision
 
@@ -22,10 +22,21 @@ This will allow the compiler to catch mistypes.
 
 For now, choosing not to code a radix tree for routing.
 
-## Why / Notes
+## Why
+
 Since Go 1.22 (2024-FEB) added ServeMux, better routing, and path parameters the
 standard library is recommended by the community for routing.
 This is further supported by the fact that many routers are now abandoned.
+
+## Notes
+
+- [How I write HTTP services in Go after 13 years](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/)
+  - [Maker funcs return the handler](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#maker-funcs-return-the-handler)
+  - [Writing middleware in #golang and how Go makes it so much fun.](https://medium.com/@matryer/writing-middleware-in-golang-and-how-go-makes-it-so-much-fun-4375c1246e81)
+    - explains adaptor pattern for middleware.
+- [Middleware Patterns in Go](https://drstearns.github.io/tutorials/gomiddleware/)
+  - [Sharing Values with Go Handlers](https://drstearns.github.io/tutorials/gohandlerctx/)
+  -  has part about using methods on types (structs) to pass values to middleware
 
 There are 4 ways to pass information between middleware / handlers:
 [Sharing Values with Go Handlers](https://drstearns.github.io/tutorials/gohandlerctx/)
@@ -37,7 +48,7 @@ There are 4 ways to pass information between middleware / handlers:
 - global variables
   - shame on you for considering globals.
 
-### information
+## Other Notes
 
 - [The standard library now has all you need for advanced routing in Go.](https://www.youtube.com/watch?v=H7tbjKFSg58&t=8s) (2024-MAR)
   - [summary](https://gist.ly/youtube-summarizer/advanced-http-routing-with-go-122-path-parameters-http-methods-middleware-and-more)
@@ -49,18 +60,11 @@ There are 4 ways to pass information between middleware / handlers:
   - shows how to do {$} wildcard feature 
 - https://www.reddit.com/r/golang/comments/1aoxlsr/middleware_in_go_1220/
   - drannoc-dono has example of passing types to middleware
-- [Middleware Patterns in Go](https://drstearns.github.io/tutorials/gomiddleware/)
-  - [Sharing Values with Go Handlers](https://drstearns.github.io/tutorials/gohandlerctx/)
-  -  has part about using methods on types (structs) to pass values to middleware
 - https://vishnubharathi.codes/blog/exploring-middlewares-in-go/
   - Section "Enter http.Handler" has part about using methods on types (structs) to pass values to middleware
 
-### simple examples
+## Simple Examples
 
-- [How I write HTTP services in Go after 13 years](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/)
-  - [Maker funcs return the handler](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#maker-funcs-return-the-handler)
-  - [Writing middleware in #golang and how Go makes it so much fun.](https://medium.com/@matryer/writing-middleware-in-golang-and-how-go-makes-it-so-much-fun-4375c1246e81)
-    - explains adaptor pattern for middleware.
 - [Building REST APIs With Go 1.22 http.ServeMux](https://shijuvar.medium.com/building-rest-apis-with-go-1-22-http-servemux-2115f242f02b) (2024-FEB)
   - also has using methods on types (structs) to pass values to handlers
 - CHI features in standard library
@@ -68,7 +72,7 @@ There are 4 ways to pass information between middleware / handlers:
     - [reddit post on why still chi](https://www.reddit.com/r/golang/comments/1avn6ih/is_chi_relevant_anymore/)
 - https://codewithflash.com/advanced-routing-with-go-122
 
-### complex examples
+## Complex Examples
 
 - [ardanlabs](https://github.com/ardanlabs/service/blob/master/app/domain/homeapp/route.go)
 

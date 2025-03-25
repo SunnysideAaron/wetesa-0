@@ -6,49 +6,72 @@ Accepted, Proposed, Deprecated or Superseded (list DR)
 
 ## Context
 
-
-
-
-
-
-
-
-
 How exactly to handle logging.
-
-### How long to keep logs. EVALUATE
-
-
-
-Podcast was recommending as little as 4 days (long weekend). 7 days, 14 days or 30 days. Don't need forever. Start small first. Only lengthen for business need.
-
-----------
-
-Needs to be turned on and off with out code changes (in prod) and limited to file /  function / client
-
-Advice was to send all logs to standard out (standard error?) and then use a different tool to send standard out on to where ever to use logs. Research why that advice was given
-
-
-
-
 
 ## Decision
 
+slog
+
+log to STDOUT
+
+Do not log sensitive information, including:
+- Passwords
+- email addresses
+- Phone numbers
+- DOB
+- Age
+- Addresses
+- Bank Accounts
+- Credit card numbers
+- Social security numbers
+- Personal identification numbers (PINs)
+- Health information
+- Financial information
+- Any other sensitive data. (add to this list)
+
+**Pending** what log levels to use
+
+**Pending** what to log
+
+**Pending** What to do if user accidentally puts password in user name field?
+
+**flesh out**
+Needs to be turned on and off with out code changes (in prod) and limited to file /  function / client
 
 
-## Why / Notes
+
+## Why
+
+slog because it is in the standard library. zerolog would add a dependency. 
+Which is against the goal of this project. slog will be fast enough for a very
+long time.
+- [Which log library should I use in Go?](https://www.bytesizego.com/blog/which-log-library-go)
+  - slog (built in) or zerolog (fastest but a dependency)
+- [go-logging-benchmarks ](https://github.com/betterstack-community/go-logging-benchmarks)
+
+We will log to STDOUT not to a file. A different tool will send the logs to where
+ever they need to go. Docker has means to see the last logs if needed in case of
+needing to debug server crashes.
+
+Is slog asynchronous? Not a problem since we are logging to STDOUT. If we were
+logging to a file we would need to find out and code a solution if not.
+
+Why not log sensitive information? Because we should assume they will fall into
+the wrong hands. Going for the logs is basic steps for any hacker. At the very
+least we will be sending logs to a third party where they
+are stored. Even if temporarily.
+
+## Notes
 
 - [Logging in Go with Slog: The Ultimate Guide](https://betterstack.com/community/guides/logging/logging-in-go/)
-- [Complete Guide to Logging in Golang with slog](https://signoz.io/guides/golang-slog/)
-
+- [A Guide to Writing slog Handlers](https://github.com/golang/example/blob/master/slog-handler-guide/README.md)
 - [go.dev blog](https://go.dev/blog/slog)
-- [Which log library should I use in Go?](https://www.bytesizego.com/blog/which-log-library-go)
-  - slog, or zerolog (fastest but a dependency)
-
 - https://stackoverflow.com/questions/76970895/change-log-level-of-go-lang-slog-in-runtime
-
+- https://pkg.go.dev/log/slog@master#example-Handler-LevelHandler
+- [Go Wiki: Resources for slog](https://go.dev/wiki/Resources-for-slog)
 
 ### which levels to use and their meanings
+
 - [Let’s talk about logging](https://dave.cheney.net/2015/11/05/lets-talk-about-logging)
 - [when to use log levels](https://www.reddit.com/r/golang/comments/1ctaz7n/when_to_use_slog_levels/)
 - [Google Cloud Logging API v2](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry)
