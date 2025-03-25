@@ -10,7 +10,6 @@ import (
 // AddRoutes maps all the API routes
 // [Map the entire API surface in routes.go](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#map-the-entire-api-surface-in-routesgo)
 func AddRoutes(logger *slog.Logger, cfg *config.APIConfig, db *database.Postgres) http.Handler {
-
 	baseMux := http.NewServeMux()
 	v1Mux := http.NewServeMux()
 

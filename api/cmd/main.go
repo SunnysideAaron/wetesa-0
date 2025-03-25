@@ -29,7 +29,7 @@ func run(
 	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)
 	defer cancel()
 
-	logger := logging.NewLogger()
+	logger := logging.NewLogger(cfg)
 	slog.SetDefault(logger)
 
 	// Create database connection

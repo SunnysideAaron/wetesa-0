@@ -9,8 +9,14 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
+const (
+	EnvironmentDev  string = "dev"
+	EnvironmentProd string = "prod"
+)
+
 // APIConfig stores the api configuration.
 type APIConfig struct {
+	Environment     string
 	APIHost         string
 	APIPort         string
 	APIReadTimeout  time.Duration
@@ -25,6 +31,7 @@ type APIConfig struct {
 func LoadAPIConfig() *APIConfig {
 	// Set default values.
 	cnf := &APIConfig{
+		Environment:     EnvironmentProd,
 		APIPort:         "8080",
 		APIReadTimeout:  15,
 		APIWriteTimeout: 30,
@@ -35,6 +42,11 @@ func LoadAPIConfig() *APIConfig {
 	}
 
 	// Read and validate environment variables.
+	env := os.Getenv("ENVIRONMENT")
+	if env == "dev" {
+		cnf.Environment = env
+	}
+
 	cnf.APIHost = os.Getenv("API_HOST")
 
 	portStr := os.Getenv("API_PORT")

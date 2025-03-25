@@ -13,6 +13,11 @@ func loggingMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
 			start := time.Now()
 			requestID := requestIDFromContext(r.Context())
 
+			logger.Debug("logging middleware entered",
+				"path", r.URL.Path,
+				"method", r.Method,
+			)
+
 			logger.Info("request started",
 				"request_id", requestID,
 				"method", r.Method,
