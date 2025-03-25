@@ -5,8 +5,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"io"
-	"log"
+	"log/slog"
 	"net/http"
 	"os"
 	"os/signal"
@@ -14,6 +13,7 @@ import (
 
 	"api/internal/config"
 	"api/internal/database"
+	"api/internal/logging"
 	"api/internal/server"
 
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -23,21 +23,19 @@ import (
 // [func main() only calls run()](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#func-main-only-calls-run)
 func run(
 	ctx context.Context,
-	w io.Writer,
 	cfg *config.APIConfig,
 	pCfg *pgxpool.Config,
 ) error {
 	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)
 	defer cancel()
 
-	logger := log.New(w, "", log.LstdFlags)
+	logger := logging.NewLogger()
+	slog.SetDefault(logger)
 
 	// Create database connection
 	db := database.NewPG(ctx, pCfg)
 	defer db.Close()
 
-	// Create a new server
-	//srv := server.NewServer(logger, db)
 	handle := server.AddRoutes(logger, cfg, db)
 
 	// Configure the HTTP server
@@ -52,7 +50,7 @@ func run(
 	// Start the server in a goroutine
 	serverErrors := make(chan error, 1)
 	go func() {
-		logger.Printf("server listening on %s", httpServer.Addr)
+		logger.Info("server starting", "addr", httpServer.Addr)
 		serverErrors <- httpServer.ListenAndServe()
 	}()
 
@@ -63,7 +61,7 @@ func run(
 	case <-ctx.Done():
 		// [Gracefully shutting down](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#gracefully-shutting-down)
 
-		logger.Println("shutting down server...")
+		logger.Info("shutting down server...")
 
 		// Create shutdown context with timeout
 		shutdownCtx, shutdownCancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -85,8 +83,8 @@ func main() {
 
 	// TODO break all these single line error check statements into multiple lines.
 	// finder linter and formatter
-	if err := run(ctx, os.Stdout, cfg, pCfg); err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
+	if err := run(ctx, cfg, pCfg); err != nil {
+		slog.Error("application error", "error", err)
 		os.Exit(1)
 	}
 }

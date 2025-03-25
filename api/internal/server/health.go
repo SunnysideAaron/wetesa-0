@@ -2,7 +2,7 @@ package server
 
 import (
 	"api/internal/database"
-	"log"
+	"log/slog"
 	"net/http"
 )
 
@@ -17,11 +17,11 @@ func handleHealthz() http.Handler {
 }
 
 // handleHealthDBz handles database health check requests
-func handleHealthDBz(logger *log.Logger, db *database.Postgres) http.Handler {
+func handleHealthDBz(logger *slog.Logger, db *database.Postgres) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			if err := encode(w, r, http.StatusOK, db.Health(r.Context())); err != nil {
-				// logger.Printf("error encoding response: %v", err)
+				logger.Error("error encoding response", "error", err)
 				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 				return
 			}

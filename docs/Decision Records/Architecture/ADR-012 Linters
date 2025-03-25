@@ -40,5 +40,7 @@ Possibilities:
 - https://github.com/avelino/awesome-go?tab=readme-ov-file#code-analysis
 - https://github.com/go-simpler/sloglint
 
+A linter like sloglint can help you enforce various rules for Slog based on your preferred code style. Here's an example configuration when used through golangci-lint:
+
 Not an option:
 

@@ -4,7 +4,7 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/base64"
-	"log"
+	"log/slog"
 	"net/http"
 	"strings"
 )
@@ -55,7 +55,7 @@ func generateID() string {
 	return b64[0:10]
 }
 
-func requestIDMiddleware(logger *log.Logger, next http.Handler) http.Handler {
+func requestIDMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			ctx := r.Context()

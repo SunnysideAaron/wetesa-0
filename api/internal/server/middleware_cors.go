@@ -1,11 +1,11 @@
 package server
 
 import (
-	"log"
+	"log/slog"
 	"net/http"
 )
 
-func corsMiddleware(logger *log.Logger, next http.Handler) http.Handler {
+func corsMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			// Set CORS headers

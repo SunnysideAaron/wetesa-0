@@ -3,14 +3,14 @@ package server
 
 import (
 	"api/internal/config"
-	"log"
+	"log/slog"
 	"net/http"
 	"time"
 )
 
 // note how this chains middlewares together but also handles dependencies so that calling code doesn't have to.
 func newMiddleCore(
-	logger *log.Logger,
+	logger *slog.Logger,
 ) func(h http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
 		// Apply middlewares in reverse order - last one is applied first
@@ -27,7 +27,7 @@ func newMiddleCore(
 }
 
 func newMiddleDefaults(
-	logger *log.Logger,
+	logger *slog.Logger,
 	cfg *config.APIConfig,
 ) func(h http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
