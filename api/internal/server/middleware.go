@@ -26,6 +26,8 @@ func newMiddleCore(
 	}
 }
 
+// TODO convert to variadic parameters so that requst time and max bytes can be overwritten per request
+
 func newMiddleDefaults(
 	logger *slog.Logger,
 	cfg *config.APIConfig,
