@@ -26,21 +26,16 @@ func newMiddleCore(
 	}
 }
 
-// TODO convert to variadic parameters so that requst time and max bytes can be overwritten per request
+// TODO convert to variadic parameters so that request time and max bytes can be overwritten per request
 
 func newMiddleDefaults(
-	logger *slog.Logger,
 	cfg *config.APIConfig,
 ) func(h http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
-		core := newMiddleCore(logger)
-
-		return core(
-			http.TimeoutHandler(
-				http.MaxBytesHandler(h, cfg.RequestMaxBytes),
-				cfg.RequestTimeout*time.Second,
-				"request took too long",
-			),
+		return http.TimeoutHandler(
+			http.MaxBytesHandler(h, cfg.RequestMaxBytes),
+			cfg.RequestTimeout*time.Second,
+			"request took too long",
 		)
 	}
 }
