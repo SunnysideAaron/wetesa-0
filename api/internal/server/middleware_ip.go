@@ -1,7 +1,9 @@
 package server
 
 import (
+	"api/internal/logging"
 	"context"
+	"log/slog"
 	"net/http"
 	"strings"
 )
@@ -49,7 +51,7 @@ func ipMiddleware(next http.Handler) http.Handler {
 
 			if existing := ipFromContext(ctx); existing == "" {
 				ip := getIP(r)
-				ctx = context.WithValue(ctx, IPKey, ip)
+				ctx = logging.AppendCtx(ctx, slog.String(IPKey, ip))
 				r = r.WithContext(ctx)
 			}
 

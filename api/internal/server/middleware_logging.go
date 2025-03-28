@@ -28,12 +28,9 @@ func loggingMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			start := time.Now()
-			requestID := requestIDFromContext(r.Context())
-			ip := ipFromContext(r.Context())
 
+			// for now i'm not putting method and path in context. to demonstrate .With()
 			reqLogger := logger.With(
-				slog.String("ip", ip),
-				slog.String("request_id", requestID),
 				slog.String("method", r.Method),
 				slog.String("path", r.URL.Path),
 			)

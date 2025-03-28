@@ -1,6 +1,7 @@
 package server
 
 import (
+	"api/internal/logging"
 	"context"
 	"crypto/rand"
 	"encoding/base64"
@@ -55,14 +56,14 @@ func generateID() string {
 	return b64[0:10]
 }
 
-func requestIDMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
+func requestIDMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			ctx := r.Context()
 
 			if existing := requestIDFromContext(ctx); existing == "" {
 				id := generateID()
-				ctx = context.WithValue(ctx, RequestIDKey, id)
+				ctx = logging.AppendCtx(ctx, slog.String(RequestIDKey, id))
 				r = r.WithContext(ctx)
 			}
 

@@ -87,7 +87,29 @@ type PrettyHandler struct {
 	attrs []slog.Attr // Add this field to store attributes
 }
 
+// slogFields is the key for storing slog attributes in context
+type ctxKey string
+
+const slogFields = ctxKey("slog-fields")
+
+// AppendCtx adds slog attributes to context
+// https://betterstack.com/community/guides/logging/logging-in-go/#using-the-context-package-with-slog
+func AppendCtx(ctx context.Context, attrs ...slog.Attr) context.Context {
+	if existing, ok := ctx.Value(slogFields).([]slog.Attr); ok {
+		attrs = append(existing, attrs...)
+	}
+	return context.WithValue(ctx, slogFields, attrs)
+}
+
 func (h *PrettyHandler) Handle(ctx context.Context, r slog.Record) error {
+	// Add any context attributes to the record
+	// https://betterstack.com/community/guides/logging/logging-in-go/#using-the-context-package-with-slog
+	if attrs, ok := ctx.Value(slogFields).([]slog.Attr); ok {
+		for _, v := range attrs {
+			r.AddAttrs(v)
+		}
+	}
+
 	level := r.Level.String() + ":"
 
 	switch r.Level {
