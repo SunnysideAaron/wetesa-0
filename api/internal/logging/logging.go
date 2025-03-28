@@ -1,7 +1,3 @@
-// TODO error stack traces
-// https://betterstack.com/community/guides/logging/logging-in-go/#error-logging-with-slog
-// provided example includes a dependency which breaks the goal of this project.
-// punting for now.
 package logging
 
 import (
@@ -11,6 +7,7 @@ import (
 	"log"
 	"log/slog"
 	"os"
+	"strings"
 
 	"api/internal/config"
 )
@@ -193,4 +190,52 @@ func (h *PrettyHandler) WithGroup(name string) slog.Handler {
 		Handler: h.Handler.WithGroup(name),
 		l:       h.l,
 	}
+}
+
+// formatStack makes the stack trace more readable by:
+// - Removing unnecessary runtime info
+// - Removing extra blank lines
+func FormatStack(stack []byte) string {
+	lines := strings.Split(string(stack), "\n")
+	var filtered []string
+
+	for i := 0; i < len(lines); i++ {
+		line := strings.TrimSpace(lines[i])
+		if line == "" || strings.HasPrefix(line, "goroutine") {
+			continue
+		}
+
+		// Skip runtime frames and created by messages
+		if strings.Contains(line, "/usr/local/go/src/runtime/") ||
+			strings.Contains(line, "created by") {
+			continue
+		}
+
+		// If this is a function name line
+		if !strings.HasPrefix(line, "/") {
+			// Remove pointer addresses and clean up
+			line = strings.Split(line, "(")[0]
+			line = strings.TrimSpace(line)
+
+			// Include all application code
+			if strings.Contains(line, "api/") {
+				filtered = append(filtered, "→ "+line)
+			}
+		} else if len(filtered) > 0 { // If we have a previous function name, add its location
+			// Extract file and line number
+			parts := strings.Split(line, " ")
+			if len(parts) > 0 {
+				fileParts := strings.Split(parts[0], "api/")
+				if len(fileParts) > 1 {
+					filtered[len(filtered)-1] += "\n   at " + fileParts[1]
+				}
+			}
+		}
+	}
+
+	if len(filtered) == 0 {
+		return "<no relevant stack frames>"
+	}
+
+	return strings.Join(filtered, "\n")
 }

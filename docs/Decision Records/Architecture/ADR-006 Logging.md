@@ -48,6 +48,13 @@ Needs to be turned on and off with out code changes (in prod) and limited to fil
 TODO error stack traces
 rough but works
 
+// TODO error stack traces
+// https://betterstack.com/community/guides/logging/logging-in-go/#error-logging-with-slog
+// provided example includes a dependency which breaks the goal of this project.
+// punting for now.
+
+
+
 TODO hiding sensitive information
 
 TODO what to log for api
