@@ -31,33 +31,27 @@ Do not log sensitive information, including:
 - Financial information
 - Any other sensitive data. (add to this list)
 
+**Pending** What to do if user accidentally puts password in user name field?
+
+**Pending** Rough example on handleGetClient(). Get help on better implementing
+the LogValuer interface. or should db structs just have have a stringer method?
+There seems to be something about LogValue not quite working as my understanding expects.
+
 Use default slog levels, in the following manor:
   - DEBUG (-4) Only turn on for in depth troubleshooting.
   - INFO (0) default level in production. Enough information to troubleshoot basic problems.
   - WARN (4) Create a ticket. Something is wrong and needs fixing. Properly handled errors are info not warn.
   - ERROR (8) Call someone NOW! Something is wrong and needs immediate fixing.
 
-**Pending** what to log
-logs should contain enough information in order to troubleshoot a problem when reported. For an API that is at least the request, response, and error stack trace.
+Log request, response, and error stack trace
+- stack trace in this example is rough. Could use alternative if using dependencies.
+- https://betterstack.com/community/guides/logging/logging-in-go/#error-logging-with-slog
 
-**Pending** What to do if user accidentally puts password in user name field?
 
 **flesh out**
-Needs to be turned on and off with out code changes (in prod) and limited to file /  function / client
-
-TODO error stack traces
-rough but works
-
-// TODO error stack traces
-// https://betterstack.com/community/guides/logging/logging-in-go/#error-logging-with-slog
-// provided example includes a dependency which breaks the goal of this project.
-// punting for now.
+TODO Needs to be turned on and off with out code changes (in prod) and limited to file /  function / client
 
 
-
-TODO hiding sensitive information
-
-TODO what to log for api
 
 ## Why
 
@@ -86,6 +80,9 @@ logged also has to be able to be deleted. Easier to just not log it.
 Use default slog levels because they are the defaults. This is just an example.
 Most devs will expect these levels. Unless they have chosen something else on purpose.
 
+Logs should contain enough information in order to troubleshoot a problem when reported.
+For an API that is at least the request, response, and error stack trace.
+
 ## Notes
 
 - [Logging in Go with Slog: The Ultimate Guide](https://betterstack.com/community/guides/logging/logging-in-go/)
@@ -94,6 +91,8 @@ Most devs will expect these levels. Unless they have chosen something else on pu
 - https://stackoverflow.com/questions/76970895/change-log-level-of-go-lang-slog-in-runtime
 - https://pkg.go.dev/log/slog@master#example-Handler-LevelHandler
 - [Go Wiki: Resources for slog](https://go.dev/wiki/Resources-for-slog)
+- https://github.com/youngjun827/api-std-lib
+  - logging with slog package example
 
 ### which levels to use and their meanings
 
@@ -133,8 +132,7 @@ Most devs will expect these levels. Unless they have chosen something else on pu
 
 ## Other Possible Options
 
-- https://github.com/youngjun827/api-std-lib
-  - logging with slog package example
+
 
 ## Not an Option
 - [Awesome Go's List of Logging](https://github.com/avelino/awesome-go?tab=readme-ov-file#logging)
