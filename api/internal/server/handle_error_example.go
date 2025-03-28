@@ -13,6 +13,13 @@ import (
 func handleErrorExample(logger *slog.Logger) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
+
+			logger.LogAttrs(
+				r.Context(),
+				slog.LevelDebug,
+				"test log entry",
+			)
+
 			err := errors.New("i'm a demon sent to torment you 😈")
 
 			stack := logging.FormatStack(debug.Stack())

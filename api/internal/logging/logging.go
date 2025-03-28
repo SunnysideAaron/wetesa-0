@@ -3,10 +3,12 @@ package logging
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"log/slog"
 	"os"
+	"runtime"
 	"strings"
 
 	"api/internal/config"
@@ -41,9 +43,12 @@ const (
 
 // NewLogger creates a new structured logger.
 // Uses PrettyHandler for development and JSONHandler for production.
-func NewLogger(cfg *config.APIConfig) *slog.Logger {
+func NewLogger(cfg *config.APIConfig) (*slog.Logger, *slog.LevelVar) {
+	lvl := new(slog.LevelVar)
+	lvl.Set(slog.LevelInfo)
+
 	opts := slog.HandlerOptions{
-		Level:     slog.LevelDebug,
+		Level:     lvl,
 		AddSource: true,
 	}
 
@@ -59,7 +64,7 @@ func NewLogger(cfg *config.APIConfig) *slog.Logger {
 		handler = slog.NewJSONHandler(os.Stdout, &opts)
 	}
 
-	return slog.New(handler)
+	return slog.New(handler), lvl
 }
 
 // ParseLevel converts a string level to slog.Level
@@ -85,7 +90,8 @@ type PrettyHandlerOptions struct {
 type PrettyHandler struct {
 	slog.Handler
 	l     *log.Logger
-	attrs []slog.Attr // Add this field to store attributes
+	attrs []slog.Attr
+	level *slog.LevelVar
 }
 
 // slogFields is the key for storing slog attributes in context
@@ -112,6 +118,11 @@ func getValue(v slog.Value) interface{} {
 }
 
 func (h *PrettyHandler) Handle(ctx context.Context, r slog.Record) error {
+	// Check if we should handle this level
+	if !h.enabled(r.Level) {
+		return nil
+	}
+
 	// Add any context attributes to the record
 	// https://betterstack.com/community/guides/logging/logging-in-go/#using-the-context-package-with-slog
 	if attrs, ok := ctx.Value(slogFields).([]slog.Attr); ok {
@@ -134,6 +145,13 @@ func (h *PrettyHandler) Handle(ctx context.Context, r slog.Record) error {
 	}
 
 	fields := make(map[string]interface{})
+
+	// Add source information if available
+	if r.PC != 0 {
+		fs := runtime.CallersFrames([]uintptr{r.PC})
+		f, _ := fs.Next()
+		fields["source"] = fmt.Sprintf("%s:%d", f.File, f.Line)
+	}
 
 	// Add the handler's stored attrs
 	for _, a := range h.attrs {
@@ -166,7 +184,8 @@ func NewPrettyHandler(
 	h := &PrettyHandler{
 		Handler: slog.NewJSONHandler(out, &opts.SlogOpts),
 		l:       log.New(out, "", 0),
-		attrs:   make([]slog.Attr, 0), // Initialize attrs slice
+		attrs:   make([]slog.Attr, 0),
+		level:   opts.SlogOpts.Level.(*slog.LevelVar),
 	}
 	return h
 }
@@ -191,6 +210,15 @@ func (h *PrettyHandler) WithGroup(name string) slog.Handler {
 		l:       h.l,
 	}
 }
+
+func (h *PrettyHandler) enabled(level slog.Level) bool {
+	return level >= h.level.Level()
+}
+
+// Level returns the current level of the handler
+// func (h *PrettyHandler) Level() slog.Level {
+// 	return h.level.Level()
+// }
 
 // formatStack makes the stack trace more readable by:
 // - Removing unnecessary runtime info

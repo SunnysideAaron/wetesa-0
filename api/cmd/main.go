@@ -29,15 +29,15 @@ func run(
 	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)
 	defer cancel()
 
-	logger := logging.NewLogger(cfg)
+	logger, logLevel := logging.NewLogger(cfg)
 	slog.SetDefault(logger)
-	httpLogger := slog.NewLogLogger(logger.Handler(), slog.LevelDebug)
+	httpLogger := slog.NewLogLogger(logger.Handler(), slog.LevelInfo)
 
 	// Create database connection
 	db := database.NewPG(ctx, pCfg)
 	defer db.Close()
 
-	handle := server.AddRoutes(logger, cfg, db)
+	handle := server.AddRoutes(logger, logLevel, cfg, db)
 
 	// Configure the HTTP server
 	httpServer := &http.Server{

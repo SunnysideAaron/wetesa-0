@@ -9,7 +9,7 @@ import (
 
 // AddRoutes maps all the API routes
 // [Map the entire API surface in routes.go](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#map-the-entire-api-surface-in-routesgo)
-func AddRoutes(logger *slog.Logger, cfg *config.APIConfig, db *database.Postgres) http.Handler {
+func AddRoutes(logger *slog.Logger, logLevel *slog.LevelVar, cfg *config.APIConfig, db *database.Postgres) http.Handler {
 	baseMux := http.NewServeMux()
 	v1Mux := http.NewServeMux()
 
@@ -17,9 +17,9 @@ func AddRoutes(logger *slog.Logger, cfg *config.APIConfig, db *database.Postgres
 
 	// example of overriding defaults
 	v1Mux.Handle(http.MethodGet+" /bigopportunity", newMiddleDefaults(cfg, logger, 50)(handleBigOpportunity()))
-
 	// directly callable example of an error
 	v1Mux.Handle(http.MethodGet+" /errorexample", middleDefaults(handleErrorExample(logger)))
+	v1Mux.Handle(http.MethodGet+" /logleveldebug", middleDefaults(handleLogLevelDebug(logger, logLevel)))
 
 	v1Mux.Handle(http.MethodGet+" /clients", middleDefaults(handleListClients(logger, db)))
 	v1Mux.Handle(http.MethodGet+" /clients/{id}", middleDefaults(handleGetClient(logger, db)))
