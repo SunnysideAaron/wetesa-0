@@ -105,6 +105,15 @@ func AppendCtx(ctx context.Context, attrs ...slog.Attr) context.Context {
 	return context.WithValue(ctx, slogFields, attrs)
 }
 
+func getValue(v slog.Value) interface{} {
+	if v.Kind() == slog.KindAny {
+		if logValuer, ok := v.Any().(interface{ LogValue() slog.Value }); ok {
+			return getValue(logValuer.LogValue())
+		}
+	}
+	return v.Any()
+}
+
 func (h *PrettyHandler) Handle(ctx context.Context, r slog.Record) error {
 	// Add any context attributes to the record
 	// https://betterstack.com/community/guides/logging/logging-in-go/#using-the-context-package-with-slog
@@ -131,12 +140,12 @@ func (h *PrettyHandler) Handle(ctx context.Context, r slog.Record) error {
 
 	// Add the handler's stored attrs
 	for _, a := range h.attrs {
-		fields[a.Key] = a.Value.Any()
+		fields[a.Key] = getValue(a.Value)
 	}
 
 	// Add the record's attrs
 	r.Attrs(func(a slog.Attr) bool {
-		fields[a.Key] = a.Value.Any()
+		fields[a.Key] = getValue(a.Value)
 		return true
 	})
 

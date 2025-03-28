@@ -1,6 +1,7 @@
 package server
 
 import (
+	"api/internal/logging"
 	"log/slog"
 	"net/http"
 	"time"
@@ -29,14 +30,14 @@ func loggingMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
 		func(w http.ResponseWriter, r *http.Request) {
 			start := time.Now()
 
-			// for now i'm not putting method and path in context. to demonstrate .With()
-			reqLogger := logger.With(
-				slog.String("method", r.Method),
-				slog.String("path", r.URL.Path),
-			)
+			ctx := r.Context()
+
+			ctx = logging.AppendCtx(ctx, slog.String("method", r.Method))
+			ctx = logging.AppendCtx(ctx, slog.String("path", r.URL.Path))
+			r = r.WithContext(ctx)
 
 			// Do not log the request body, may contain sensitive information.
-			reqLogger.LogAttrs(
+			logger.LogAttrs(
 				r.Context(),
 				slog.LevelInfo,
 				"request started",
@@ -48,7 +49,7 @@ func loggingMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
 			next.ServeHTTP(wrapped, r)
 
 			// Do not log the response body, may contain sensitive information.
-			reqLogger.LogAttrs(
+			logger.LogAttrs(
 				r.Context(),
 				slog.LevelInfo,
 				"request completed",

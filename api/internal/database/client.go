@@ -33,7 +33,6 @@ func (c Client) Valid(ctx context.Context) map[string]string {
 
 func (c Client) LogValue() slog.Value {
 	return slog.IntValue(c.Client_id)
-
 }
 
 func (pg *Postgres) InsertClient(ctx context.Context, c Client) error {

@@ -64,14 +64,12 @@ func handleGetClient(logger *slog.Logger, db *database.Postgres) http.Handler {
 				return
 			}
 
-			// logger.LogAttrs(
-			// 	r.Context(),
-			// 	slog.LevelInfo,
-			// 	"client logging",
-			// 	slog.Value("client", client),
-			// )
-
-			logger.Info("info", "client", client)
+			logger.LogAttrs(
+				r.Context(),
+				slog.LevelInfo,
+				"client retrieved",
+				slog.Any("client", client.LogValue()),
+			)
 
 		},
 	)
