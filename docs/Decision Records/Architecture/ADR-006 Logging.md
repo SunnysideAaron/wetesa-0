@@ -31,7 +31,11 @@ Do not log sensitive information, including:
 - Financial information
 - Any other sensitive data. (add to this list)
 
-**Pending** what log levels to use
+Use default slog levels for these reasons:
+  - DEBUG (-4) Only turn on for in depth troubleshooting.
+  - INFO (0) default level in production. Enough information to troubleshoot basic problems.
+  - WARN (4) Create a ticket. Something is wrong and needs fixing. Properly handled errors are info not warn.
+  - ERROR (8) Call someone NOW! Something is wrong and needs immediate fixing.
 
 **Pending** what to log
 logs should contain enough information in order to troubleshoot a problem when reported. For an API that is at least the request, response, and error stack trace.
@@ -63,8 +67,12 @@ logging to a file we would need to find out and code a solution if not.
 
 Why not log sensitive information? Because we should assume they will fall into
 the wrong hands. Going for the logs is basic steps for any hacker. At the very
-least we will be sending logs to a third party where they
-are stored. Even if temporarily.
+least we may be sending logs to a third party where they
+are stored. Even if temporarily. With right to be deleted laws any personal info
+logged also has to be able to be deleted. Easier to just not log it.
+
+Use default slog levels because they are the defaults. This is just an example.
+Most devs will expect these levels. Unless they have chosen something else on purpose.
 
 ## Notes
 
@@ -77,10 +85,36 @@ are stored. Even if temporarily.
 
 ### which levels to use and their meanings
 
+- log/slog package provides four log levels by default, with each one associated with an integer value:
+  - DEBUG (-4)
+  - INFO (0)
+  - WARN (4)
+  - ERROR (8)
 - [Let’s talk about logging](https://dave.cheney.net/2015/11/05/lets-talk-about-logging)
-- [when to use log levels](https://www.reddit.com/r/golang/comments/1ctaz7n/when_to_use_slog_levels/)
+  - DEBUG
+    - Things that developers care about when they are developing or debugging software.
+  - INFO
+    - Things that users care about when using your software.
 - [Google Cloud Logging API v2](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry)
-
+  - DEFAULT 	(0) The log entry has no assigned severity level.
+  - DEBUG 	(100) Debug or trace information.
+  - INFO 	(200) Routine information, such as ongoing status or performance.
+  - NOTICE 	(300) Normal but significant events, such as start up, shut down, or a configuration change.
+  - WARNING 	(400) Warning events might cause problems.
+  - ERROR 	(500) Error events are likely to cause problems.
+  - CRITICAL 	(600) Critical events cause more severe problems or outages.
+  - ALERT 	(700) A person must take an action immediately.
+  - EMERGENCY 	(800) One or more systems are unusable.
+- [when to use log levels](https://www.reddit.com/r/golang/comments/1ctaz7n/when_to_use_slog_levels/)
+  - Revolutionary_Ad7262
+    - DEBUG: when I disable these logs I am fine with potential debugging. So there should not be any new information, which is impossible to extract from other log entries + from the code examination
+    - INFO: everything, which is neccessary to examine issue on production. For example you cannot debug why your JSON request is rejected, if you don't log it
+    - WARN something is not working properly, but it does not affect the business. Examples: cache operation failed (so you have lower performance, but it works anyway), HTTP request failed but you have a retries (so you log it as WARN, but if the final try fails, then ERROR, if it is necessary)
+    - ERROR: something is not working and it affects the business
+    - How often you should check log levels:
+      - INFO/ DEBUG: never, only if needed
+      - WARN: once a while, if other metrics are not alerting
+      - ERROR: asap
 
 ## Consequences
 

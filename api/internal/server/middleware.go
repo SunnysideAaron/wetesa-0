@@ -16,10 +16,12 @@ func newMiddleCore(
 	return func(h http.Handler) http.Handler {
 		// Apply middlewares in reverse order - last one is applied first
 		return requestIDMiddleware(logger,
-			loggingMiddleware(logger,
-				recoverMiddleware(logger,
-					corsMiddleware(logger,
-						http.AllowQuerySemicolons(h),
+			ipMiddleware(
+				loggingMiddleware(logger,
+					recoverMiddleware(logger,
+						corsMiddleware(logger,
+							http.AllowQuerySemicolons(h),
+						),
 					),
 				),
 			),
