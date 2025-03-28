@@ -31,7 +31,7 @@ Do not log sensitive information, including:
 - Financial information
 - Any other sensitive data. (add to this list)
 
-Use default slog levels for these reasons:
+Use default slog levels, for these reasons:
   - DEBUG (-4) Only turn on for in depth troubleshooting.
   - INFO (0) default level in production. Enough information to troubleshoot basic problems.
   - WARN (4) Create a ticket. Something is wrong and needs fixing. Properly handled errors are info not warn.
@@ -45,7 +45,11 @@ logs should contain enough information in order to troubleshoot a problem when r
 **flesh out**
 Needs to be turned on and off with out code changes (in prod) and limited to file /  function / client
 
+TODO error stack traces
 
+TODO hiding sensitive information
+
+TODO what to log for api
 
 ## Why
 

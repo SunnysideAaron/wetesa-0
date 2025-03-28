@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"log/slog"
 
 	"github.com/jackc/pgerrcode"
 	"github.com/jackc/pgx/v5"
@@ -28,6 +29,11 @@ func (c Client) Valid(ctx context.Context) map[string]string {
 	// Address is optional, so no validation needed
 
 	return problems
+}
+
+func (c Client) LogValue() slog.Value {
+	return slog.IntValue(c.Client_id)
+
 }
 
 func (pg *Postgres) InsertClient(ctx context.Context, c Client) error {

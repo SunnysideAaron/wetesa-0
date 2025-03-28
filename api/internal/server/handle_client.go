@@ -23,6 +23,20 @@ func handleListClients(logger *slog.Logger, db *database.Postgres) http.Handler 
 				logger.Error("error encoding response", "error", err)
 				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			}
+
+			// clientValues := make([]slog.Value, len(clients))
+			// for i, client := range clients {
+			// 	clientValues[i] = client.LogValue()
+			// }
+
+			// logger.LogAttrs(
+			// 	r.Context(),
+			// 	slog.LevelInfo,
+			// 	"clients list",
+			// 	slog.Int("count", len(clients)),
+			// 	slog.Any("client_ids", clientValues),
+			// )
+
 		},
 	)
 }
@@ -49,6 +63,16 @@ func handleGetClient(logger *slog.Logger, db *database.Postgres) http.Handler {
 				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 				return
 			}
+
+			// logger.LogAttrs(
+			// 	r.Context(),
+			// 	slog.LevelInfo,
+			// 	"client logging",
+			// 	slog.Value("client", client),
+			// )
+
+			logger.Info("info", "client", client)
+
 		},
 	)
 }

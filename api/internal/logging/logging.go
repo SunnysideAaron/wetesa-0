@@ -1,3 +1,7 @@
+// TODO error stack traces
+// https://betterstack.com/community/guides/logging/logging-in-go/#error-logging-with-slog
+// provided example includes a dependency which breaks the goal of this project.
+// punting for now.
 package logging
 
 import (
