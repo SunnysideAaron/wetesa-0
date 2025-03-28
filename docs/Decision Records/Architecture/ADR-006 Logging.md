@@ -32,6 +32,7 @@ Do not log sensitive information, including:
 **Pending** what log levels to use
 
 **Pending** what to log
+logs should contain enough information in order to troubleshoot a problem when reported. For an API that is at least the request, response, and error stack trace.
 
 **Pending** What to do if user accidentally puts password in user name field?
 
