@@ -16,11 +16,14 @@ func recoverMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
 		func(w http.ResponseWriter, r *http.Request) {
 			defer func() {
 				if p := recover(); p != nil {
-					logger.Error("panic recovered",
-						"request_id", requestIDFromContext(r.Context()),
-						"method", r.Method,
-						"path", r.URL.Path,
-						"panic", p,
+					logger.LogAttrs(
+						r.Context(),
+						slog.LevelError,
+						"panic recovered",
+						slog.String("request_id", requestIDFromContext(r.Context())),
+						slog.String("method", r.Method),
+						slog.String("path", r.URL.Path),
+						slog.Any("panic", p),
 					)
 					http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 				}

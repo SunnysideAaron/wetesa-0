@@ -3,6 +3,7 @@ package server
 
 import (
 	"api/internal/config"
+	"context"
 	"log/slog"
 	"net/http"
 	"time"
@@ -38,9 +39,12 @@ func newMiddleDefaults(
 		// Override defaults if parameters are provided
 		if len(opts) > 0 && opts[0] > 0 {
 			if opts[0] > int(cfg.APIWriteTimeout) {
-				logger.Warn("passed in timeout is greater than the max timeout, using max timeout",
-					"timeout", opts[0],
-					"max_timeout", cfg.APIWriteTimeout,
+				logger.LogAttrs(
+					context.Background(),
+					slog.LevelWarn,
+					"passed in timeout is greater than the max timeout, using max timeout",
+					slog.Int("timeout", opts[0]),
+					slog.Int("max_timeout", int(cfg.APIWriteTimeout)),
 				)
 
 				opts[0] = int(cfg.APIWriteTimeout)

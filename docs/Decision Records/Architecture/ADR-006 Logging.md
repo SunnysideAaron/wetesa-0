@@ -10,7 +10,9 @@ How exactly to handle logging.
 
 ## Decision
 
-slog
+use slog
+
+use LogAttrs()
 
 log to STDOUT
 
@@ -49,6 +51,8 @@ long time.
 - [Which log library should I use in Go?](https://www.bytesizego.com/blog/which-log-library-go)
   - slog (built in) or zerolog (fastest but a dependency)
 - [go-logging-benchmarks ](https://github.com/betterstack-community/go-logging-benchmarks)
+
+use LogAttrs() to prevent miss matched key value pairs.
 
 We will log to STDOUT not to a file. A different tool will send the logs to where
 ever they need to go. Docker has means to see the last logs if needed in case of

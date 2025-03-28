@@ -31,6 +31,7 @@ func run(
 
 	logger := logging.NewLogger(cfg)
 	slog.SetDefault(logger)
+	httpLogger := slog.NewLogLogger(logger.Handler(), slog.LevelDebug)
 
 	// Create database connection
 	db := database.NewPG(ctx, pCfg)
@@ -45,6 +46,7 @@ func run(
 		ReadTimeout:  cfg.APIReadTimeout * time.Second,
 		WriteTimeout: cfg.APIWriteTimeout * time.Second,
 		IdleTimeout:  cfg.APIIdleTimeout * time.Second,
+		ErrorLog:     httpLogger,
 	}
 
 	// Start the server in a goroutine
@@ -84,7 +86,12 @@ func main() {
 	// TODO break all these single line error check statements into multiple lines.
 	// finder linter and formatter
 	if err := run(ctx, cfg, pCfg); err != nil {
-		slog.Error("application error", "error", err)
+		slog.LogAttrs(
+			ctx,
+			slog.LevelError,
+			"application error",
+			slog.Any("error", err),
+		)
 		os.Exit(1)
 	}
 }

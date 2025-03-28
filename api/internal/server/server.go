@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
+	"log/slog"
 	"net/http"
 	"strings"
 
@@ -37,7 +37,12 @@ func decode[T database.Validator](r *http.Request) (T, map[string]string, error)
 	}
 
 	// Log the received body
-	log.Printf("Received body: %s", string(body))
+	slog.LogAttrs(
+		r.Context(),
+		slog.LevelDebug,
+		"received request body",
+		slog.String("body", string(body)),
+	)
 
 	// Check for common JSON formatting issues
 	if len(body) == 0 {
