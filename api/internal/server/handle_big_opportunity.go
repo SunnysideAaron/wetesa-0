@@ -11,11 +11,18 @@ import (
 func handleBigOpportunity() http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
+			// Set headers to prevent automatic retries
+			w.Header().Set("Connection", "close")
+
+			w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
+			w.Header().Set("Pragma", "no-cache")
+			w.Header().Set("Expires", "0")
+
 			// Wait for 70 seconds
-			time.Sleep(20 * time.Second)
+			time.Sleep(35 * time.Second)
 
 			w.WriteHeader(http.StatusOK)
-			w.Write([]byte("OK"))
+			w.Write([]byte("OK I Finished"))
 		},
 	)
 }

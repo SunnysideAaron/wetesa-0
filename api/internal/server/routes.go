@@ -13,9 +13,11 @@ func AddRoutes(logger *slog.Logger, cfg *config.APIConfig, db *database.Postgres
 	baseMux := http.NewServeMux()
 	v1Mux := http.NewServeMux()
 
-	middleDefaults := newMiddleDefaults(cfg)
+	middleDefaults := newMiddleDefaults(cfg, logger)
 
-	v1Mux.Handle("/bigopportunity", middleDefaults(handleBigOpportunity()))
+	// example of overriding defaults
+	v1Mux.Handle(http.MethodGet+" /bigopportunity", newMiddleDefaults(cfg, logger, 50)(handleBigOpportunity()))
+
 	v1Mux.Handle(http.MethodGet+" /clients", middleDefaults(handleListClients(logger, db)))
 	v1Mux.Handle(http.MethodGet+" /clients/{id}", middleDefaults(handleGetClient(logger, db)))
 	v1Mux.Handle(http.MethodPost+" /clients", middleDefaults(handleCreateClient(logger, db)))
@@ -24,8 +26,8 @@ func AddRoutes(logger *slog.Logger, cfg *config.APIConfig, db *database.Postgres
 
 	// TODO how to do breaking changes to an api. WARNING hot wire topic but something has to be done.
 	baseMux.Handle("/api/v1/", http.StripPrefix("/api/v1", v1Mux))
-	baseMux.Handle("/healthz", middleDefaults(handleHealthz()))
-	baseMux.Handle("/healthdbz", middleDefaults(handleHealthDBz(logger, db)))
+	baseMux.Handle(http.MethodGet+" /healthz", middleDefaults(handleHealthz()))
+	baseMux.Handle(http.MethodGet+" /healthdbz", middleDefaults(handleHealthDBz(logger, db)))
 
 	// due to how go works middleware directly on NotFoundHandler is never called.
 	// have to wrap the mux instead.
