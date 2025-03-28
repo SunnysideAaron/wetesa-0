@@ -23,20 +23,6 @@ func handleListClients(logger *slog.Logger, db *database.Postgres) http.Handler 
 				logger.Error("error encoding response", "error", err)
 				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			}
-
-			// clientValues := make([]slog.Value, len(clients))
-			// for i, client := range clients {
-			// 	clientValues[i] = client.LogValue()
-			// }
-
-			// logger.LogAttrs(
-			// 	r.Context(),
-			// 	slog.LevelInfo,
-			// 	"clients list",
-			// 	slog.Int("count", len(clients)),
-			// 	slog.Any("client_ids", clientValues),
-			// )
-
 		},
 	)
 }
@@ -64,6 +50,7 @@ func handleGetClient(logger *slog.Logger, db *database.Postgres) http.Handler {
 				return
 			}
 
+			// example of logging while hiding sensitive information
 			logger.LogAttrs(
 				r.Context(),
 				slog.LevelInfo,

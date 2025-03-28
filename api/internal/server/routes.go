@@ -18,6 +18,9 @@ func AddRoutes(logger *slog.Logger, cfg *config.APIConfig, db *database.Postgres
 	// example of overriding defaults
 	v1Mux.Handle(http.MethodGet+" /bigopportunity", newMiddleDefaults(cfg, logger, 50)(handleBigOpportunity()))
 
+	// directly callable example of an error
+	v1Mux.Handle(http.MethodGet+" /errorexample", middleDefaults(handleErrorExample(logger)))
+
 	v1Mux.Handle(http.MethodGet+" /clients", middleDefaults(handleListClients(logger, db)))
 	v1Mux.Handle(http.MethodGet+" /clients/{id}", middleDefaults(handleGetClient(logger, db)))
 	v1Mux.Handle(http.MethodPost+" /clients", middleDefaults(handleCreateClient(logger, db)))
