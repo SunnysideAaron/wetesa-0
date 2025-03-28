@@ -51,7 +51,7 @@ Log request, response, and error stack trace
 **flesh out**
 TODO Needs to be turned on and off with out code changes (in prod) and limited to file /  function / client
 
-
+TODO different logs and levels for different sections of code. so can turn on levels for different levels
 
 ## Why
 
