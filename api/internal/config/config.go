@@ -89,10 +89,6 @@ func LoadAPIConfig() *APIConfig {
 		cnf.RequestMaxBytes = maxBytes
 	} // else if there is an error this will use the default value.
 
-	// TODO log values if set to debug
-	// log.Printf("APIHost: %s", cnf.APIHost)
-	// log.Printf("APIPort: %s", cnf.APIPort)
-
 	return cnf
 }
 
@@ -132,9 +128,9 @@ func LoadDBConfig() *pgxpool.Config {
 
 	// https://github.com/jackc/pgx/blob/v5.7.2/pgxpool/pool.go
 	// pgxpool.ParseConfig already sets defaults. We only need to overwrite if we set in environment variables.
+
 	// MaxConns is the maximum size of the pool.
 	// integer greater than 0 (default is the greater of 4 or runtime.NumCPU())
-
 	maxConnsStr := os.Getenv("POOL_MAX_CONNS")
 	if maxConnsStr != "" {
 		maxConns, err := strconv.Atoi(maxConnsStr) //Validate that maxConns is #
@@ -195,8 +191,6 @@ func LoadDBConfig() *pgxpool.Config {
 			pCfg.HealthCheckPeriod = healthCheckPeriod
 		}
 	}
-
-	//log.Printf("pCfg: %s", pCfg)
 
 	return pCfg
 }

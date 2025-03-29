@@ -18,7 +18,11 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
   - PENDING Date columns
   - All times in UTC
 - ADR-005 Error Handling
-  - **PENDING**
+  - wrap errors
+  - stack trace will be handled by slog
+  - msg will be context only. Do not include calling or called function names. 
+  - Don't use words like "error", "failed", "went wrong" "error occurred", "problem found", "failed to ..." in error messages.
+  - don't use the ":" character anywhere else except the end of the message. 
 - ADR-006 Logging Levels
   - Use default slog levels, in the following manor:
     - DEBUG (-4) Only turn on for in-depth troubleshooting.

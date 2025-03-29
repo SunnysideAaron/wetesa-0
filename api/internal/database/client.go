@@ -112,7 +112,7 @@ func (pg *Postgres) GetClients(ctx context.Context) ([]Client, error) {
 
 	rows, err := pg.pool.Query(ctx, query)
 	if err != nil {
-		return nil, fmt.Errorf("unable to query users: %w", err)
+		return nil, fmt.Errorf("unable to query clients: %w", err)
 	}
 
 	defer rows.Close()

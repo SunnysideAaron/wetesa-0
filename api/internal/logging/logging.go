@@ -91,7 +91,7 @@ type PrettyHandlerOptions struct {
 
 type PrettyHandler struct {
 	slog.Handler
-	l     *log.Logger
+	l     *log.Logger //TODO should this be a log or slog?
 	attrs []slog.Attr
 	level *slog.LevelVar
 }

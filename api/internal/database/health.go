@@ -2,22 +2,31 @@ package database
 
 import (
 	"context"
-	"fmt"
-	"log"
+	"log/slog"
 	"strconv"
 )
 
 // Health checks the health of the database connection by pinging the database.
 // It returns a map with keys indicating various health statistics.
-func (pg *Postgres) Health(ctx context.Context) map[string]string {
+func (pg *Postgres) Health(ctx context.Context, logger *slog.Logger) map[string]string {
 	stats := make(map[string]string)
 
 	// Ping the database
 	err := pg.pool.Ping(ctx)
 	if err != nil {
 		stats["status"] = "down"
-		stats["error"] = fmt.Sprintf("db down: %v", err)
-		log.Fatalf("db down: %v", err) // Log the error and terminate the program
+		stats["error"] = "db down"
+
+		// err contains some sensitive information. don't show users.
+		// TOOD do we even want to log these values? or is that a security hole?
+		logger.LogAttrs(
+			ctx,
+			slog.LevelWarn, //Perhaps db will come back up. Warning for now. If stays down that is an error.
+			"db down",
+			slog.String("error", err.Error()),
+			//slog.Any("error", err), // TODO is slog.Any properly handled in PrettyHandler?
+		)
+
 		return stats
 	}
 

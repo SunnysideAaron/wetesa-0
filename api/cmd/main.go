@@ -31,6 +31,8 @@ func run(
 
 	logger, logLevel := logging.NewLogger(cfg)
 	slog.SetDefault(logger)
+
+	//convert from slog to log for http
 	httpLogger := slog.NewLogLogger(logger.Handler(), slog.LevelInfo)
 
 	// Example of some code having a different log level.
@@ -38,7 +40,7 @@ func run(
 	slog.SetDefault(clientLogger)
 
 	// Create database connection
-	db := database.NewPG(ctx, pCfg)
+	db := database.NewPG(ctx, pCfg, logger)
 	defer db.Close()
 
 	handle := server.AddRoutes(
@@ -60,7 +62,12 @@ func run(
 	// Start the server in a goroutine
 	serverErrors := make(chan error, 1)
 	go func() {
-		logger.Info("server starting", "addr", httpServer.Addr)
+		logger.LogAttrs(
+			ctx,
+			slog.LevelInfo,
+			"server starting",
+			slog.String("addr", httpServer.Addr),
+		)
 		serverErrors <- httpServer.ListenAndServe()
 	}()
 
@@ -70,8 +77,11 @@ func run(
 		return fmt.Errorf("server error: %w", err)
 	case <-ctx.Done():
 		// [Gracefully shutting down](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#gracefully-shutting-down)
-
-		logger.Info("shutting down server...")
+		logger.LogAttrs(
+			ctx,
+			slog.LevelInfo,
+			"shutting down server...",
+		)
 
 		// Create shutdown context with timeout
 		shutdownCtx, shutdownCancel := context.WithTimeout(context.Background(), 10*time.Second)

@@ -20,8 +20,21 @@ func handleHealthz() http.Handler {
 func handleHealthDBz(logger *slog.Logger, db *database.Postgres) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
-			if err := encode(w, r, http.StatusOK, db.Health(r.Context())); err != nil {
-				logger.Error("error encoding response", "error", err)
+			status := http.StatusServiceUnavailable
+			stats := db.Health(r.Context(), logger)
+			if stats["status"] == "up" {
+				status = http.StatusOK
+			}
+
+			err := encode(w, r, status, stats)
+			if err != nil {
+				logger.LogAttrs(
+					r.Context(),
+					slog.LevelError,
+					"error encoding response",
+					slog.String("error", err.Error()),
+				)
+
 				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 				return
 			}

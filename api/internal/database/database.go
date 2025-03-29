@@ -5,8 +5,7 @@ package database
 
 import (
 	"context"
-	"fmt"
-	"os"
+	"log/slog"
 	"sync"
 
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -29,11 +28,16 @@ var (
 	pgOnce     sync.Once
 )
 
-func NewPG(ctx context.Context, pCfg *pgxpool.Config) *Postgres {
+func NewPG(ctx context.Context, pCfg *pgxpool.Config, logger *slog.Logger) *Postgres {
 	pgOnce.Do(func() {
 		pg, err := pgxpool.NewWithConfig(ctx, pCfg)
 		if err != nil {
-			fmt.Fprintln(os.Stderr, "unable to create connection pool: %w", err)
+			logger.LogAttrs(
+				ctx,
+				slog.LevelError,
+				"unable to create connection pool",
+				slog.String("error", err.Error()),
+			)
 			return
 		}
 
