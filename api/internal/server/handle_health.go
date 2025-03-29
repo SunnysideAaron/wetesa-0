@@ -35,7 +35,7 @@ func handleHealthDBz(logger *slog.Logger, db *database.Postgres) http.Handler {
 					slog.String("error", err.Error()),
 				)
 
-				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 		},

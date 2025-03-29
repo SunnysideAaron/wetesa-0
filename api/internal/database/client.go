@@ -100,7 +100,7 @@ func (pg *Postgres) CopyInsertClients(ctx context.Context, clients []Client) err
 	)
 
 	if err != nil {
-		return fmt.Errorf("error copying into %s table: %v", tableName, err)
+		return fmt.Errorf("error copying into %s table: %w", tableName, err)
 	}
 
 	return nil

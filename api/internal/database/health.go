@@ -24,7 +24,7 @@ func (pg *Postgres) Health(ctx context.Context, logger *slog.Logger) map[string]
 			slog.LevelWarn, //Perhaps db will come back up. Warning for now. If stays down that is an error.
 			"db down",
 			slog.String("error", err.Error()),
-			//slog.Any("error", err), // TODO is slog.Any properly handled in PrettyHandler?
+			//slog.Any("error", err), // TODO is slog.Any properly handled in PrettyHandler? For some reason log doesn't spit out.
 		)
 
 		return stats

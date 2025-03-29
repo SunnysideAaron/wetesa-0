@@ -14,14 +14,28 @@ func handleListClients(logger *slog.Logger, db *database.Postgres) http.Handler 
 		func(w http.ResponseWriter, r *http.Request) {
 			clients, err := db.GetClients(r.Context())
 			if err != nil {
-				logger.Error("error getting clients", "error", err)
-				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+				logger.LogAttrs(
+					r.Context(),
+					slog.LevelInfo,
+					"error getting clients",
+					slog.String("error", err.Error()),
+				)
+
+				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
-			if err := encode(w, r, http.StatusOK, clients); err != nil {
-				logger.Error("error encoding response", "error", err)
-				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			err = encode(w, r, http.StatusOK, clients)
+			if err != nil {
+				logger.LogAttrs(
+					r.Context(),
+					slog.LevelInfo,
+					"error encoding response",
+					slog.String("error", err.Error()),
+				)
+
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
 			}
 		},
 	)
@@ -39,14 +53,26 @@ func handleGetClient(logger *slog.Logger, db *database.Postgres) http.Handler {
 
 			client, err := db.GetClient(r.Context(), id)
 			if err != nil {
-				logger.Error("error getting client", "error", err, "id", id)
-				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+				logger.LogAttrs(
+					r.Context(),
+					slog.LevelInfo,
+					"error getting client",
+					slog.String("error", err.Error()),
+					slog.String("id", id),
+				)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
-			if err := encode(w, r, http.StatusOK, client); err != nil {
-				logger.Error("error encoding response", "error", err)
-				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			err = encode(w, r, http.StatusOK, client)
+			if err != nil {
+				logger.LogAttrs(
+					r.Context(),
+					slog.LevelInfo,
+					"error encoding response",
+					slog.String("error", err.Error()),
+				)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
@@ -57,7 +83,6 @@ func handleGetClient(logger *slog.Logger, db *database.Postgres) http.Handler {
 				"client retrieved",
 				slog.Any("client", client.LogValue()),
 			)
-
 		},
 	)
 }
@@ -68,21 +93,37 @@ func handleCreateClient(logger *slog.Logger, db *database.Postgres) http.Handler
 		func(w http.ResponseWriter, r *http.Request) {
 			client, problems, err := decode[database.Client](r)
 			if err != nil {
-				logger.Error("error decoding request", "error", err, "problems", problems)
+				logger.LogAttrs(
+					r.Context(),
+					slog.LevelInfo,
+					"error decoding request",
+					slog.String("error", err.Error()),
+					slog.Any("problems", problems),
+				)
 				if err := encode(w, r, http.StatusBadRequest, map[string]interface{}{
 					"error":    err.Error(),
 					"problems": problems,
 				}); err != nil {
-					logger.Error("error encoding response", "error", err)
-					http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+					logger.LogAttrs(
+						r.Context(),
+						slog.LevelInfo,
+						"error encoding response",
+						slog.String("error", err.Error()),
+					)
+					http.Error(w, err.Error(), http.StatusInternalServerError)
 				}
 				return
 			}
 
 			err = db.InsertClient(r.Context(), client)
 			if err != nil {
-				logger.Error("error creating client", "error", err)
-				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+				logger.LogAttrs(
+					r.Context(),
+					slog.LevelInfo,
+					"error creating client",
+					slog.String("error", err.Error()),
+				)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
@@ -92,9 +133,15 @@ func handleCreateClient(logger *slog.Logger, db *database.Postgres) http.Handler
 				"address": client.Address.String,
 			}
 
-			if err := encode(w, r, http.StatusCreated, response); err != nil {
-				logger.Error("error encoding response", "error", err)
-				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			err = encode(w, r, http.StatusCreated, response)
+			if err != nil {
+				logger.LogAttrs(
+					r.Context(),
+					slog.LevelInfo,
+					"error encoding response",
+					slog.String("error", err.Error()),
+				)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 		},
@@ -115,21 +162,38 @@ func handleUpdateClient(logger *slog.Logger, db *database.Postgres) http.Handler
 			// First get the existing client
 			_, err := db.GetClient(r.Context(), id)
 			if err != nil {
-				logger.Error("error getting client", "error", err, "id", id)
-				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+				logger.LogAttrs(
+					r.Context(),
+					slog.LevelInfo,
+					"error getting client",
+					slog.String("error", err.Error()),
+					slog.String("id", id),
+				)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
 			// Decode the update request
 			updateClient, problems, err := decode[database.Client](r)
 			if err != nil {
-				logger.Error("error decoding request", "error", err, "problems", problems)
+				logger.LogAttrs(
+					r.Context(),
+					slog.LevelInfo,
+					"error decoding request",
+					slog.String("error", err.Error()),
+					slog.Any("problems", problems),
+				)
 				if err := encode(w, r, http.StatusBadRequest, map[string]interface{}{
 					"error":    err.Error(),
 					"problems": problems,
 				}); err != nil {
-					logger.Error("error encoding response", "error", err)
-					http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+					logger.LogAttrs(
+						r.Context(),
+						slog.LevelInfo,
+						"error encoding response",
+						slog.String("error", err.Error()),
+					)
+					http.Error(w, err.Error(), http.StatusInternalServerError)
 				}
 				return
 			}
@@ -145,8 +209,13 @@ func handleUpdateClient(logger *slog.Logger, db *database.Postgres) http.Handler
 			// Perform the update
 			err = db.UpdateClient(r.Context(), updateClient)
 			if err != nil {
-				logger.Error("error updating client", "error", err)
-				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+				logger.LogAttrs(
+					r.Context(),
+					slog.LevelInfo,
+					"error updating client",
+					slog.String("error", err.Error()),
+				)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
@@ -156,9 +225,15 @@ func handleUpdateClient(logger *slog.Logger, db *database.Postgres) http.Handler
 				"address": updateClient.Address.String,
 			}
 
-			if err := encode(w, r, http.StatusOK, response); err != nil {
-				logger.Error("error encoding response", "error", err)
-				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			err = encode(w, r, http.StatusOK, response)
+			if err != nil {
+				logger.LogAttrs(
+					r.Context(),
+					slog.LevelInfo,
+					"error encoding response",
+					slog.String("error", err.Error()),
+				)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 		},
@@ -183,8 +258,14 @@ func handleDeleteClient(logger *slog.Logger, db *database.Postgres) http.Handler
 					http.Error(w, "Client not found", http.StatusNotFound)
 					return
 				}
-				logger.Error("error deleting client", "error", err, "id", id)
-				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+				logger.LogAttrs(
+					r.Context(),
+					slog.LevelInfo,
+					"error deleting client",
+					slog.String("error", err.Error()),
+					slog.String("id", id),
+				)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
