@@ -33,11 +33,19 @@ func run(
 	slog.SetDefault(logger)
 	httpLogger := slog.NewLogLogger(logger.Handler(), slog.LevelInfo)
 
+	// Example of some code having a different log level.
+	clientLogger, clientLogLevel := logging.NewLogger(cfg)
+	slog.SetDefault(clientLogger)
+
 	// Create database connection
 	db := database.NewPG(ctx, pCfg)
 	defer db.Close()
 
-	handle := server.AddRoutes(cfg, db, logger, logLevel)
+	handle := server.AddRoutes(
+		cfg, db,
+		logger, logLevel,
+		clientLogger, clientLogLevel,
+	)
 
 	// Configure the HTTP server
 	httpServer := &http.Server{

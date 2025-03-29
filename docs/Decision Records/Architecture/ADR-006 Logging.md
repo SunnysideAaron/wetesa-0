@@ -48,11 +48,7 @@ Log request, response, and error stack trace
 - stack trace in this example is rough. Could use alternative if using dependencies.
 - https://betterstack.com/community/guides/logging/logging-in-go/#error-logging-with-slog
 
-
-**flesh out**
-TODO Needs to be turned on and off with out code changes (in prod) and limited to file /  function / client
-
-TODO different logs and levels for different sections of code. so can turn on levels for different levels
+Allow different log levels for different parts of the code.
 
 ## Why
 
@@ -83,6 +79,10 @@ Most devs will expect these levels. Unless they have chosen something else on pu
 
 Logs should contain enough information in order to troubleshoot a problem when reported.
 For an API that is at least the request, response, and error stack trace.
+
+As code base grows developers will want to be able to turn on and off logging
+for different parts of the code. No need to turn on a bunch of log messages for
+code they are not working on.
 
 ## Notes
 

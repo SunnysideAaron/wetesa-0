@@ -9,7 +9,11 @@ import (
 
 // AddRoutes maps all the API routes
 // [Map the entire API surface in routes.go](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#map-the-entire-api-surface-in-routesgo)
-func AddRoutes(cfg *config.APIConfig, db *database.Postgres, logger *slog.Logger, logLevel *slog.LevelVar) http.Handler {
+func AddRoutes(
+	cfg *config.APIConfig, db *database.Postgres,
+	logger *slog.Logger, logLevel *slog.LevelVar,
+	clientLogger *slog.Logger, clientLogLevel *slog.LevelVar,
+) http.Handler {
 	baseMux := http.NewServeMux()
 	v1Mux := http.NewServeMux()
 
@@ -21,11 +25,12 @@ func AddRoutes(cfg *config.APIConfig, db *database.Postgres, logger *slog.Logger
 	v1Mux.Handle(http.MethodGet+" /errorexample", middleDefaults(handleErrorExample(logger)))
 	v1Mux.Handle(http.MethodGet+" /loglevel/{level}", middleDefaults(handleLogLevel(logger, logLevel)))
 
-	v1Mux.Handle(http.MethodGet+" /clients", middleDefaults(handleListClients(logger, db)))
-	v1Mux.Handle(http.MethodGet+" /clients/{id}", middleDefaults(handleGetClient(logger, db)))
-	v1Mux.Handle(http.MethodPost+" /clients", middleDefaults(handleCreateClient(logger, db)))
-	v1Mux.Handle(http.MethodPut+" /clients/{id}", middleDefaults(handleUpdateClient(logger, db)))
-	v1Mux.Handle(http.MethodDelete+" /clients/{id}", middleDefaults(handleDeleteClient(logger, db)))
+	v1Mux.Handle(http.MethodGet+" /clients/loglevel/{level}", middleDefaults(handleLogLevel(clientLogger, clientLogLevel)))
+	v1Mux.Handle(http.MethodGet+" /clients", middleDefaults(handleListClients(clientLogger, db)))
+	v1Mux.Handle(http.MethodGet+" /clients/{id}", middleDefaults(handleGetClient(clientLogger, db)))
+	v1Mux.Handle(http.MethodPost+" /clients", middleDefaults(handleCreateClient(clientLogger, db)))
+	v1Mux.Handle(http.MethodPut+" /clients/{id}", middleDefaults(handleUpdateClient(clientLogger, db)))
+	v1Mux.Handle(http.MethodDelete+" /clients/{id}", middleDefaults(handleDeleteClient(clientLogger, db)))
 
 	// TODO how to do breaking changes to an api. WARNING hot wire topic but something has to be done.
 	baseMux.Handle("/api/v1/", http.StripPrefix("/api/v1", v1Mux))
