@@ -2,46 +2,73 @@
 
 ## Status
 
-Accepted, Proposed, Deprecated or Superseded (list DR)
+Accepted
 
 ## Context
 
-How exactly to handle errors. Wrapping, how to structure messages. stack trace?
-
-https://blog.lobocv.com/posts/richer_golang_errors/
-
-https://www.youtube.com/watch?v=CxcxRgwWtAk
-
-https://www.reddit.com/r/golang/comments/1iwmeaw/in_larger_programs_how_do_you_handle_errors_so/
-
-https://www.reddit.com/r/golang/comments/1in0tiw/simple_strategy_to_understand_error_handling_in_go/
-
-pkg.errors = wrapping errors
-	look into from podcast
-	wrapping errror msg is about the thing you just called not the what is doing the calling.
-
-waterfall library for msging?
-
-https://pkg.go.dev/net/http#pkg-constants
-  - lists constants for http status codes
-
+How exactly to approach errors.
 
 ## Decision
 
+- wrap errors
+- stack trace will be handled by slog
+- msg will be context only. Do not include calling or called function names. **Pending** reevaluate later.
+- Don't use words like "error", "failed", "went wrong" "error occurred", "problem found", "failed to ..." in error messages. **TODO** Linter
+ - don't use the ":" character anywhere else except the end of the message. **TODO** Linter
 
+For now this should be enough to get going. I'll reevaluate after using.
 
 ## Why / Notes
 
+- [Standard Library Errors](https://pkg.go.dev/errors)
+- [Standard Libary: http constants](https://pkg.go.dev/net/http#pkg-constants)
+- [Reddit: In larger programs, how do you handle errors?](https://www.reddit.com/r/golang/comments/1iwmeaw/in_larger_programs_how_do_you_handle_errors_so/)
+  - Lots of good discussion here. Summary:
+  - wrap messages
+  - Include function being called, function doing the calling, or context only. Pick one. Don't mix and match.
+    - seems many devs prefer "function being called"
+	- standard library uses the caller not what is being called. Is this just for legacy reasons?
+  - don't prefix function names. 
+    - fmt.Errorf("SomeFunc: run other func: %v", err)
+	- this means you aren't adding context. refactor
+  - Don't need a stack trace
+    - there are solutions to add stack traces to errors. Since we are using slog and wrapping errors this wont be needed. With proper wrapping, errors aren't usually that deep in Go?
+  - Don't use words like "error", "failed", "went wrong" "error occurred", "problem found", "failed to ..." in error messages.
+  - don't use the ":" character anywhere else except the end of the message.
+  - In context describe not what went wrong, but what were you doing. Couple of words is frequently enough. (do i agree?)
+  - don't add function arguments to error messages. Callers will add if it needs. Instead add what the caller doesn't know. 
+  - If a function returns more than one error always add context. If a function returns just 1 err somewhere you can consider omitting the error wrapping. (do i agree? seems safer to always add context especially with refactoring. function has 1 error today. tomorrow? tomorrows problem, refactor then?) 
+  - many different solutions.
+    - add all the context
+	- make a ton of custom error types
+	- make a bespoke error solution.
+    - choosing to use panic and recovery as a project rule
+	- choosing to make a custom error library that always adds context in a consistent way
+	  - (requiring everyone to if err: customstuff.wrap(err))
+	- use logging.
+  - don't need 3rd party packages. Most were created before Context wrapping, multi errors, structured logging were added to standard library.
+  - AI generated context will often break use ":" or "error", "failed" etc. don't trust.
+- Consider using a UserError(). Errors for users.
 
+## Additional Notes
+
+- [Error Wrapping in Go: A Guide to Enhance Debugging](https://erik.cat/blog/error-wrapping-go/)
+- [Stop Fighting Go Errors: A Modern Approach to Handling Them](https://dev.to/zakariachahboun/mastering-error-handling-in-go-a-pragmatic-approach-leg)
+  - [Simple strategy to understand error handling in Go ](https://www.reddit.com/r/golang/comments/1in0tiw/simple_strategy_to_understand_error_handling_in_go/)
 
 ## Consequences
 
 
 
-## Other Options
+## Other Possible Options
 
-Possibilities:
-https://github.com/avelino/awesome-go?tab=readme-ov-file#error-handling
 
-Not an option:
 
+## Not an Option
+
+- [awesome-go: Error Handling](https://github.com/avelino/awesome-go?tab=readme-ov-file#error-handling)
+- [simplerr](https://github.com/lobocv/simplerr)
+  - [Advanced Go Error Handling Made Simple](https://blog.lobocv.com/posts/richer_golang_errors/) (2022-MAR)
+- [errtrace](https://github.com/bracesdev/errtrace)
+- [Handling errors LIKE a 10x ENGINEER in Golang - Golang Service Pattern](https://www.youtube.com/watch?v=CxcxRgwWtAk)
+  - just not feeling it.
