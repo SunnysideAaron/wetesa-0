@@ -36,6 +36,7 @@ Do not log sensitive information, including:
 **Pending** Rough example on handleGetClient(). Get help on better implementing
 the LogValuer interface. or should db structs just have have a stringer method?
 There seems to be something about LogValue not quite working as my understanding expects.
+Try looking into [ReplaceAttr](https://pkg.go.dev/log/slog#HandlerOptions.ReplaceAttr)
 
 Use default slog levels, in the following manor:
   - DEBUG (-4) Only turn on for in depth troubleshooting.

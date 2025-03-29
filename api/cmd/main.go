@@ -37,7 +37,7 @@ func run(
 	db := database.NewPG(ctx, pCfg)
 	defer db.Close()
 
-	handle := server.AddRoutes(logger, logLevel, cfg, db)
+	handle := server.AddRoutes(cfg, db, logger, logLevel)
 
 	// Configure the HTTP server
 	httpServer := &http.Server{

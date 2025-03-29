@@ -53,7 +53,7 @@ func handleGetClient(logger *slog.Logger, db *database.Postgres) http.Handler {
 			// example of logging while hiding sensitive information
 			logger.LogAttrs(
 				r.Context(),
-				slog.LevelInfo,
+				slog.LevelDebug,
 				"client retrieved",
 				slog.Any("client", client.LogValue()),
 			)
