@@ -13,6 +13,7 @@ Accepted
 Installed middleware:
 - AllowQuerySemicolons (Standard Library)
 - CORS
+- IP
 - Logging
 - MaxBytesHandler (Standard Library)
 - Recover
@@ -21,7 +22,7 @@ Installed middleware:
 
 ### Pending
 
-What other middleware should be implemented? RealIP? Rate limiting?
+What other middleware should be implemented? Rate limiting?
 
 Rate limiting seems a smidge complex with saving IPs. I'm punting that ball for now.
 - [api-std-lib](https://github.com/youngjun827/api-std-lib/blob/main/cmd/api/middleware.go)

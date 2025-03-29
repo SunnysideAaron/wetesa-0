@@ -56,6 +56,7 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
   - Installed middleware:
     - AllowQuerySemicolons
     - CORS
+    - IP
     - Logging
     - MaxBytesHandler 
     - Recover

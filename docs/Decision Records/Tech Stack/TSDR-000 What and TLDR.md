@@ -18,8 +18,8 @@ An example CRUD api. Has a minimum of dependencies. Appropriate for enterprise s
   - pgx
 - TSDR-006 DB Initial Data Load
   - **Pending** Postgress image docker initdb folder 
-- TSDR-007 Other DB Packages
-  - **PENDING**
 - TSDR-008 Live Reload of Code
   - **PENDING**
-
+- TSDR-009 Non-dependencies
+  - Do not attempt Authentication, Authorization, or Cryptography.
+  - Don't use any of the database packages that are not in the standard library.
