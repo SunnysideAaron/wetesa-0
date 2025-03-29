@@ -17,11 +17,26 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
   - Use UUIDs for primary keys
   - PENDING Date columns
   - All times in UTC
-- ADR-005 Error Handling 
+- ADR-005 Error Handling
   - **PENDING**
-- ADR-006 Logging 
-  - **PENDING**
-- ADR-007 Authentication 
+- ADR-006 Logging Levels
+  - Use default slog levels, in the following manor:
+    - DEBUG (-4) Only turn on for in-depth troubleshooting.
+    - INFO (0) default level in production. Enough information to troubleshoot basic problems.
+    - WARN (4) Create a ticket. Something is wrong and needs fixing. Properly handled errors are info not warn.
+    - ERROR (8) Call someone NOW! Something is wrong and needs immediate fixing.
+  - Allow changing log level at runtime.
+  - Allow different log levels for different parts of the code.
+- ADR-006 Logging Output
+  - log to STDOUT
+- ADR-006 Logging Package
+  - use slog
+  - use LogAttrs()
+- ADR-006 What to Log
+  - Log request, response, and error stack trace
+- ADR-007 Sensitive Information
+  - Do not log sensitive information
+- ADR-007 Authentication
   - **PENDING**
 - ADR-008 Audit Tables
   - **PENDING**

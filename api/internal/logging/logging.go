@@ -1,3 +1,5 @@
+// TODO Someday read through this guide and see if PrettyHandler could be better.
+// https://github.com/golang/example/blob/master/slog-handler-guide/README.md#the-%60enabled%60-method
 package logging
 
 import (

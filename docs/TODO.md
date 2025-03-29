@@ -29,7 +29,6 @@
 - [] pagination
   - [go-rest-api-service-template ](https://github.com/p2p-b2b/go-rest-api-service-template) 
 - [] add end points for the other tables
-- https://github.com/golang/example/blob/master/slog-handler-guide/README.md#the-%60enabled%60-method
 
 ## Todo later after implementing testing
 

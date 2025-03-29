@@ -27,7 +27,7 @@ func handleListClients(logger *slog.Logger, db *database.Postgres) http.Handler 
 	)
 }
 
-// handleGetUser handles requests to get a specific user
+// handleGetClient handles requests to get a specific client
 func handleGetClient(logger *slog.Logger, db *database.Postgres) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
