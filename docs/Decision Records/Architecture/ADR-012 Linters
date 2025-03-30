@@ -6,6 +6,32 @@ Accepted, Proposed, Deprecated or Superseded (list DR)
 
 ## Context
 
+Linters help catch code smells and enforce coding standards.
+
+## Decision
+
+- [Staticcheck](https://staticcheck.dev/)
+- [revive](https://revive.run/)
+  - TODO Additional rules
+- [golangci-lint](https://golangci-lint.run/)
+- [govulncheck](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck)
+
+## Why / Notes
+
+- "Learning Go. An Idiomatic Approach..Real-world Go Programming 2ed 2024" by Bodner J.
+  - [Staticcheck](https://staticcheck.dev/)
+  - [revive](https://revive.run/)
+  - [golangci-lint](https://golangci-lint.run/)
+  - [govulncheck](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck)
+
+### golangci-lint Notes
+- https://www.reddit.com/r/golang/comments/1jepzes/alternatives_to_golangcilint_that_are_fast/
+  - Be careful with versions of golangci compatible with your go compiler. If they mismatch it will be extra slow and take 100% CPU for minutes. 
+  - What we did in my team was to only lint the changed files on push and lint all files inside CI/CD. And use the generated cache! 
+  - there are other notes on how to only lint changed files.
+  - Make sure NOT to install golangci via "go install"
+
+
 We want to turn on linters. Which ones?
 
 All 3 linter stages turned on from book.
@@ -20,17 +46,12 @@ markdown linter
 
 https://www.reddit.com/r/golang/comments/1jepzes/alternatives_to_golangcilint_that_are_fast/
 
-## Decision
-
-
-
-## Why / Notes
-
-
+Linter aggregators?
+golangci-lint
 
 ## Consequences
 
-
+Better code
 
 ## Other Options
 

@@ -4,6 +4,14 @@ build:
 	@go mod tidy
 	@go build -o ./tmp/main ./cmd/.
 
+# lint should happen on ci/cd in future.
+# for speed of builds leaving separate for now.
+lint:
+	@go vet ./...
+	@staticcheck ./...
+	@revive --config .revive.toml ./..
+	@govulncheck ./...
+
 test:
 	@go test ./... -v
 

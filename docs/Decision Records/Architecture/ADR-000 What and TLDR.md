@@ -40,14 +40,12 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
   - Log request, response, and error stack trace
 - ADR-007 Sensitive Information
   - Do not log sensitive information
-- ADR-007 Authentication
-  - **PENDING**
 - ADR-008 Audit Tables
   - **PENDING**
 - ADR-009 Automated Testing
   - **PENDING**
-- ADR-010 Basic Code Layout of API
-  - **PENDING**
+- ADR-010 Package Layout
+  - We can do what ever we want. See ADR-010 Package Layout for more notes.
 - ADR-011 Validation
   - **Pending**
 - ADR-012 Linters
