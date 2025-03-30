@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted, Proposed, Deprecated or Superseded (list DR)
+Accepted
 
 ## Context
 
@@ -10,10 +10,10 @@ Linters help catch code smells and enforce coding standards.
 
 ## Decision
 
+Use these linters:
 - [Staticcheck](https://staticcheck.dev/)
 - [revive](https://revive.run/)
-  - TODO Additional rules
-- [golangci-lint](https://golangci-lint.run/)
+  - just default rules will suffice for this example.
 - [govulncheck](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck)
 
 ## Why / Notes
@@ -24,52 +24,24 @@ Linters help catch code smells and enforce coding standards.
   - [golangci-lint](https://golangci-lint.run/)
   - [govulncheck](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck)
 
-### golangci-lint Notes
-- https://www.reddit.com/r/golang/comments/1jepzes/alternatives_to_golangcilint_that_are_fast/
-  - Be careful with versions of golangci compatible with your go compiler. If they mismatch it will be extra slow and take 100% CPU for minutes. 
-  - What we did in my team was to only lint the changed files on push and lint all files inside CI/CD. And use the generated cache! 
-  - there are other notes on how to only lint changed files.
-  - Make sure NOT to install golangci via "go install"
-
-
-We want to turn on linters. Which ones?
-
-All 3 linter stages turned on from book.
-
-aaron does not like single line if else statements
-they easily hide scope and lessen readability.
-have to reedit later when maintaining anyway.
-can these be linted out?
-    https://www.calhoun.io/one-liner-if-statements-with-errors/
-
-markdown linter
-
-https://www.reddit.com/r/golang/comments/1jepzes/alternatives_to_golangcilint_that_are_fast/
-
-Linter aggregators?
-golangci-lint
-
 ## Consequences
 
-Better code
+Restrictive in code formatting.
 
-## Other Options
+## Other Possible Options
 
-Possibilities:
+- [golangci-lint](https://golangci-lint.run/)
+    - seems a bit over kill at the moment. Designed for cli. Install seems clunky to run locally. Not going to use for this example.
+    - https://golangci-lint.run/welcome/install/
+    - https://www.google.com/search?q=+golangci-lint+docker+image+install+guide&client=firefox-b-1-d&sca_esv=8bdb6913f2ceb8bc&sxsrf=AHTn8zpLWYmWxoJC2nRp2ONW8XEzw-rA8g%3A1743292561024&ei=kYjoZ_OeAZaB0PEPzZuPmQk&ved=0ahUKEwizq9vuvrCMAxWWADQIHc3NI5MQ4dUDCBA&uact=5&oq=+golangci-lint+docker+image+install+guide&gs_lp=Egxnd3Mtd2l6LXNlcnAiKSBnb2xhbmdjaS1saW50IGRvY2tlciBpbWFnZSBpbnN0YWxsIGd1aWRlMgUQIRigATIFECEYoAEyBRAhGKABMgUQIRigATIFECEYoAFI60JQ-AdY7kBwAXgAkAEAmAFuoAGIE6oBBDI3LjO4AQPIAQD4AQGYAh6gApMUwgIKEAAYsAMY1gQYR8ICChAjGIAEGCcYigXCAgQQIxgnwgIKEAAYgAQYQxiKBcICBhAAGAcYHsICBRAAGIAEwgILEAAYgAQYkQIYigXCAgoQABiABBgUGIcCwgIGEAAYFhgewgIIEAAYFhgKGB7CAgsQABiABBiGAxiKBcICBRAAGO8FwgIIEAAYgAQYogTCAggQABiiBBiJBcICBRAhGKsCmAMAiAYBkAYIkgcEMjQuNqAH5H4&sclient=gws-wiz-serp
+    - https://hub.docker.com/r/golangci/golangci-lint/tags
+    - https://www.reddit.com/r/golang/comments/1jepzes/alternatives_to_golangcilint_that_are_fast/
+        - Be careful with versions of golangci compatible with your go compiler. If they mismatch it will be extra slow and take 100% CPU for minutes. 
+        - What we did in my team was to only lint the changed files on push and lint all files inside CI/CD. And use the generated cache! 
+        - there are other notes on how to only lint changed files.
+        - Make sure NOT to install golangci via "go install"
+
+## Not an Option
 
 - https://github.com/fe3dback/go-arch-lint
-- https://github.com/avelino/awesome-go?tab=readme-ov-file#code-analysis
-- https://github.com/go-simpler/sloglint
-
-A linter like sloglint can help you enforce various rules for Slog based on your preferred code style. Here's an example configuration when used through golangci-lint:
-
-
-
-https://www.reddit.com/r/golang/comments/1in0tiw/simple_strategy_to_understand_error_handling_in_go/
-errorlint in golangci-lint will throw a lint warning if you use == or != to compare an error instead of errors.Is. I find it very useful, and it is even in the class of linter that has caught an actual bug in my code and not just given style suggestions. I recommend it.
-
-Note that this is not errcheck, which is on by default. errorlint must be enabled explicitly.
-
-
-Not an option:
-
+  - I'm not feeling this will be a big problem. 

@@ -49,7 +49,9 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
 - ADR-011 Validation
   - **Pending**
 - ADR-012 Linters
-  - **Pending**
+  - [Staticcheck](https://staticcheck.dev/)
+  - [revive](https://revive.run/)
+  - [govulncheck](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck)
 - ADR-013 Coding Standards
   - **Pending**
 - ADR-014 Routing
