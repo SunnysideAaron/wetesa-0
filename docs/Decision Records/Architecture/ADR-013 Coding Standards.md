@@ -63,6 +63,9 @@ all possible. But we are not going to take the time for this example.
 TODO 
 https://go.dev/wiki/CodeReviewComments
 
+https://github.com/vbd/Fieldnotes/blob/main/golang.md#style-guide-best-practices-templates
+
+
 ## Not an Option
 
 - "Mosh Pit" Everyone does what they want
