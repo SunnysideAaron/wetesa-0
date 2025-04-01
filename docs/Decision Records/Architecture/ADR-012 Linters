@@ -48,6 +48,9 @@ https://ldez.github.io/blog/2025/03/23/golangci-lint-v2/
     - https://www.reddit.com/r/golang/comments/1jjit5g/golangcilint_which_linters_do_you_enable_which/
 https://go.dev/wiki/CodeReviewComments
 
+https://pkg.go.dev/log/slog@go1.24.1#hdr-Performance_considerations
+    - can this be linted?
+
 ## Not an Option
 
 - https://github.com/fe3dback/go-arch-lint

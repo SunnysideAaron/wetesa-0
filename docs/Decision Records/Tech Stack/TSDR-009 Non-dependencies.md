@@ -15,6 +15,14 @@ Do not attempt Authentication, Authorization, or Cryptography.
 
 Don't use any of the database packages that are not in the standard library.
 
+Don't add other misc dependencies.
+- middleware
+    - check awesome go's list
+- slog pretty handlers
+    - check awesome go's list
+    - https://pkg.go.dev/log/slog@go1.24.1#hdr-Writing_a_handler
+    - https://pkg.go.dev/testing/slogtest@go1.24.1
+
 ## Why / Notes
 
 Authentication, Authorization, or Cryptography are all easy to get wrong. With 
