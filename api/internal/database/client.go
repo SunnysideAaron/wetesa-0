@@ -13,6 +13,8 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+// TODO convert to error constants and types. rest of code as well.
+
 type Client struct {
 	Client_id int         `json:"client_id"`
 	Name      string      `json:"name"`

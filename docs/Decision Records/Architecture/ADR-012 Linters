@@ -41,6 +41,13 @@ Restrictive in code formatting.
         - there are other notes on how to only lint changed files.
         - Make sure NOT to install golangci via "go install"
 
+
+
+TODO
+https://ldez.github.io/blog/2025/03/23/golangci-lint-v2/
+    - https://www.reddit.com/r/golang/comments/1jjit5g/golangcilint_which_linters_do_you_enable_which/
+https://go.dev/wiki/CodeReviewComments
+
 ## Not an Option
 
 - https://github.com/fe3dback/go-arch-lint

@@ -21,7 +21,9 @@ https://jestjs.io/docs/snapshot-testing
 
 ## Why / Notes
 
+what is appropriate level of testing for a solo dev?
 
+https://medium.com/@adrianbooth/test-driven-development-wars-detroit-vs-london-classicist-vs-mockist-9956c78ae95f
 
 ## Consequences
 

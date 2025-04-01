@@ -22,6 +22,7 @@ For now this should be enough to get going. I'll reevaluate after using.
 
 - [Standard Library Errors](https://pkg.go.dev/errors)
 - [Standard Libary: http constants](https://pkg.go.dev/net/http#pkg-constants)
+- [A concise guide to error handling in Go](https://medium.com/@andreiboar/a-concise-guide-to-error-handling-in-go-611a42e589ad)
 - [Reddit: In larger programs, how do you handle errors?](https://www.reddit.com/r/golang/comments/1iwmeaw/in_larger_programs_how_do_you_handle_errors_so/)
   - Lots of good discussion here. Summary:
   - wrap messages
@@ -49,6 +50,10 @@ For now this should be enough to get going. I'll reevaluate after using.
   - don't need 3rd party packages. Most were created before Context wrapping, multi errors, structured logging were added to standard library.
   - AI generated context will often break use ":" or "error", "failed" etc. don't trust.
 - Consider using a UserError(). Errors for users.
+- How does standard library handle errors?
+  - bufio includes package in message. Does not seem like all packages do this. Pre wrapping?
+  - ErrInvalidUnreadByte = errors.New("bufio: invalid use of UnreadByte")
+- [Sentinel errors and errors.Is() slow your code down by 500%](https://www.dolthub.com/blog/2024-05-31-benchmarking-go-error-handling/)
 
 ## Additional Notes
 

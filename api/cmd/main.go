@@ -35,6 +35,7 @@ func run(
 	//convert from slog to log for http
 	httpLogger := slog.NewLogLogger(logger.Handler(), slog.LevelInfo)
 
+	// TODO move to routes.go no need here. make it more explicit.
 	// Example of some code having a different log level.
 	clientLogger, clientLogLevel := logging.NewLogger(cfg)
 	slog.SetDefault(clientLogger)
