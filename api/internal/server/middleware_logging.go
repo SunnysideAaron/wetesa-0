@@ -8,6 +8,8 @@ import (
 	"api/internal/logging"
 )
 
+// responseWriter wraps http.ResponseWriter to capture the response status code
+// and size for logging purposes.
 type responseWriter struct {
 	http.ResponseWriter
 	status int
@@ -15,11 +17,15 @@ type responseWriter struct {
 	//body   []byte
 }
 
+// WriteHeader captures the status code and calls the underlying ResponseWriter's
+// WriteHeader method.
 func (rw *responseWriter) WriteHeader(status int) {
 	rw.status = status
 	rw.ResponseWriter.WriteHeader(status)
 }
 
+// Write captures the response size and calls the underlying ResponseWriter's
+// Write method.
 func (rw *responseWriter) Write(b []byte) (int, error) {
 	size, err := rw.ResponseWriter.Write(b)
 	rw.size += int64(size)
@@ -27,7 +33,8 @@ func (rw *responseWriter) Write(b []byte) (int, error) {
 	return size, err
 }
 
-// LoggingMiddleware logs the start and end of a request
+// loggingMiddleware logs the start and completion of each request including
+// timing, status code, and response size.
 func loggingMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {

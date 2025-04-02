@@ -1,4 +1,4 @@
-// Package config loads all the configuration for the api.
+// Package config provides configuration management for the API service.
 // [The Twelve-Factor App III. Config](https://12factor.net/config)
 package config
 
@@ -11,24 +11,35 @@ import (
 )
 
 const (
-	EnvironmentDev  string = "dev"
+	// EnvironmentDev represents the development environment configuration.
+	EnvironmentDev string = "dev"
+	// EnvironmentProd represents the production environment configuration.
 	EnvironmentProd string = "prod"
 )
 
-// APIConfig stores the api configuration.
+// APIConfig stores the API service configuration parameters.
+// All durations are in seconds unless otherwise specified.
 type APIConfig struct {
-	Environment            string
-	APIHost                string
-	APIPort                string
-	APIReadTimeout         time.Duration
-	APIWriteTimeout        time.Duration
+	// Environment specifies the running environment (dev/prod)
+	Environment string
+	// APIHost is the host address to bind the server to
+	APIHost string
+	// APIPort is the port number to listen on
+	APIPort string
+	// APIReadTimeout is the maximum duration for reading the entire request
+	APIReadTimeout time.Duration
+	// APIWriteTimeout is the maximum duration before timing out writes of the response
+	APIWriteTimeout time.Duration
+	// APIDefaultWriteTimeout is the default timeout for write operations
 	APIDefaultWriteTimeout time.Duration
-	APIIdleTimeout         time.Duration
-	RequestMaxBytes        int64
+	// APIIdleTimeout is the maximum amount of time to wait for the next request
+	APIIdleTimeout time.Duration
+	// RequestMaxBytes is the maximum size of incoming request bodies
+	RequestMaxBytes int64
 }
 
-// LoadAPIConfig loads the api configuration from environment variables. Default values are
-// used if not set or invalid. Values are validated if appropriate.
+// LoadAPIConfig loads and validates API configuration from environment variables.
+// It applies default values when environment variables are not set.
 func LoadAPIConfig() *APIConfig {
 	// Set default values.
 	cnf := &APIConfig{
@@ -93,8 +104,8 @@ func LoadAPIConfig() *APIConfig {
 	return cnf
 }
 
-// LoadDBConfig loads the database configuration from environment variables.
-// Default values are used if not set or invalid.
+// LoadDBConfig loads and validates database configuration from environment variables.
+// It returns a pgxpool.Config with connection parameters and pool settings.
 func LoadDBConfig() *pgxpool.Config {
 
 	pCfg, _ := pgxpool.ParseConfig("")

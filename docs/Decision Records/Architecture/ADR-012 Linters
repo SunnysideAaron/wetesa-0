@@ -14,7 +14,11 @@ Use these linters:
 - [Staticcheck](https://staticcheck.dev/)
 - [revive](https://revive.run/)
   - just default rules will suffice for this example.
-- [govulncheck](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck)
+- [govulncheck](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck) 
+  - Reports known vulnerabilities by checking the vulnerability database at https://vuln.go.dev
+  - not a pure linter.  does not cache.
+  - will never be part of golangci-lint. 
+  - once a day is excessive. maybe just before release? Will need to be part of ci but not every build.
 
 ## Why / Notes
 
@@ -43,7 +47,8 @@ Restrictive in code formatting.
         - there are other notes on how to only lint changed files.
         - Make sure NOT to install golangci via "go install"
 
-
+TODO
+Do not just turn on every linter in golangci-lint. it includes a hodge podge of linters found from anywhere. some even conflict with each other.
 
 TODO
 https://ldez.github.io/blog/2025/03/23/golangci-lint-v2/

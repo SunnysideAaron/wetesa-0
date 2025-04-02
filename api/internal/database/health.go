@@ -6,8 +6,8 @@ import (
 	"strconv"
 )
 
-// Health checks the health of the database connection by pinging the database.
-// It returns a map with keys indicating various health statistics.
+// HealthCheck performs a database health check and returns status information.
+// It returns a map containing connection pool statistics and status indicators.
 func (pg *Postgres) Health(ctx context.Context, logger *slog.Logger) map[string]string {
 	stats := make(map[string]string)
 
@@ -58,8 +58,8 @@ func (pg *Postgres) Health(ctx context.Context, logger *slog.Logger) map[string]
 	// stats["max_idle_closed"] = strconv.FormatInt(dbStats.MaxIdleClosed, 10)
 	// stats["max_lifetime_closed"] = strconv.FormatInt(dbStats.MaxLifetimeClosed, 10)
 
-	//TODO move the limits to config.
-	//TODO don't overwrite message. append to message
+	// TODO move the limits to config.
+	// TODO don't overwrite message. append to message
 	// Evaluate stats to provide a health message
 	// if dbStats.OpenConnections > 40 { // Assuming 50 is the max for this example
 	// 	stats["message"] = "The database is experiencing heavy load."

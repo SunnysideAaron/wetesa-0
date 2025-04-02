@@ -5,6 +5,8 @@ import (
 	"net/http"
 )
 
+// recoverMiddleware recovers from panics in HTTP handlers, logs the error,
+// and returns a 500 Internal Server Error response to the client.
 // Copied from https://github.com/google/exposure-notifications-server/blob/main/internal/middleware/recovery.go
 // This is simple and should cover us for now.
 // If what ever I choose for logging / error handling later doesn't give a stack
@@ -23,7 +25,7 @@ func recoverMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
 						slog.String("request_id", requestIDFromContext(r.Context())),
 						slog.String("method", r.Method),
 						slog.String("path", r.URL.Path),
-						slog.Any("panic", p), //TODO verify if this slog.Any will actually log.
+						slog.Any("panic", p), // TODO verify if this slog.Any will actually log.
 					)
 					http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 				}

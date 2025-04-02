@@ -1,4 +1,4 @@
-// Package database handles the database connection.
+// Package database provides database connectivity and operations for the API service.
 //
 // Informative guides.
 // https://donchev.is/post/working-with-postgresql-in-go-using-pgx/
@@ -13,6 +13,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
+// Postgres represents a PostgreSQL database connection pool and related configuration.
 type Postgres struct {
 	pool *pgxpool.Pool
 }
@@ -30,9 +31,11 @@ var (
 	pgOnce     sync.Once
 )
 
-func NewPG(ctx context.Context, pCfg *pgxpool.Config, logger *slog.Logger) *Postgres {
+// NewPG creates and initializes a new PostgreSQL database connection pool.
+// It verifies the connection and returns an error if the connection fails.
+func NewPG(ctx context.Context, cfg *pgxpool.Config, logger *slog.Logger) *Postgres {
 	pgOnce.Do(func() {
-		pg, err := pgxpool.NewWithConfig(ctx, pCfg)
+		pg, err := pgxpool.NewWithConfig(ctx, cfg)
 		if err != nil {
 			logger.LogAttrs(
 				ctx,

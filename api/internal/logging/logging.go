@@ -1,4 +1,5 @@
-// Package logging takes care of logging.
+// Package logging provides structured logging functionality with support for
+// different output formats based on the environment.
 //
 // TODO Someday read through this guide and see if PrettyHandler could be better.
 // https://github.com/golang/example/blob/master/slog-handler-guide/README.md#the-%60enabled%60-method
@@ -46,8 +47,8 @@ const (
 	LevelError Level = "ERROR"
 )
 
-// NewLogger creates a new structured logger.
-// Uses PrettyHandler for development and JSONHandler for production.
+// NewLogger creates a new structured logger configured based on the environment.
+// It returns a slog.Logger and a LevelVar for dynamic log level control.
 func NewLogger(cfg *config.APIConfig) (*slog.Logger, *slog.LevelVar) {
 	lvl := new(slog.LevelVar)
 	lvl.Set(slog.LevelInfo)

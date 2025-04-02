@@ -1,3 +1,5 @@
+// Package server provides HTTP server functionality including request handling,
+// middleware, and routing for the API.
 package server
 
 import (
@@ -11,7 +13,8 @@ import (
 	"api/internal/database"
 )
 
-// encode encodes the response as JSON
+// encode writes the response as JSON to the http.ResponseWriter with the given status code.
+// It returns an error if JSON encoding fails.
 // [Handle decoding/encoding in one place](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#handle-decodingencoding-in-one-place)
 func encode(w http.ResponseWriter, r *http.Request, status int, v interface{}) error {
 	w.Header().Set("Content-Type", "application/json")

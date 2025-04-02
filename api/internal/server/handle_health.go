@@ -7,7 +7,8 @@ import (
 	"api/internal/database"
 )
 
-// handleHealthz handles api server health check requests
+// handleHealthz returns an http.Handler that responds to health check requests
+// with a 200 OK status and "OK" message.
 func handleHealthz(logger *slog.Logger) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
@@ -28,7 +29,8 @@ func handleHealthz(logger *slog.Logger) http.Handler {
 	)
 }
 
-// handleHealthDBz handles database health check requests
+// handleHealthDBz returns an http.Handler that checks database connectivity
+// and responds with database health status information.
 func handleHealthDBz(logger *slog.Logger, db *database.Postgres) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {

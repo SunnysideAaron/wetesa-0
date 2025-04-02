@@ -1,11 +1,12 @@
 package server
 
 import (
-	"log/slog"
 	"net/http"
 )
 
-func corsMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
+// corsMiddleware adds CORS headers to responses and handles OPTIONS requests.
+// It allows cross-origin requests based on configured origins and methods.
+func corsMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			// Set CORS headers
