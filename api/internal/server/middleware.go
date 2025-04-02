@@ -2,11 +2,12 @@
 package server
 
 import (
-	"api/internal/config"
 	"context"
 	"log/slog"
 	"net/http"
 	"time"
+
+	"api/internal/config"
 )
 
 // note how this chains middlewares together but also handles dependencies so that calling code doesn't have to.

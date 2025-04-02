@@ -1,11 +1,12 @@
 package server
 
 import (
-	"api/internal/database"
 	"log/slog"
 	"net/http"
 	"strconv"
 	"strings"
+
+	"api/internal/database"
 )
 
 // handleListClients handles requests to list all clients

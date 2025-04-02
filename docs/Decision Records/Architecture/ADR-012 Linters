@@ -31,6 +31,8 @@ Restrictive in code formatting.
 ## Other Possible Options
 
 - [golangci-lint](https://golangci-lint.run/)
+    - [maratori Golden Config](https://gist.github.com/maratori/47a4d00457a92aa426dbd48a18776322)
+
     - seems a bit over kill at the moment. Designed for cli. Install seems clunky to run locally. Not going to use for this example.
     - https://golangci-lint.run/welcome/install/
     - https://www.google.com/search?q=+golangci-lint+docker+image+install+guide&client=firefox-b-1-d&sca_esv=8bdb6913f2ceb8bc&sxsrf=AHTn8zpLWYmWxoJC2nRp2ONW8XEzw-rA8g%3A1743292561024&ei=kYjoZ_OeAZaB0PEPzZuPmQk&ved=0ahUKEwizq9vuvrCMAxWWADQIHc3NI5MQ4dUDCBA&uact=5&oq=+golangci-lint+docker+image+install+guide&gs_lp=Egxnd3Mtd2l6LXNlcnAiKSBnb2xhbmdjaS1saW50IGRvY2tlciBpbWFnZSBpbnN0YWxsIGd1aWRlMgUQIRigATIFECEYoAEyBRAhGKABMgUQIRigATIFECEYoAFI60JQ-AdY7kBwAXgAkAEAmAFuoAGIE6oBBDI3LjO4AQPIAQD4AQGYAh6gApMUwgIKEAAYsAMY1gQYR8ICChAjGIAEGCcYigXCAgQQIxgnwgIKEAAYgAQYQxiKBcICBhAAGAcYHsICBRAAGIAEwgILEAAYgAQYkQIYigXCAgoQABiABBgUGIcCwgIGEAAYFhgewgIIEAAYFhgKGB7CAgsQABiABBiGAxiKBcICBRAAGO8FwgIIEAAYgAQYogTCAggQABiiBBiJBcICBRAhGKsCmAMAiAYBkAYIkgcEMjQuNqAH5H4&sclient=gws-wiz-serp

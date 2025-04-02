@@ -1,16 +1,17 @@
 # TODO why does this end in "."?
 build:
-	@go fmt ./...
+	@golangci-lint fmt
 	@go mod tidy
 	@go build -o ./tmp/main ./cmd/.
 
 # lint should happen on ci/cd in future.
 # for speed of builds leaving separate for now.
 lint:
-	@go vet ./...
-	@staticcheck ./...
-	@revive --config .revive.toml ./..
-	@govulncheck ./...
+	@golangci-lint run
+#	@go vet ./...
+#	@staticcheck ./...
+#	@revive --config .revive.toml ./..
+#	@govulncheck ./...
 
 test:
 	@go test ./... -v
@@ -19,7 +20,7 @@ exec:
 	@./tmp/main
 
 run:
-	@go fmt ./...
+	@golangci-lint fmt
 	@go mod tidy
 	@go run ./cmd/main.go
 

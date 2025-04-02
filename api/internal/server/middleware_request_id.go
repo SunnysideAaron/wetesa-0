@@ -1,7 +1,6 @@
 package server
 
 import (
-	"api/internal/logging"
 	"context"
 	"crypto/rand"
 	"encoding/base64"
@@ -9,6 +8,8 @@ import (
 	"log/slog"
 	"net/http"
 	"strings"
+
+	"api/internal/logging"
 )
 
 const RequestIDKey string = "request_id"

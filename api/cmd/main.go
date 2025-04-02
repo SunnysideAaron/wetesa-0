@@ -11,12 +11,12 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/jackc/pgx/v5/pgxpool"
+
 	"api/internal/config"
 	"api/internal/database"
 	"api/internal/logging"
 	"api/internal/server"
-
-	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 // run is the actual main function

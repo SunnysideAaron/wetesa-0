@@ -1,11 +1,12 @@
 package server
 
 import (
-	"api/internal/logging"
 	"context"
 	"log/slog"
 	"net/http"
 	"strings"
+
+	"api/internal/logging"
 )
 
 const IPKey string = "ip_address"

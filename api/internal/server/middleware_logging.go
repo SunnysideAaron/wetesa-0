@@ -1,10 +1,11 @@
 package server
 
 import (
-	"api/internal/logging"
 	"log/slog"
 	"net/http"
 	"time"
+
+	"api/internal/logging"
 )
 
 type responseWriter struct {

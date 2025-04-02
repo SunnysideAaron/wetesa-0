@@ -1,10 +1,11 @@
 package server
 
 import (
-	"api/internal/config"
-	"api/internal/database"
 	"log/slog"
 	"net/http"
+
+	"api/internal/config"
+	"api/internal/database"
 )
 
 // AddRoutes maps all the API routes

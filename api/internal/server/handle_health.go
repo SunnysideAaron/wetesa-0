@@ -1,9 +1,10 @@
 package server
 
 import (
-	"api/internal/database"
 	"log/slog"
 	"net/http"
+
+	"api/internal/database"
 )
 
 // handleHealthz handles api server health check requests
