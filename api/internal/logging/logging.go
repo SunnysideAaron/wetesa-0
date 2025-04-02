@@ -1,5 +1,8 @@
+// Package logging takes care of logging.
+//
 // TODO Someday read through this guide and see if PrettyHandler could be better.
 // https://github.com/golang/example/blob/master/slog-handler-guide/README.md#the-%60enabled%60-method
+// actually it would be better to simple add an already developed pretty handler as a dependency
 package logging
 
 import (
@@ -85,6 +88,7 @@ func ParseLevel(level string) slog.Level {
 
 // PrettyHandler came from
 // https://betterstack.com/community/guides/logging/logging-in-go/#customizing-slog-handlers
+
 type PrettyHandlerOptions struct {
 	SlogOpts slog.HandlerOptions
 }
@@ -183,11 +187,17 @@ func NewPrettyHandler(
 	out io.Writer,
 	opts PrettyHandlerOptions,
 ) *PrettyHandler {
+	levelVar, ok := opts.SlogOpts.Level.(*slog.LevelVar)
+	if !ok {
+		levelVar = new(slog.LevelVar) // Provide a default if assertion fails
+		levelVar.Set(slog.LevelInfo)
+	}
+
 	h := &PrettyHandler{
 		Handler: slog.NewJSONHandler(out, &opts.SlogOpts),
 		l:       log.New(out, "", 0),
 		attrs:   make([]slog.Attr, 0),
-		level:   opts.SlogOpts.Level.(*slog.LevelVar),
+		level:   levelVar,
 	}
 	return h
 }
@@ -222,7 +232,7 @@ func (h *PrettyHandler) enabled(level slog.Level) bool {
 // 	return h.level.Level()
 // }
 
-// formatStack makes the stack trace more readable by:
+// FormatStack makes the stack trace more readable by:
 // - Removing unnecessary runtime info
 // - Removing extra blank lines
 func FormatStack(stack []byte) string {

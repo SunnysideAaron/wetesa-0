@@ -101,7 +101,7 @@ func handleCreateClient(logger *slog.Logger, db *database.Postgres) http.Handler
 					slog.String("error", err.Error()),
 					slog.Any("problems", problems),
 				)
-				if err := encode(w, r, http.StatusBadRequest, map[string]interface{}{
+				if err = encode(w, r, http.StatusBadRequest, map[string]interface{}{
 					"error":    err.Error(),
 					"problems": problems,
 				}); err != nil {
@@ -184,7 +184,7 @@ func handleUpdateClient(logger *slog.Logger, db *database.Postgres) http.Handler
 					slog.String("error", err.Error()),
 					slog.Any("problems", problems),
 				)
-				if err := encode(w, r, http.StatusBadRequest, map[string]interface{}{
+				if err = encode(w, r, http.StatusBadRequest, map[string]interface{}{
 					"error":    err.Error(),
 					"problems": problems,
 				}); err != nil {
@@ -205,7 +205,7 @@ func handleUpdateClient(logger *slog.Logger, db *database.Postgres) http.Handler
 				return
 			}
 
-			updateClient.Client_id = clientID
+			updateClient.ClientID = clientID
 
 			// Perform the update
 			err = db.UpdateClient(r.Context(), updateClient)

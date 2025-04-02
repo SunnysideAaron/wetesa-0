@@ -1,3 +1,6 @@
+// Package server does the api work.
+// middleware includes groups of middleware.
+//
 // [The adapter pattern for middleware](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#the-adapter-pattern-for-middleware)
 package server
 

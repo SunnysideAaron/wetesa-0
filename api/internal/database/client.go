@@ -16,9 +16,9 @@ import (
 // TODO convert to error constants and types. rest of code as well.
 
 type Client struct {
-	Client_id int         `json:"client_id"`
-	Name      string      `json:"name"`
-	Address   pgtype.Text `json:"address"`
+	ClientID int         `json:"client_id"`
+	Name     string      `json:"name"`
+	Address  pgtype.Text `json:"address"`
 }
 
 func (c Client) Valid(ctx context.Context) map[string]string {
@@ -34,7 +34,7 @@ func (c Client) Valid(ctx context.Context) map[string]string {
 }
 
 func (c Client) LogValue() slog.Value {
-	return slog.IntValue(c.Client_id)
+	return slog.IntValue(c.ClientID)
 }
 
 func (pg *Postgres) InsertClient(ctx context.Context, c Client) error {
@@ -52,7 +52,7 @@ func (pg *Postgres) InsertClient(ctx context.Context, c Client) error {
 	return nil
 }
 
-// CopyInserts is faster. Use bulk inserts if you need to know a particular insert failed.
+// BulkInsertClients is slower than CopyInserts. Use bulk inserts if you need to know a particular insert failed.
 func (pg *Postgres) BulkInsertClients(ctx context.Context, clients []Client) error {
 	query := `INSERT INTO client (name, address) VALUES (@name, @address)`
 
@@ -90,7 +90,7 @@ func (pg *Postgres) BulkInsertClients(ctx context.Context, clients []Client) err
 	return results.Close()
 }
 
-// See note on BulkInsertClients
+// CopyInsertClients if faster than BulkInsertClients
 func (pg *Postgres) CopyInsertClients(ctx context.Context, clients []Client) error {
 	entries := [][]any{}
 	columns := []string{"name", "address"}
@@ -114,6 +114,7 @@ func (pg *Postgres) CopyInsertClients(ctx context.Context, clients []Client) err
 	return nil
 }
 
+// GetClients returns list of clients
 // TODO pagination.
 func (pg *Postgres) GetClients(ctx context.Context) ([]Client, error) {
 	query := `SELECT client_id, name, address FROM client order by client_id desc LIMIT 10`
@@ -135,7 +136,7 @@ func (pg *Postgres) GetClient(ctx context.Context, id string) (Client, error) {
 
 	row := pg.pool.QueryRow(ctx, query, id)
 
-	err := row.Scan(&client.Client_id, &client.Name, &client.Address)
+	err := row.Scan(&client.ClientID, &client.Name, &client.Address)
 	if err != nil {
 		return client, err
 	}
@@ -148,7 +149,7 @@ func (pg *Postgres) UpdateClient(ctx context.Context, c Client) error {
 			  WHERE client_id = @client_id`
 
 	args := pgx.NamedArgs{
-		"client_id": c.Client_id,
+		"client_id": c.ClientID,
 		"name":      c.Name,
 		"address":   c.Address,
 	}
@@ -160,7 +161,7 @@ func (pg *Postgres) UpdateClient(ctx context.Context, c Client) error {
 
 	// Check if any row was actually updated
 	if result.RowsAffected() == 0 {
-		return fmt.Errorf("client with id %d not found", c.Client_id)
+		return fmt.Errorf("client with id %d not found", c.ClientID)
 	}
 
 	return nil

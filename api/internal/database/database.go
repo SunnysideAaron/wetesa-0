@@ -1,3 +1,5 @@
+// Package database handles the database connection.
+//
 // Informative guides.
 // https://donchev.is/post/working-with-postgresql-in-go-using-pgx/
 // https://hexacluster.ai/postgresql/connecting-to-postgresql-with-go-using-pgx/

@@ -1,3 +1,4 @@
+// Package config loads all the configuration for the api.
 // [The Twelve-Factor App III. Config](https://12factor.net/config)
 package config
 
