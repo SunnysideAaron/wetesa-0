@@ -66,7 +66,13 @@ func (pg *Postgres) BulkInsertClients(ctx context.Context, clients []Client) err
 	}
 
 	results := pg.pool.SendBatch(ctx, batch)
-	defer results.Close()
+	//defer results.Close()
+	defer func() {
+		err := results.Close()
+		if err != nil {
+			log.Printf("could not close results: %v", err)
+		}
+	}()
 
 	for _, client := range clients {
 		_, err := results.Exec()

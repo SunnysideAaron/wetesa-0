@@ -20,7 +20,7 @@ func AddRoutes(
 	middleDefaults := newMiddleDefaults(cfg, logger)
 
 	// example of overriding defaults
-	v1Mux.Handle(http.MethodGet+" /bigopportunity", newMiddleDefaults(cfg, logger, 50)(handleBigOpportunity()))
+	v1Mux.Handle(http.MethodGet+" /bigopportunity", newMiddleDefaults(cfg, logger, 50)(handleBigOpportunity(logger)))
 	// directly callable example of an error
 	v1Mux.Handle(http.MethodGet+" /errorexample", middleDefaults(handleErrorExample(logger)))
 	v1Mux.Handle(http.MethodGet+" /loglevel/{level}", middleDefaults(handleLogLevel(logger, logLevel)))
@@ -34,7 +34,7 @@ func AddRoutes(
 
 	// TODO how to do breaking changes to an api. WARNING hot wire topic but something has to be done.
 	baseMux.Handle("/api/v1/", http.StripPrefix("/api/v1", v1Mux))
-	baseMux.Handle(http.MethodGet+" /healthz", middleDefaults(handleHealthz()))
+	baseMux.Handle(http.MethodGet+" /healthz", middleDefaults(handleHealthz(logger)))
 
 	baseMux.Handle(http.MethodGet+" /healthdbz", middleDefaults(handleHealthDBz(logger, db)))
 

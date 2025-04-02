@@ -7,11 +7,22 @@ import (
 )
 
 // handleHealthz handles api server health check requests
-func handleHealthz() http.Handler {
+func handleHealthz(logger *slog.Logger) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusOK)
-			w.Write([]byte("OK"))
+
+			_, err := w.Write([]byte("OK"))
+			if err != nil {
+				logger.LogAttrs(
+					r.Context(),
+					slog.LevelInfo,
+					"could not write OK response",
+					slog.String("error", err.Error()),
+				)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
+
 		},
 	)
 }

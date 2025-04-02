@@ -15,7 +15,7 @@ func newMiddleCore(
 ) func(h http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
 		// Apply middlewares in reverse order - last one is applied first
-		return requestIDMiddleware(
+		return requestIDMiddleware(logger,
 			ipMiddleware(
 				loggingMiddleware(logger,
 					recoverMiddleware(logger,

@@ -29,7 +29,18 @@ func handleLogLevel(logger *slog.Logger, logLevel *slog.LevelVar) http.Handler {
 			)
 
 			w.WriteHeader(http.StatusOK)
-			w.Write([]byte("OK"))
+
+			_, err := w.Write([]byte("OK"))
+			if err != nil {
+				logger.LogAttrs(
+					r.Context(),
+					slog.LevelInfo,
+					"could not write OK response",
+					slog.String("error", err.Error()),
+				)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
+
 		},
 	)
 }

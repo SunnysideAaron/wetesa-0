@@ -18,7 +18,7 @@ Use these linters:
 
 ## Why / Notes
 
-- "Learning Go. An Idiomatic Approach..Real-world Go Programming 2ed 2024" by Bodner J.
+- "Learning Go. An Idiomatic Approach. Real-world Go Programming 2ed 2024" by Bodner J.
   - [Staticcheck](https://staticcheck.dev/)
   - [revive](https://revive.run/)
   - [golangci-lint](https://golangci-lint.run/)
