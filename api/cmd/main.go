@@ -33,7 +33,7 @@ func run(
 	logger, logLevel := logging.NewLogger(cfg)
 	slog.SetDefault(logger)
 
-	//convert from slog to log for http
+	// convert from slog to log for http
 	httpLogger := slog.NewLogLogger(logger.Handler(), slog.LevelInfo)
 
 	// TODO move to routes.go no need here. make it more explicit.

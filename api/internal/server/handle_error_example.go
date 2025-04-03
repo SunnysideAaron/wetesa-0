@@ -13,7 +13,6 @@ import (
 func handleErrorExample(logger *slog.Logger) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
-
 			logger.LogAttrs(
 				r.Context(),
 				slog.LevelDebug,

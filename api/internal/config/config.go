@@ -62,19 +62,19 @@ func LoadAPIConfig() *APIConfig {
 	cnf.APIHost = os.Getenv("API_HOST")
 
 	portStr := os.Getenv("API_PORT")
-	_, err := strconv.Atoi(portStr) //Validate that port is #
+	_, err := strconv.Atoi(portStr) // Validate that port is #
 	if err == nil {
 		cnf.APIPort = portStr
 	} // else if there is an error this will use the default value.
 
 	readTimeoutStr := os.Getenv("API_READ_TIMEOUT")
-	readTimeout, err := strconv.Atoi(readTimeoutStr) //Validate that readTimeoutStr is #
+	readTimeout, err := strconv.Atoi(readTimeoutStr) // Validate that readTimeoutStr is #
 	if err == nil {
 		cnf.APIReadTimeout = time.Duration(readTimeout)
 	} // else if there is an error this will use the default value.
 
 	writeTimeoutStr := os.Getenv("API_WRITE_TIMEOUT")
-	writeTimeout, err := strconv.Atoi(writeTimeoutStr) //Validate that writeTimeoutStr is #
+	writeTimeout, err := strconv.Atoi(writeTimeoutStr) // Validate that writeTimeoutStr is #
 	if err == nil {
 		cnf.APIWriteTimeout = time.Duration(writeTimeout)
 	} // else if there is an error this will use the default value.
@@ -90,7 +90,7 @@ func LoadAPIConfig() *APIConfig {
 	}
 
 	idleTimeoutStr := os.Getenv("API_IDLE_TIMEOUT")
-	idleTimeout, err := strconv.Atoi(idleTimeoutStr) //Validate that idleTimeoutStr is #
+	idleTimeout, err := strconv.Atoi(idleTimeoutStr) // Validate that idleTimeoutStr is #
 	if err == nil {
 		cnf.APIIdleTimeout = time.Duration(idleTimeout)
 	} // else if there is an error this will use the default value.
@@ -107,7 +107,6 @@ func LoadAPIConfig() *APIConfig {
 // LoadDBConfig loads and validates database configuration from environment variables.
 // It returns a pgxpool.Config with connection parameters and pool settings.
 func LoadDBConfig() *pgxpool.Config {
-
 	pCfg, _ := pgxpool.ParseConfig("")
 	pCfg.ConnConfig.Host = os.Getenv("DATASTORE_HOST")
 
@@ -145,7 +144,7 @@ func LoadDBConfig() *pgxpool.Config {
 	// integer greater than 0 (default is the greater of 4 or runtime.NumCPU())
 	maxConnsStr := os.Getenv("POOL_MAX_CONNS")
 	if maxConnsStr != "" {
-		maxConns, err := strconv.Atoi(maxConnsStr) //Validate that maxConns is #
+		maxConns, err := strconv.Atoi(maxConnsStr) // Validate that maxConns is #
 		if err == nil && maxConns > 0 {
 			pCfg.MaxConns = int32(maxConns)
 		}
@@ -157,7 +156,7 @@ func LoadDBConfig() *pgxpool.Config {
 	// integer 0 or greater (default 0)
 	minConnsStr := os.Getenv("POOL_MIN_CONNS")
 	if minConnsStr != "" {
-		minConns, err := strconv.Atoi(minConnsStr) //Validate that minConns is #
+		minConns, err := strconv.Atoi(minConnsStr) // Validate that minConns is #
 		if err == nil && minConns >= 0 {
 			pCfg.MinConns = int32(minConns)
 		}

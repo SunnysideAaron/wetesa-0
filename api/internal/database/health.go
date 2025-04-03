@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-// HealthCheck performs a database health check and returns status information.
+// Health performs a database health check and returns status information.
 // It returns a map containing connection pool statistics and status indicators.
 func (pg *Postgres) Health(ctx context.Context, logger *slog.Logger) map[string]string {
 	stats := make(map[string]string)
@@ -21,10 +21,10 @@ func (pg *Postgres) Health(ctx context.Context, logger *slog.Logger) map[string]
 		// TOOD do we even want to log these values? or is that a security hole?
 		logger.LogAttrs(
 			ctx,
-			slog.LevelWarn, //Perhaps db will come back up. Warning for now. If stays down that is an error.
+			slog.LevelWarn, // Perhaps db will come back up. Warning for now. If stays down that is an error.
 			"db down",
 			slog.String("error", err.Error()),
-			//slog.Any("error", err), // TODO is slog.Any properly handled in PrettyHandler? For some reason log doesn't spit out.
+			// slog.Any("error", err), // TODO is slog.Any properly handled in PrettyHandler? For some reason log doesn't spit out.
 		)
 
 		return stats

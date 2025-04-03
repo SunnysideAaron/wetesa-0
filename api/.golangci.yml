@@ -394,14 +394,19 @@ linters:
       rules:
         # # https://github.com/mgechev/revive/blob/HEAD/RULES_DESCRIPTIONS.md#add-constant
         - name: add-constant
-          #severity: warning
-          #disabled: false
-          #exclude: [""]
+          severity: warning
+          #disabled: true
+          # AaronS I like magic numbers, they often make things simpler. If the number is only used a handful of times. DO NOT create a constant.
+          exclude: [
+            "**/config/config.go", # config has many magic numbers.
+            "**/database/*.go", # barking on column names.
+          ]
           arguments:
             - maxLitCount: "3"
               allowStrs: '""'
               allowInts: "0,1,2,10" #AaronS for strconv.FormatInt() passing 10 is idomatic go.
               allowFloats: "0.0,0.,1.0,1.,2.0,2."
+              #ignoreFuncs: "LoadAPIConfig"
         # https://github.com/mgechev/revive/blob/HEAD/RULES_DESCRIPTIONS.md#argument-limit
         - name: argument-limit
           # severity: warning
@@ -442,9 +447,9 @@ linters:
         # # https://github.com/mgechev/revive/blob/HEAD/RULES_DESCRIPTIONS.md#cognitive-complexity
         - name: cognitive-complexity
           # severity: warning
-          # disabled: false
+          disabled: true # AaronS If it's too hard to understand we can catch that ourselves.
           # exclude: [""]
-          arguments: [ 7 ]
+          #arguments: [ 9 ]
         # # https://github.com/mgechev/revive/blob/HEAD/RULES_DESCRIPTIONS.md#comment-spacings
         # - name: comment-spacings
         #   severity: warning
@@ -489,9 +494,9 @@ linters:
         # # https://github.com/mgechev/revive/blob/HEAD/RULES_DESCRIPTIONS.md#cyclomatic
         - name: cyclomatic
           # severity: warning
-          # disabled: false
+          disabled: true # AaronS If it's too complex we can catch that ourselves.
           # exclude: [""]
-          arguments: [ 10 ]
+          #arguments: [ 10 ]
         # # https://github.com/mgechev/revive/blob/HEAD/RULES_DESCRIPTIONS.md#datarace
         # - name: datarace
         #   severity: warning
@@ -634,9 +639,9 @@ linters:
         #   disabled: false
         #   exclude: [""]
         # # https://github.com/mgechev/revive/blob/HEAD/RULES_DESCRIPTIONS.md#function-length
-        # - name: function-length
+        - name: function-length
         #   severity: warning
-        #   disabled: false
+          disabled: true # AaronS If it's too long we can catch that ourselves.
         #   exclude: [""]
         #   arguments: [ 10, 0 ]
         # # https://github.com/mgechev/revive/blob/HEAD/RULES_DESCRIPTIONS.md#function-result-limit

@@ -15,13 +15,19 @@ import (
 
 // TODO convert to error constants and types. rest of code as well.
 
+// Client represents a client record in the database.
+// It contains basic information about a client including their unique identifier,
+// name, and optional address.
 type Client struct {
 	ClientID int         `json:"client_id"`
 	Name     string      `json:"name"`
 	Address  pgtype.Text `json:"address"`
 }
 
-func (c Client) Valid(ctx context.Context) map[string]string {
+// Valid implements the Validator interface for Client.
+// It checks if the required fields are properly set and returns a map of validation errors.
+// An empty map indicates the Client is valid.
+func (c Client) Valid(_ context.Context) map[string]string {
 	problems := make(map[string]string)
 
 	if c.Name == "" {
@@ -33,10 +39,14 @@ func (c Client) Valid(ctx context.Context) map[string]string {
 	return problems
 }
 
+// LogValue implements slog.LogValuer to provide structured logging support.
+// It returns the client's ID as the log value for concise logging.
 func (c Client) LogValue() slog.Value {
 	return slog.IntValue(c.ClientID)
 }
 
+// InsertClient adds a new client record to the database.
+// It returns an error if the insert operation fails.
 func (pg *Postgres) InsertClient(ctx context.Context, c Client) error {
 	query := `INSERT INTO client (name, address) VALUES (@name, @address)`
 	args := pgx.NamedArgs{
@@ -66,7 +76,7 @@ func (pg *Postgres) BulkInsertClients(ctx context.Context, clients []Client) err
 	}
 
 	results := pg.pool.SendBatch(ctx, batch)
-	//defer results.Close()
+	// defer results.Close()
 	defer func() {
 		err := results.Close()
 		if err != nil {
@@ -114,7 +124,7 @@ func (pg *Postgres) CopyInsertClients(ctx context.Context, clients []Client) err
 	return nil
 }
 
-// GetClients returns list of clients
+// GetClients retrieves a list of clients from the database.
 // TODO pagination.
 func (pg *Postgres) GetClients(ctx context.Context) ([]Client, error) {
 	query := `SELECT client_id, name, address FROM client order by client_id desc LIMIT 10`
@@ -129,6 +139,9 @@ func (pg *Postgres) GetClients(ctx context.Context) ([]Client, error) {
 	return pgx.CollectRows(rows, pgx.RowToStructByName[Client])
 }
 
+// GetClient retrieves a single client by their ID.
+// Returns the client data if found, or an error if the client doesn't exist
+// or if the query fails.
 func (pg *Postgres) GetClient(ctx context.Context, id string) (Client, error) {
 	var client Client
 
@@ -143,6 +156,9 @@ func (pg *Postgres) GetClient(ctx context.Context, id string) (Client, error) {
 	return client, nil
 }
 
+// UpdateClient updates an existing client's information.
+// Returns an error if the client doesn't exist or if the update operation fails.
+// TODO this is for a PUT request. Which is OK but we might want to use PATCH instead.
 func (pg *Postgres) UpdateClient(ctx context.Context, c Client) error {
 	query := `UPDATE client 
 			  SET name = @name, address = @address 
@@ -167,6 +183,8 @@ func (pg *Postgres) UpdateClient(ctx context.Context, c Client) error {
 	return nil
 }
 
+// DeleteClient removes a client from the database by their ID.
+// Returns an error if the client doesn't exist or if the deletion fails.
 func (pg *Postgres) DeleteClient(ctx context.Context, id string) error {
 	query := `DELETE FROM client WHERE client_id = $1`
 

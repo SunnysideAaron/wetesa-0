@@ -24,7 +24,6 @@ func handleHealthz(logger *slog.Logger) http.Handler {
 				)
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 			}
-
 		},
 	)
 }

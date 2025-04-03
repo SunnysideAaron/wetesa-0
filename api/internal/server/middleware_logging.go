@@ -14,7 +14,7 @@ type responseWriter struct {
 	http.ResponseWriter
 	status int
 	size   int64
-	//body   []byte
+	// body   []byte
 }
 
 // WriteHeader captures the status code and calls the underlying ResponseWriter's
@@ -29,7 +29,7 @@ func (rw *responseWriter) WriteHeader(status int) {
 func (rw *responseWriter) Write(b []byte) (int, error) {
 	size, err := rw.ResponseWriter.Write(b)
 	rw.size += int64(size)
-	//rw.body = append(rw.body, b...)
+	// rw.body = append(rw.body, b...)
 	return size, err
 }
 
@@ -58,8 +58,8 @@ func loggingMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
 			wrapped := &responseWriter{ResponseWriter: w, status: http.StatusOK}
 			next.ServeHTTP(wrapped, r)
 
-			//TODO Do not log the response body, may contain sensitive information.
-			//eventually logging will have to output full response. punting for now.
+			// TODO Do not log the response body, may contain sensitive information.
+			// eventually logging will have to output full response. punting for now.
 			logger.LogAttrs(
 				r.Context(),
 				slog.LevelInfo,
@@ -67,7 +67,7 @@ func loggingMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
 				slog.Int("status", wrapped.status),
 				slog.String("duration", time.Since(start).String()),
 				slog.Int64("size", wrapped.size),
-				//slog.String("response_body", string(wrapped.body)),
+				// slog.String("response_body", string(wrapped.body)),
 			)
 		},
 	)

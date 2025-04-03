@@ -8,7 +8,7 @@ import (
 func handleLogLevel(logger *slog.Logger, logLevel *slog.LevelVar) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
-			//level := r.URL.Query().Get("level")
+			// level := r.URL.Query().Get("level")
 			level := r.PathValue("level")
 			var newLevel slog.Level
 
@@ -40,7 +40,6 @@ func handleLogLevel(logger *slog.Logger, logLevel *slog.LevelVar) http.Handler {
 				)
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 			}
-
 		},
 	)
 }

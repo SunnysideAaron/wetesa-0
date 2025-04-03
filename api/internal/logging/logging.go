@@ -41,9 +41,13 @@ func colorize(s string, color string) string {
 type Level string
 
 const (
+	// LevelDebug Only turn on for in-depth troubleshooting.
 	LevelDebug Level = "DEBUG"
-	LevelInfo  Level = "INFO"
-	LevelWarn  Level = "WARN"
+	// LevelInfo default level in production. Enough information to troubleshoot basic problems.
+	LevelInfo Level = "INFO"
+	// LevelWarn Create a ticket. Something is wrong and needs fixing. Properly handled errors are info not warn.
+	LevelWarn Level = "WARN"
+	// LevelError Call someone NOW! Something is wrong and needs immediate fixing.
 	LevelError Level = "ERROR"
 )
 
@@ -90,13 +94,17 @@ func ParseLevel(level string) slog.Level {
 // PrettyHandler came from
 // https://betterstack.com/community/guides/logging/logging-in-go/#customizing-slog-handlers
 
+// PrettyHandlerOptions configures the behavior of PrettyHandler.
+// Source: https://betterstack.com/community/guides/logging/logging-in-go/#customizing-slog-handlers
 type PrettyHandlerOptions struct {
 	SlogOpts slog.HandlerOptions
 }
 
+// PrettyHandler implements slog.Handler to provide pretty-printed log output
+// with colors and formatted JSON attributes.
 type PrettyHandler struct {
 	slog.Handler
-	l     *log.Logger //TODO should this be a log or slog?
+	l     *log.Logger // TODO should this be a log or slog?
 	attrs []slog.Attr
 	level *slog.LevelVar
 }
@@ -115,7 +123,9 @@ func AppendCtx(ctx context.Context, attrs ...slog.Attr) context.Context {
 	return context.WithValue(ctx, slogFields, attrs)
 }
 
-func getValue(v slog.Value) interface{} {
+// getValue extracts the actual value from a slog.Value, handling LogValuer interface
+// implementations recursively.
+func getValue(v slog.Value) any {
 	if v.Kind() == slog.KindAny {
 		if logValuer, ok := v.Any().(interface{ LogValue() slog.Value }); ok {
 			return getValue(logValuer.LogValue())
@@ -124,6 +134,8 @@ func getValue(v slog.Value) interface{} {
 	return v.Any()
 }
 
+// Handle implements slog.Handler.Handle to process log records.
+// It formats the output with colors and structured JSON attributes.
 func (h *PrettyHandler) Handle(ctx context.Context, r slog.Record) error {
 	// Check if we should handle this level
 	if !h.enabled(r.Level) {
@@ -151,7 +163,7 @@ func (h *PrettyHandler) Handle(ctx context.Context, r slog.Record) error {
 		level = colorize(level, colorRed)
 	}
 
-	fields := make(map[string]interface{})
+	fields := make(map[string]any)
 
 	// Add source information if available
 	if r.PC != 0 {
@@ -184,6 +196,7 @@ func (h *PrettyHandler) Handle(ctx context.Context, r slog.Record) error {
 	return nil
 }
 
+// NewPrettyHandler creates a new PrettyHandler with the specified options.
 func NewPrettyHandler(
 	out io.Writer,
 	opts PrettyHandlerOptions,
@@ -203,6 +216,9 @@ func NewPrettyHandler(
 	return h
 }
 
+// WithAttrs implements slog.Handler.WithAttrs to create a new handler with
+// the specified attributes added to the set of attributes that will be
+// included with all log records.
 func (h *PrettyHandler) WithAttrs(attrs []slog.Attr) slog.Handler {
 	// Create a new handler with combined attributes
 	newAttrs := make([]slog.Attr, len(h.attrs)+len(attrs))
@@ -216,6 +232,9 @@ func (h *PrettyHandler) WithAttrs(attrs []slog.Attr) slog.Handler {
 	}
 }
 
+// WithGroup implements slog.Handler.WithGroup to create a new handler with
+// the specified group name added to the set of groups that will be
+// included with all log records.
 func (h *PrettyHandler) WithGroup(name string) slog.Handler {
 	// Create a new handler with the same logger but with an additional group
 	return &PrettyHandler{
@@ -224,6 +243,7 @@ func (h *PrettyHandler) WithGroup(name string) slog.Handler {
 	}
 }
 
+// enabled checks if the given log level should be processed
 func (h *PrettyHandler) enabled(level slog.Level) bool {
 	return level >= h.level.Level()
 }
@@ -236,6 +256,12 @@ func (h *PrettyHandler) enabled(level slog.Level) bool {
 // FormatStack makes the stack trace more readable by:
 // - Removing unnecessary runtime info
 // - Removing extra blank lines
+// - Focusing on application code (paths containing "api/")
+//
+// The output format is:
+// → function_name
+//
+//	at file/path.go:line_number
 func FormatStack(stack []byte) string {
 	lines := strings.Split(string(stack), "\n")
 	var filtered []string

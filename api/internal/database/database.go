@@ -52,6 +52,9 @@ func NewPG(ctx context.Context, cfg *pgxpool.Config, logger *slog.Logger) *Postg
 	return pgInstance
 }
 
+// Close releases all connections in the pool and shuts down the connection pool.
+// This method should be called when the application is shutting down to ensure
+// proper cleanup of database resources.
 func (pg *Postgres) Close() {
 	pg.pool.Close()
 }

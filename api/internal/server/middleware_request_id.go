@@ -12,9 +12,10 @@ import (
 	"api/internal/logging"
 )
 
+// RequestIDKey is the context key used to store and retrieve the request ID.
 const RequestIDKey string = "request_id"
 
-// RequestIDFromContext pulls the request ID from the context, if one was set.
+// requestIDFromContext pulls the request ID from the context, if one was set.
 // If one was not set, it returns the empty string.
 func requestIDFromContext(ctx context.Context) string {
 	v := ctx.Value(RequestIDKey)
@@ -62,6 +63,16 @@ func generateID() (string, error) {
 	return b64[0:10], nil
 }
 
+// requestIDMiddleware is an HTTP middleware that ensures each request has a unique ID.
+// If a request ID is not already present in the context, it generates a new one using
+// generateID() and adds it to the context. This ID can be used for request tracing
+// and correlation across logs and services.
+//
+// The middleware will:
+// 1. Check for an existing request ID in the context
+// 2. Generate a new ID if none exists
+// 3. Add the ID to the request context
+// 4. Return a 500 error if ID generation fails
 func requestIDMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
