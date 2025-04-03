@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"log/slog"
 
 	"github.com/jackc/pgerrcode"
@@ -66,7 +65,8 @@ func (pg *Postgres) InsertClient(ctx context.Context, c Client) error {
 func (pg *Postgres) BulkInsertClients(ctx context.Context, clients []Client) error {
 	query := `INSERT INTO client (name, address) VALUES (@name, @address)`
 
-	batch := &pgx.Batch{}
+	batch := &pgx.Batch{} //nolint:exhaustruct
+
 	for _, client := range clients {
 		args := pgx.NamedArgs{
 			"name":    client.Name,
@@ -80,7 +80,12 @@ func (pg *Postgres) BulkInsertClients(ctx context.Context, clients []Client) err
 	defer func() {
 		err := results.Close()
 		if err != nil {
-			log.Printf("could not close results: %v", err)
+			slog.LogAttrs(
+				ctx,
+				slog.LevelError,
+				"could not close results",
+				slog.String("error", err.Error()),
+			)
 		}
 	}()
 
@@ -89,7 +94,12 @@ func (pg *Postgres) BulkInsertClients(ctx context.Context, clients []Client) err
 		if err != nil {
 			var pgErr *pgconn.PgError
 			if errors.As(err, &pgErr) && pgErr.Code == pgerrcode.UniqueViolation {
-				log.Printf("user %s already exists", client.Name)
+				slog.LogAttrs(
+					ctx,
+					slog.LevelInfo,
+					"user already exists",
+					slog.String("name", client.Name),
+				)
 				continue
 			}
 

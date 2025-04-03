@@ -60,6 +60,13 @@ func NewLogger(cfg *config.APIConfig) (*slog.Logger, *slog.LevelVar) {
 	opts := slog.HandlerOptions{
 		Level:     lvl,
 		AddSource: true,
+		ReplaceAttr: func(_ []string, a slog.Attr) slog.Attr {
+			// didn't seems to work.
+			// if a.Key == "request_id" {
+			// 	return slog.String("request_id", "🤖")
+			// }
+			return a
+		},
 	}
 
 	var handler slog.Handler
@@ -82,6 +89,8 @@ func ParseLevel(level string) slog.Level {
 	switch Level(level) {
 	case LevelDebug:
 		return slog.LevelDebug
+	case LevelInfo:
+		return slog.LevelInfo
 	case LevelWarn:
 		return slog.LevelWarn
 	case LevelError:
@@ -229,6 +238,7 @@ func (h *PrettyHandler) WithAttrs(attrs []slog.Attr) slog.Handler {
 		Handler: h.Handler.WithAttrs(attrs),
 		l:       h.l,
 		attrs:   newAttrs,
+		level:   h.level,
 	}
 }
 
@@ -240,6 +250,8 @@ func (h *PrettyHandler) WithGroup(name string) slog.Handler {
 	return &PrettyHandler{
 		Handler: h.Handler.WithGroup(name),
 		l:       h.l,
+		attrs:   h.attrs,
+		level:   h.level,
 	}
 }
 

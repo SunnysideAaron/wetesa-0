@@ -58,14 +58,13 @@ linters:
     # - bodyclose # checks whether HTTP response body is closed successfully
     # - canonicalheader # checks whether net/http.Header uses canonical header
     # - copyloopvar # detects places where loop variables are copied (Go 1.22+)
-    # - cyclop # checks function and package cyclomatic complexity
-    # - depguard # checks if package imports are in a list of acceptable packages
+    - depguard # AaronS keeps us from using deprecated packages.
     # - dupl # tool for code clone detection
     # - durationcheck # checks for two durations multiplied together
     - errcheck # checking for unchecked errors, these unchecked errors can be critical bugs in some cases
     # - errname # checks that sentinel errors are prefixed with the Err and error types are suffixed with the Error
     # - errorlint # finds code that will cause problems with the error wrapping scheme introduced in Go 1.13
-    # - exhaustive # checks exhaustiveness of enum switch statements
+    - exhaustive # checks exhaustiveness of enum switch statements. AaronS ie is every enum value handled in switch.
     # - exptostd # detects functions from golang.org/x/exp/ that can be replaced by std functions
     # - fatcontext # detects nested contexts in loops
     # - forbidigo # forbids identifiers
@@ -126,7 +125,7 @@ linters:
 
     ## you may want to enable
     #- decorder # checks declaration order and count of types, constants, variables and functions
-    #- exhaustruct # [highly recommend to enable] checks if all structure fields are initialized
+    - exhaustruct # [highly recommend to enable] checks if all structure fields are initialized
     #- ginkgolinter # [if you use ginkgo/gomega] enforces standards of using ginkgo and gomega
     #- godox # detects usage of FIXME, TODO and other keywords inside comments
     #- goheader # checks is file header matches to pattern
@@ -140,6 +139,8 @@ linters:
     #- zerologlint # detects the wrong usage of zerolog that a user forgets to dispatch zerolog.Event
 
     ## disabled
+    # - cyclop # checks function and package cyclomatic complexity. AaronS I don't care. If we can't understand it, we can catch that ourselves.
+    
     #- containedctx # detects struct contained context.Context field
     #- contextcheck # [too many false positives] checks the function whether use a non-inherited context
     #- dogsled # checks assignments with too many blank identifiers (e.g. x, _, _, _, := f())
@@ -162,61 +163,53 @@ linters:
 
   # All settings can be found here https://github.com/golangci/golangci-lint/blob/HEAD/.golangci.reference.yml
   settings:
-    # cyclop:
-    #   # The maximal code complexity to report.
-    #   # Default: 10
-    #   max-complexity: 30
-    #   # The maximal average package complexity.
-    #   # If it's higher than 0.0 (float) the check is enabled
-    #   # Default: 0.0
-    #   package-average: 10.0
-
-    # depguard:
-    #   # Rules to apply.
-    #   #
-    #   # Variables:
-    #   # - File Variables
-    #   #   Use an exclamation mark `!` to negate a variable.
-    #   #   Example: `!$test` matches any file that is not a go test file.
-    #   #
-    #   #   `$all` - matches all go files
-    #   #   `$test` - matches all go test files
-    #   #
-    #   # - Package Variables
-    #   #
-    #   #   `$gostd` - matches all of go's standard library (Pulled from `GOROOT`)
-    #   #
-    #   # Default (applies if no custom rules are defined): Only allow $gostd in all files.
-    #   rules:
-    #     "deprecated":
-    #       # List of file globs that will match this list of settings to compare against.
-    #       # By default, if a path is relative, it is relative to the directory where the golangci-lint command is executed.
-    #       # The placeholder '${base-path}' is substituted with a path relative to the mode defined with `run.relative-path-mode`.
-    #       # Default: $all
-    #       files:
-    #         - "$all"
-    #       # List of packages that are not allowed.
-    #       # Entries can be a variable (starting with $), a string prefix, or an exact match (if ending with $).
-    #       # Default: []
-    #       deny:
-    #         - pkg: github.com/golang/protobuf
-    #           desc: Use google.golang.org/protobuf instead, see https://developers.google.com/protocol-buffers/docs/reference/go/faq#modules
-    #         - pkg: github.com/satori/go.uuid
-    #           desc: Use github.com/google/uuid instead, satori's package is not maintained
-    #         - pkg: github.com/gofrs/uuid$
-    #           desc: Use github.com/gofrs/uuid/v5 or later, it was not a go module before v5
-    #     "non-test files":
-    #       files:
-    #         - "!$test"
-    #       deny:
-    #         - pkg: math/rand$
-    #           desc: Use math/rand/v2 instead, see https://go.dev/blog/randv2
-    #     "non-main files":
-    #       files:
-    #         - "!**/main.go"
-    #       deny:
-    #         - pkg: log$
-    #           desc: Use log/slog instead, see https://go.dev/blog/slog
+    depguard:
+      # Rules to apply.
+      #
+      # Variables:
+      # - File Variables
+      #   Use an exclamation mark `!` to negate a variable.
+      #   Example: `!$test` matches any file that is not a go test file.
+      #
+      #   `$all` - matches all go files
+      #   `$test` - matches all go test files
+      #
+      # - Package Variables
+      #
+      #   `$gostd` - matches all of go's standard library (Pulled from `GOROOT`)
+      #
+      # Default (applies if no custom rules are defined): Only allow $gostd in all files.
+      rules:
+        "deprecated":
+          # List of file globs that will match this list of settings to compare against.
+          # By default, if a path is relative, it is relative to the directory where the golangci-lint command is executed.
+          # The placeholder '${base-path}' is substituted with a path relative to the mode defined with `run.relative-path-mode`.
+          # Default: $all
+          files:
+            - "$all"
+          # List of packages that are not allowed.
+          # Entries can be a variable (starting with $), a string prefix, or an exact match (if ending with $).
+          # Default: []
+          deny:
+            - pkg: github.com/golang/protobuf
+              desc: Use google.golang.org/protobuf instead, see https://developers.google.com/protocol-buffers/docs/reference/go/faq#modules
+            - pkg: github.com/satori/go.uuid
+              desc: Use github.com/google/uuid instead, satori's package is not maintained
+            - pkg: github.com/gofrs/uuid$
+              desc: Use github.com/gofrs/uuid/v5 or later, it was not a go module before v5
+        "non-test files":
+          files:
+            - "!$test"
+          deny:
+            - pkg: math/rand$
+              desc: Use math/rand/v2 instead, see https://go.dev/blog/randv2
+        "non-main files":
+          files:
+            - "!**/main.go"
+            - "!**/logging.go"
+          deny:
+            - pkg: log$
+              desc: Use log/slog instead, see https://go.dev/blog/slog
 
     errcheck:
       # Report about not checking of errors in type assertions: `a := b.(MyStruct)`.
@@ -224,41 +217,41 @@ linters:
       # Default: false
       check-type-assertions: true
 
-    # exhaustive:
-    #   # Program elements to check for exhaustiveness.
-    #   # Default: [ switch ]
-    #   check:
-    #     - switch
-    #     - map
+    exhaustive:
+      # Program elements to check for exhaustiveness.
+      # Default: [ switch ]
+      check:
+        - switch
+        - map
 
-    # exhaustruct:
-    #   # List of regular expressions to exclude struct packages and their names from checks.
-    #   # Regular expressions must match complete canonical struct package/name/structname.
-    #   # Default: []
-    #   exclude:
-    #     # std libs
-    #     - ^net/http.Client$
-    #     - ^net/http.Cookie$
-    #     - ^net/http.Request$
-    #     - ^net/http.Response$
-    #     - ^net/http.Server$
-    #     - ^net/http.Transport$
-    #     - ^net/url.URL$
-    #     - ^os/exec.Cmd$
-    #     - ^reflect.StructField$
-    #     # public libs
-    #     - ^github.com/Shopify/sarama.Config$
-    #     - ^github.com/Shopify/sarama.ProducerMessage$
-    #     - ^github.com/mitchellh/mapstructure.DecoderConfig$
-    #     - ^github.com/prometheus/client_golang/.+Opts$
-    #     - ^github.com/spf13/cobra.Command$
-    #     - ^github.com/spf13/cobra.CompletionOptions$
-    #     - ^github.com/stretchr/testify/mock.Mock$
-    #     - ^github.com/testcontainers/testcontainers-go.+Request$
-    #     - ^github.com/testcontainers/testcontainers-go.FromDockerfile$
-    #     - ^golang.org/x/tools/go/analysis.Analyzer$
-    #     - ^google.golang.org/protobuf/.+Options$
-    #     - ^gopkg.in/yaml.v3.Node$
+    exhaustruct:
+      # List of regular expressions to exclude struct packages and their names from checks.
+      # Regular expressions must match complete canonical struct package/name/structname.
+      # Default: []
+      exclude:
+        # std libs
+        - ^net/http.Client$
+        - ^net/http.Cookie$
+        - ^net/http.Request$
+        - ^net/http.Response$
+        - ^net/http.Server$
+        - ^net/http.Transport$
+        - ^net/url.URL$
+        - ^os/exec.Cmd$
+        - ^reflect.StructField$
+        # public libs
+        - ^github.com/Shopify/sarama.Config$
+        - ^github.com/Shopify/sarama.ProducerMessage$
+        - ^github.com/mitchellh/mapstructure.DecoderConfig$
+        - ^github.com/prometheus/client_golang/.+Opts$
+        - ^github.com/spf13/cobra.Command$
+        - ^github.com/spf13/cobra.CompletionOptions$
+        - ^github.com/stretchr/testify/mock.Mock$
+        - ^github.com/testcontainers/testcontainers-go.+Request$
+        - ^github.com/testcontainers/testcontainers-go.FromDockerfile$
+        - ^golang.org/x/tools/go/analysis.Analyzer$
+        - ^google.golang.org/protobuf/.+Options$
+        - ^gopkg.in/yaml.v3.Node$
 
     # funlen:
     #   # Checks the number of lines in a function.
@@ -410,9 +403,9 @@ linters:
         # https://github.com/mgechev/revive/blob/HEAD/RULES_DESCRIPTIONS.md#argument-limit
         - name: argument-limit
           # severity: warning
-          # disabled: false
+          disabled: true # AaronS If it's too long we can catch that ourselves.
           # exclude: [""]
-          arguments: [ 5 ]
+          # arguments: [ 5 ]
         # # https://github.com/mgechev/revive/blob/HEAD/RULES_DESCRIPTIONS.md#atomic
         # - name: atomic
         #   severity: warning
@@ -978,10 +971,10 @@ linters:
     #   # Default: false
     #   os-temp-dir: true
 
-  # exclusions:
-  #   # Log a warning if an exclusion rule is unused.
-  #   # Default: false
-  #   warn-unused: true
+  exclusions:
+    # Log a warning if an exclusion rule is unused.
+    # Default: false
+    warn-unused: true
   #   # Predefined exclusion rules.
   #   # Default: []
   #   presets:

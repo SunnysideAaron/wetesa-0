@@ -55,7 +55,11 @@ func loggingMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
 				slog.String("userAgent", r.Header.Get("User-Agent")),
 			)
 
-			wrapped := &responseWriter{ResponseWriter: w, status: http.StatusOK}
+			wrapped := &responseWriter{
+				ResponseWriter: w,
+				status:         http.StatusOK,
+				size:           0,
+			}
 			next.ServeHTTP(wrapped, r)
 
 			// TODO Do not log the response body, may contain sensitive information.

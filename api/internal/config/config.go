@@ -44,6 +44,7 @@ func LoadAPIConfig() *APIConfig {
 	// Set default values.
 	cnf := &APIConfig{
 		Environment:            EnvironmentProd,
+		APIHost:                "",
 		APIPort:                "8080",
 		APIReadTimeout:         15,
 		APIWriteTimeout:        60,
