@@ -65,7 +65,7 @@ func (pg *Postgres) InsertClient(ctx context.Context, c Client) error {
 func (pg *Postgres) BulkInsertClients(ctx context.Context, clients []Client) error {
 	query := `INSERT INTO client (name, address) VALUES (@name, @address)`
 
-	batch := &pgx.Batch{} //nolint:exhaustruct
+	batch := &pgx.Batch{} //nolint:exhaustruct // works fine. we don't need to initialize. already handled.
 
 	for _, client := range clients {
 		args := pgx.NamedArgs{

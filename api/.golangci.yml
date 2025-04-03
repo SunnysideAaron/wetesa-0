@@ -7,6 +7,27 @@
 
 version: "2"
 
+run:
+  # Timeout for total work, e.g. 30s, 5m, 5m30s.
+  # If the value is lower or equal to 0, the timeout is disabled.
+  # Default: 0 (disabled)
+  timeout: 5m
+  
+  # Allow multiple parallel golangci-lint instances running.
+  # If false, golangci-lint acquires file lock on start.
+  # Default: false
+  allow-parallel-runners: true
+  
+  # Allow multiple golangci-lint instances running, but serialize them around a lock.
+  # If false, golangci-lint exits with an error if it fails to acquire file lock on start.
+  # Default: false
+  allow-serial-runners: true
+
+  # Number of operating system threads (`GOMAXPROCS`) that can execute golangci-lint simultaneously.
+  # Default: 0 (automatically set to match Linux container CPU quota and
+  # fall back to the number of logical CPUs in the machine)
+  concurrency: 0
+
 issues:
   # Maximum count of issues with the same text.
   # Set to 0 to disable.
@@ -52,6 +73,11 @@ formatters:
 
 linters:
   enable:
+  # AaronS TODO checks.
+  #  *constants used once shouldn't be constants
+  # * the new error format
+  # * sql , location
+
     - asasalint # checks for pass []any as any in variadic func(...any)
     # - asciicheck # checks that your code does not contain non-ASCII identifiers
     # - bidichk # checks for dangerous unicode character sequences
@@ -65,17 +91,18 @@ linters:
     # - errname # checks that sentinel errors are prefixed with the Err and error types are suffixed with the Error
     # - errorlint # finds code that will cause problems with the error wrapping scheme introduced in Go 1.13
     - exhaustive # checks exhaustiveness of enum switch statements. AaronS ie is every enum value handled in switch.
+    - exhaustruct # [highly recommend to enable] checks if all structure fields are initialized
     # - exptostd # detects functions from golang.org/x/exp/ that can be replaced by std functions
     # - fatcontext # detects nested contexts in loops
     # - forbidigo # forbids identifiers
-    # - funlen # tool for detection of long functions
+
     # - gocheckcompilerdirectives # validates go compiler directive comments (//go:)
     # - gochecknoglobals # checks that no global variables exist
     # - gochecknoinits # checks that no init functions are present in Go code
-    # - gochecksumtype # checks exhaustiveness on Go "sum types"
-    # - gocognit # computes and checks the cognitive complexity of functions
+    - gochecksumtype # checks exhaustiveness on Go "sum types"
     # - goconst # finds repeated strings that could be replaced by a constant
-    # - gocritic # provides diagnostics that check for bugs, performance and style issues
+    - gocritic # provides diagnostics that check for bugs, performance and style issues
+               # AaronS TODO gocritic has a LOT of experimental tests. We may want to explore if we have specific issues.
     # - gocyclo # computes and checks the cyclomatic complexity of functions
     # - godot # checks if comments end in a period
     # - gomoddirectives # manages the use of 'replace', 'retract', and 'excludes' directives in go.mod
@@ -88,26 +115,26 @@ linters:
     # - loggercheck # checks key value pairs for common logger libraries (kitlog,klog,logr,zap)
     # - makezero # finds slice declarations with non-zero initial length
     # - mirror # reports wrong mirror patterns of bytes/strings usage
-    # - mnd # detects magic numbers
     # - musttag # enforces field tags in (un)marshaled structs
-    # - nakedret # finds naked returns in functions greater than a specified function length
+    - nakedret # finds naked returns in functions greater than a specified function length
     # - nestif # reports deeply nested if statements
     # - nilerr # finds the code that returns nil even if it checks that the error is not nil
     # - nilnesserr # reports that it checks for err != nil, but it returns a different nil value error (powered by nilness and nilerr)
     # - nilnil # checks that there is no simultaneous return of nil error and an invalid value
     # - noctx # finds sending http request without context.Context
-    # - nolintlint # reports ill-formed or insufficient nolint directives
+    - nolintlint # reports ill-formed or insufficient nolint directives
     # - nonamedreturns # reports all named returns
     # - nosprintfhostport # checks for misuse of Sprintf to construct a host with port in a URL
-    # - perfsprint # checks that fmt.Sprintf can be replaced with a faster alternative
+    - perfsprint # checks that fmt.Sprintf can be replaced with a faster alternative
     # - predeclared # finds code that shadows one of Go's predeclared identifiers
     # - promlinter # checks Prometheus metrics naming via promlint
     # - protogetter # reports direct reads from proto message fields when getters should be used
-    # - reassign # checks that package variables are not reassigned
+    - reassign # checks that package variables are not reassigned
     # - recvcheck # checks for receiver type consistency
     - revive # fast, configurable, extensible, flexible, and beautiful linter for Go, drop-in replacement of golint
-    # - rowserrcheck # checks whether Err of rows is checked successfully
-    # - sloglint # ensure consistent code style when using log/slog
+    - rowserrcheck # checks whether Err of rows is checked successfully
+                   # https://github.com/jingyugao/rowserrcheck
+    - sloglint # ensure consistent code style when using log/slog
     # - spancheck # checks for mistakes with OpenTelemetry/Census spans
     # - sqlclosecheck # checks that sql.Rows and sql.Stmt are closed
     - staticcheck # is a go vet on steroids, applying a ton of static analysis checks    
@@ -119,17 +146,17 @@ linters:
     # - unparam # reports unused function parameters
     - unused # checks for unused constants, variables, functions and types
     # - usestdlibvars # detects the possibility to use variables/constants from the Go standard library
-    # - usetesting # reports uses of functions with replacement inside the testing package
+    #- usetesting # reports uses of functions with replacement inside the testing package
     # - wastedassign # finds wasted assignment statements
     # - whitespace # detects leading and trailing whitespace
 
     ## you may want to enable
     #- decorder # checks declaration order and count of types, constants, variables and functions
-    - exhaustruct # [highly recommend to enable] checks if all structure fields are initialized
     #- ginkgolinter # [if you use ginkgo/gomega] enforces standards of using ginkgo and gomega
     #- godox # detects usage of FIXME, TODO and other keywords inside comments
     #- goheader # checks is file header matches to pattern
-    #- inamedparam # [great idea, but too strict, need to ignore a lot of cases by default] reports interfaces with unnamed method parameters
+    - inamedparam # [great idea, but too strict, need to ignore a lot of cases by default] reports interfaces with unnamed method parameters
+                  # https://github.com/macabu/inamedparam
     #- interfacebloat # checks the number of methods inside an interface
     #- ireturn # accept interfaces, return concrete types
     #- prealloc # [premature optimization, but can be used in some cases] finds slice declarations that could potentially be preallocated
@@ -140,7 +167,10 @@ linters:
 
     ## disabled
     # - cyclop # checks function and package cyclomatic complexity. AaronS I don't care. If we can't understand it, we can catch that ourselves.
-    
+    # - funlen # tool for detection of long functions. AaronS we can catch that ourselves.
+    # - gocognit # computes and checks the cognitive complexity of functions  AaronS we can catch that ourselves.
+    # - mnd # detects magic numbers AaronS I like magic numbers, they often make things simpler. If the number is only used a handful of times. DO NOT create a constant.
+
     #- containedctx # detects struct contained context.Context field
     #- contextcheck # [too many false positives] checks the function whether use a non-inherited context
     #- dogsled # checks assignments with too many blank identifiers (e.g. x, _, _, _, := f())
@@ -253,39 +283,24 @@ linters:
         - ^google.golang.org/protobuf/.+Options$
         - ^gopkg.in/yaml.v3.Node$
 
-    # funlen:
-    #   # Checks the number of lines in a function.
-    #   # If lower than 0, disable the check.
-    #   # Default: 60
-    #   lines: 100
-    #   # Checks the number of statements in a function.
-    #   # If lower than 0, disable the check.
-    #   # Default: 40
-    #   statements: 50
+    gochecksumtype:
+      # Presence of `default` case in switch statements satisfies exhaustiveness, if all members are not listed.
+      # Default: true
+      default-signifies-exhaustive: false
 
-    # gochecksumtype:
-    #   # Presence of `default` case in switch statements satisfies exhaustiveness, if all members are not listed.
-    #   # Default: true
-    #   default-signifies-exhaustive: false
-
-    # gocognit:
-    #   # Minimal code complexity to report.
-    #   # Default: 30 (but we recommend 10-20)
-    #   min-complexity: 20
-
-    # gocritic:
-    #   # Settings passed to gocritic.
-    #   # The settings key is the name of a supported gocritic checker.
-    #   # The list of supported checkers can be find in https://go-critic.github.io/overview.
-    #   settings:
-    #     captLocal:
-    #       # Whether to restrict checker to params only.
-    #       # Default: true
-    #       paramsOnly: false
-    #     underef:
-    #       # Whether to skip (*x).method() calls where x is a pointer receiver.
-    #       # Default: true
-    #       skipRecvDeref: false
+    gocritic:
+      # Settings passed to gocritic.
+      # The settings key is the name of a supported gocritic checker.
+      # The list of supported checkers can be find in https://go-critic.github.io/overview.
+      settings:
+        captLocal:
+          # Whether to restrict checker to params only.
+          # Default: true
+          paramsOnly: false
+        underef:
+          # Whether to skip (*x).method() calls where x is a pointer receiver.
+          # Default: true
+          skipRecvDeref: false
 
     govet:
       # Enable all analyzers.
@@ -303,60 +318,38 @@ linters:
           # Default: false
           strict: true
 
-    # inamedparam:
-    #   # Skips check for interface methods with only a single parameter.
-    #   # Default: false
-    #   skip-single-param: true
+    inamedparam:
+      # Skips check for interface methods with only a single parameter.
+      # Default: false
+      skip-single-param: true
 
-    # mnd:
-    #   # List of function patterns to exclude from analysis.
-    #   # Values always ignored: `time.Date`,
-    #   # `strconv.FormatInt`, `strconv.FormatUint`, `strconv.FormatFloat`,
-    #   # `strconv.ParseInt`, `strconv.ParseUint`, `strconv.ParseFloat`.
-    #   # Default: []
-    #   ignored-functions:
-    #     - args.Error
-    #     - flag.Arg
-    #     - flag.Duration.*
-    #     - flag.Float.*
-    #     - flag.Int.*
-    #     - flag.Uint.*
-    #     - os.Chmod
-    #     - os.Mkdir.*
-    #     - os.OpenFile
-    #     - os.WriteFile
-    #     - prometheus.ExponentialBuckets.*
-    #     - prometheus.LinearBuckets
+    nakedret:
+      # Make an issue if func has more lines of code than this setting, and it has naked returns.
+      # Default: 30
+      max-func-lines: 0
 
-    # nakedret:
-    #   # Make an issue if func has more lines of code than this setting, and it has naked returns.
-    #   # Default: 30
-    #   max-func-lines: 0
+    nolintlint:
+      # Exclude following linters from requiring an explanation.
+      # Default: []
+      allow-no-explanation: [ funlen, gocognit, golines ]
+      # Enable to require an explanation of nonzero length after each nolint directive.
+      # Default: false
+      require-explanation: true
+      # Enable to require nolint directives to mention the specific linter being suppressed.
+      # Default: false
+      require-specific: true
 
-    # nolintlint:
-    #   # Exclude following linters from requiring an explanation.
-    #   # Default: []
-    #   allow-no-explanation: [ funlen, gocognit, golines ]
-    #   # Enable to require an explanation of nonzero length after each nolint directive.
-    #   # Default: false
-    #   require-explanation: true
-    #   # Enable to require nolint directives to mention the specific linter being suppressed.
-    #   # Default: false
-    #   require-specific: true
+    perfsprint:
+      # Optimizes into strings concatenation.
+      # Default: true
+      strconcat: false
 
-    # perfsprint:
-    #   # Optimizes into strings concatenation.
-    #   # Default: true
-    #   strconcat: false
-
-
-
-    # reassign:
-    #   # Patterns for global variable names that are checked for reassignment.
-    #   # See https://github.com/curioswitch/go-reassign#usage
-    #   # Default: ["EOF", "Err.*"]
-    #   patterns:
-    #     - ".*"
+    reassign:
+      # Patterns for global variable names that are checked for reassignment.
+      # See https://github.com/curioswitch/go-reassign#usage
+      # Default: ["EOF", "Err.*"]
+      patterns:
+        - ".*"
 
     revive:
       # Maximum number of open files at the same time.
@@ -908,29 +901,44 @@ linters:
         #   exclude: [""]
 
 
-    # rowserrcheck:
-    #   # database/sql is always checked
-    #   # Default: []
-    #   packages:
-    #     - github.com/jmoiron/sqlx
+    rowserrcheck:
+      # database/sql is always checked
+      # Default: []
+      packages:
+        - github.com/jmoiron/sqlx
+        - github.com/jackc/pgx/v5 # AaronS no idea if this does anything. We use pgx and not database/sql.
+                                  # This check shouldn't do anything. but wont hurt in case things change.
 
-    # sloglint:
-    #   # Enforce not using global loggers.
-    #   # Values:
-    #   # - "": disabled
-    #   # - "all": report all global loggers
-    #   # - "default": report only the default slog logger
-    #   # https://github.com/go-simpler/sloglint?tab=readme-ov-file#no-global
-    #   # Default: ""
-    #   no-global: all
-    #   # Enforce using methods that accept a context.
-    #   # Values:
-    #   # - "": disabled
-    #   # - "all": report all contextless calls
-    #   # - "scope": report only if a context exists in the scope of the outermost function
-    #   # https://github.com/go-simpler/sloglint?tab=readme-ov-file#context-only
-    #   # Default: ""
-    #   context: scope
+    sloglint:
+      # Enforce putting arguments on separate lines.
+      # https://github.com/go-simpler/sloglint?tab=readme-ov-file#arguments-on-separate-lines
+      # Default: false
+      args-on-sep-lines: true
+      # Enforce using attributes only (overrides no-mixed-args, incompatible with kv-only).
+      # https://github.com/go-simpler/sloglint?tab=readme-ov-file#attributes-only
+      # Default: false
+      attr-only: true
+      # Enforce using methods that accept a context.
+      # Values:
+      # - "": disabled
+      # - "all": report all contextless calls
+      # - "scope": report only if a context exists in the scope of the outermost function
+      # https://github.com/go-simpler/sloglint?tab=readme-ov-file#context-only
+      # Default: ""
+      context: all
+      # Enforce a single key naming convention.
+      # Values: snake, kebab, camel, pascal
+      # https://github.com/go-simpler/sloglint?tab=readme-ov-file#key-naming-convention
+      # Default: ""
+      # key-naming-case: snake #AaronS we might want to play with this someday
+      # Enforce not using global loggers.
+      # Values:
+      # - "": disabled
+      # - "all": report all global loggers
+      # - "default": report only the default slog logger
+      # https://github.com/go-simpler/sloglint?tab=readme-ov-file#no-global
+      # Default: ""
+      no-global: "" # AaronS a global logger is exactly what we want for this api.
 
     staticcheck:
       # SAxxxx checks in https://staticcheck.dev/docs/configuration/options/#checks
@@ -947,6 +955,7 @@ linters:
         # Omit embedded fields from selector expression.
         # https://staticcheck.dev/docs/checks/#QF1008
         #- -QF1008
+
     unused:
       # Mark all struct fields that have been written to as used.
       # Default: true
@@ -966,44 +975,56 @@ linters:
       # Mark all identifiers inside generated files as used.
       # Default: true
       #generated-is-used: false
+
     # usetesting:
     #   # Enable/disable `os.TempDir()` detections.
     #   # Default: false
     #   os-temp-dir: true
 
   exclusions:
+    # Mode of the generated files analysis.
+    #
+    # - `strict`: sources are excluded by strictly following the Go generated file convention.
+    #    Source files that have lines matching only the following regular expression will be excluded: `^// Code generated .* DO NOT EDIT\.$`
+    #    This line must appear before the first non-comment, non-blank text in the file.
+    #    https://go.dev/s/generatedcode
+    # - `lax`: sources are excluded if they contain lines like `autogenerated file`, `code generated`, `do not edit`, etc.
+    # - `disable`: disable the generated files exclusion.
+    #
+    # Default: lax
+    generated: lax # AaronS TODO check generated code.
     # Log a warning if an exclusion rule is unused.
     # Default: false
     warn-unused: true
-  #   # Predefined exclusion rules.
-  #   # Default: []
-  #   presets:
-  #     - std-error-handling
-  #     - common-false-positives
-  #   # Excluding configuration per-path, per-linter, per-text and per-source.
-  #   rules:
-  #     - source: 'TODO'
-  #       linters: [ godot ]
-  #     - text: 'should have a package comment'
-  #       linters: [ revive ]
-  #     - text: 'exported \S+ \S+ should have comment( \(or a comment on this block\))? or be unexported'
-  #       linters: [ revive ]
-  #     - text: 'package comment should be of the form ".+"'
-  #       source: '// ?(nolint|TODO)'
-  #       linters: [ revive ]
-  #     - text: 'comment on exported \S+ \S+ should be of the form ".+"'
-  #       source: '// ?(nolint|TODO)'
-  #       linters: [ revive, staticcheck ]
-  #     - path: '_test\.go'
-  #       linters:
-  #         - bodyclose
-  #         - dupl
-  #         - errcheck
-  #         - funlen
-  #         - goconst
-  #         - gosec
-  #         - noctx
-  #         - wrapcheck
+    # Predefined exclusion rules.
+    # Default: []
+    # presets: # AaronS can't find what this does in the docs.
+    #   - std-error-handling
+    #   - common-false-positives
+    # Excluding configuration per-path, per-linter, per-text and per-source.
+    rules:
+      # - source: 'TODO'
+      #   linters: [ godot ]
+      # - text: 'should have a package comment'
+      #   linters: [ revive ]
+      # - text: 'exported \S+ \S+ should have comment( \(or a comment on this block\))? or be unexported'
+      #   linters: [ revive ]
+      # - text: 'package comment should be of the form ".+"'
+      #   source: '// ?(nolint|TODO)'
+      #   linters: [ revive ]
+      # - text: 'comment on exported \S+ \S+ should be of the form ".+"'
+      #   source: '// ?(nolint|TODO)'
+      #   linters: [ revive, staticcheck ]
+      # - path: '_test\.go'
+      #   linters:
+      #     - bodyclose
+      #     - dupl
+      #     - errcheck
+      #     - funlen
+      #     - goconst
+      #     - gosec
+      #     - noctx
+      #     - wrapcheck
 
 
 
