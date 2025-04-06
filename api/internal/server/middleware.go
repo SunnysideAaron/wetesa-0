@@ -41,6 +41,7 @@ func newMiddleCore(
 // newMiddleDefaults returns a middleware chain that applies default middleware
 // functions with configurable timeouts and request size limits.
 func newMiddleDefaults(
+	ctx context.Context,
 	cfg *config.APIConfig,
 	logger *slog.Logger,
 	opts ...int,
@@ -53,7 +54,7 @@ func newMiddleDefaults(
 		if len(opts) > 0 && opts[0] > 0 {
 			if opts[0] > int(cfg.APIWriteTimeout) {
 				logger.LogAttrs(
-					context.Background(),
+					ctx,
 					slog.LevelWarn,
 					"passed in timeout is greater than the max timeout, using max timeout",
 					slog.Int("timeout", opts[0]),

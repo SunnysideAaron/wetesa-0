@@ -46,9 +46,13 @@ func run(
 	defer db.Close()
 
 	handle := server.AddRoutes(
-		cfg, db,
-		logger, logLevel,
-		clientLogger, clientLogLevel,
+		ctx,
+		cfg,
+		db,
+		logger,
+		logLevel,
+		clientLogger,
+		clientLogLevel,
 	)
 
 	// Configure the HTTP server
@@ -90,7 +94,7 @@ func run(
 		defer shutdownCancel()
 
 		// Attempt graceful shutdown
-		if err := httpServer.Shutdown(shutdownCtx); err != nil {
+		if err := httpServer.Shutdown(shutdownCtx); err != nil { //nolint:contextcheck // Yes we want a new context here.
 			return fmt.Errorf("server shutdown error: %w", err)
 		}
 	}

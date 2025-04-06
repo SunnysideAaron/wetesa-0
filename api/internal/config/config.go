@@ -125,7 +125,7 @@ func LoadDBConfig() *pgxpool.Config {
 		}
 	} // else if there is an error this will use the default value.
 
-	pCfg.ConnConfig.Database = "postgres"
+	pCfg.ConnConfig.Database = "postgres" //nolint:goconst // These just happen to all be the same value.
 	database := os.Getenv("POSTGRESQL_DATABASE")
 	if database != "" {
 		pCfg.ConnConfig.Database = database

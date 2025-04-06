@@ -3,6 +3,7 @@
 package server
 
 import (
+	"context"
 	"log/slog"
 	"net/http"
 
@@ -13,17 +14,21 @@ import (
 // AddRoutes maps all the API routes
 // [Map the entire API surface in routes.go](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#map-the-entire-api-surface-in-routesgo)
 func AddRoutes(
-	cfg *config.APIConfig, db *database.Postgres,
-	logger *slog.Logger, logLevel *slog.LevelVar,
-	clientLogger *slog.Logger, clientLogLevel *slog.LevelVar,
+	ctx context.Context,
+	cfg *config.APIConfig,
+	db *database.Postgres,
+	logger *slog.Logger,
+	logLevel *slog.LevelVar,
+	clientLogger *slog.Logger,
+	clientLogLevel *slog.LevelVar,
 ) http.Handler {
 	baseMux := http.NewServeMux()
 	v1Mux := http.NewServeMux()
 
-	middleDefaults := newMiddleDefaults(cfg, logger)
+	middleDefaults := newMiddleDefaults(ctx, cfg, logger)
 
 	// example of overriding defaults
-	v1Mux.Handle(http.MethodGet+" /bigopportunity", newMiddleDefaults(cfg, logger, 50)(handleBigOpportunity(logger)))
+	v1Mux.Handle(http.MethodGet+" /bigopportunity", newMiddleDefaults(ctx, cfg, logger, 50)(handleBigOpportunity(logger)))
 	// directly callable example of an error
 	v1Mux.Handle(http.MethodGet+" /errorexample", middleDefaults(handleErrorExample(logger)))
 	v1Mux.Handle(http.MethodGet+" /loglevel/{level}", middleDefaults(handleLogLevel(logger, logLevel)))

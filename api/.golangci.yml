@@ -165,6 +165,8 @@ linters:
     - tagalign # checks that struct tags are well aligned
 
     ## disabled by AaronS
+    #- contextcheck # [too many false positives] checks the function whether use a non-inherited context
+                    # AaronS Agreed, too many false positives.
     # - cyclop # checks function and package cyclomatic complexity. AaronS I don't care. If we can't understand it, we can catch that ourselves.
     # - forcetypeassert # [replaced by errcheck] finds forced type assertions
     # - funlen # tool for detection of long functions. AaronS we can catch that ourselves.
@@ -191,7 +193,7 @@ linters:
 
     ## disabled by maratori
     - containedctx # detects struct contained context.Context field
-    - contextcheck # [too many false positives] checks the function whether use a non-inherited context
+
     #- dogsled # checks assignments with too many blank identifiers (e.g. x, _, _, _, := f())
     - dupword # [useless without config] checks for duplicate words in the source code
     #- err113 # [too strict] checks the errors handling expressions
