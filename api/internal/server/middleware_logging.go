@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"log/slog"
 	"net/http"
 	"time"
@@ -30,7 +31,7 @@ func (rw *responseWriter) Write(b []byte) (int, error) {
 	size, err := rw.ResponseWriter.Write(b)
 	rw.size += int64(size)
 	// rw.body = append(rw.body, b...)
-	return size, err
+	return size, fmt.Errorf("ResponseWriter broke: %w", err)
 }
 
 // loggingMiddleware logs the start and completion of each request including

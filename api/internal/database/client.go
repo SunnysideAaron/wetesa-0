@@ -107,7 +107,11 @@ func (pg *Postgres) BulkInsertClients(ctx context.Context, clients []Client) err
 		}
 	}
 
-	return results.Close()
+	err := results.Close()
+	if err != nil {
+		return fmt.Errorf("failed to close batch results: %w", err)
+	}
+	return nil
 }
 
 // CopyInsertClients if faster than BulkInsertClients
@@ -146,7 +150,11 @@ func (pg *Postgres) GetClients(ctx context.Context) ([]Client, error) {
 
 	defer rows.Close()
 
-	return pgx.CollectRows(rows, pgx.RowToStructByName[Client])
+	clients, err := pgx.CollectRows(rows, pgx.RowToStructByName[Client])
+	if err != nil {
+		return nil, fmt.Errorf("failed to collect client rows: %w", err)
+	}
+	return clients, nil
 }
 
 // GetClient retrieves a single client by their ID.
@@ -161,7 +169,7 @@ func (pg *Postgres) GetClient(ctx context.Context, id string) (Client, error) {
 
 	err := row.Scan(&client.ClientID, &client.Name, &client.Address)
 	if err != nil {
-		return client, err
+		return client, fmt.Errorf("failed to get client: %w", err)
 	}
 	return client, nil
 }

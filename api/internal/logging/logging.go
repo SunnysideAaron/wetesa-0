@@ -194,7 +194,7 @@ func (h *PrettyHandler) Handle(ctx context.Context, r slog.Record) error {
 
 	b, err := json.MarshalIndent(fields, "", "  ")
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to marshal JSON: %w", err)
 	}
 
 	timeStr := r.Time.Format("[15:05:05.000]")

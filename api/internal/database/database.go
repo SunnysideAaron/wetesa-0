@@ -27,8 +27,8 @@ type Validator interface {
 }
 
 var (
-	pgInstance *Postgres
-	pgOnce     sync.Once
+	pgInstance *Postgres //nolint:gochecknoglobals // singleton pattern for database connection
+	pgOnce     sync.Once //nolint:gochecknoglobals // singleton pattern for database connection
 )
 
 // NewPG creates and initializes a new PostgreSQL database connection pool.
