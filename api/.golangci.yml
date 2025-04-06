@@ -85,6 +85,10 @@ linters:
 
     # AaronS Note do not blindly turn on all linters. golongci-lint lists many linters.
     # Some duplicate checks. Some have conflicting checks.
+    
+    #- godox # detects usage of FIXME, TODO and other keywords inside comments.
+             # AaronS This is great. Leave off but for greenfield development I often use TODO. This is a quick way to find them.
+
     - asasalint # checks for pass []any as any in variadic func(...any)
     - asciicheck # checks that your code does not contain non-ASCII identifiers
     - bidichk # checks for dangerous unicode character sequences
@@ -111,17 +115,15 @@ linters:
     - goconst # finds repeated strings that could be replaced by a constant
     - gocritic # provides diagnostics that check for bugs, performance and style issues
                # AaronS TODO gocritic has a LOT of experimental tests. We may want to explore.
-
-    # - gomoddirectives # manages the use of 'replace', 'retract', and 'excludes' directives in go.mod
-    # - goprintffuncname # checks that printf-like functions are named with f at the end
-    # - gosec # inspects source code for security problems
+    - gomoddirectives # manages the use of 'replace', 'retract', and 'excludes' directives in go.mod
+    - goprintffuncname # checks that printf-like functions are named with f at the end
+    - gosec # inspects source code for security problems
     - govet # reports suspicious constructs, such as Printf calls whose arguments do not align with the format string
             # AaronS Note govet does not properly report on shadow variables of multiple returned values that was changed in go. can't find which release.
             # TODO create issue ticket with golangci
     - iface # checks the incorrect use of interfaces, helping developers avoid interface pollution
     - ineffassign # detects when assignments to existing variables are not used
     - intrange # finds places where for loops could make use of an integer range
-
     - makezero # finds slice declarations with non-zero initial length
     - mirror # reports wrong mirror patterns of bytes/strings usage
     - musttag # enforces field tags in (un)marshaled structs
@@ -144,60 +146,66 @@ linters:
                    # https://github.com/jingyugao/rowserrcheck
     - sloglint # ensure consistent code style when using log/slog
     - spancheck # checks for mistakes with OpenTelemetry/Census spans
-    # - sqlclosecheck # checks that sql.Rows and sql.Stmt are closed
+    - sqlclosecheck # checks that sql.Rows and sql.Stmt are closed
     - staticcheck # is a go vet on steroids, applying a ton of static analysis checks    
-    # - testableexamples # checks if examples are testable (have an expected output)
-    # - testifylint # checks usage of github.com/stretchr/testify
-    # - testpackage # makes you use a separate _test package
-    # - tparallel # detects inappropriate usage of t.Parallel() method in your Go test codes
     - unconvert # removes unnecessary type conversions
     - unparam # reports unused function parameters
     - unused # checks for unused constants, variables, functions and types
     - usestdlibvars # detects the possibility to use variables/constants from the Go standard library
-    #- usetesting # reports uses of functions with replacement inside the testing package
     - wastedassign # finds wasted assignment statements
     - whitespace # detects leading and trailing whitespace.
+    - wrapcheck # checks that errors returned from external packages are wrapped
 
-    ## you may want to enable
-    #- decorder # checks declaration order and count of types, constants, variables and functions
-    #- ginkgolinter # [if you use ginkgo/gomega] enforces standards of using ginkgo and gomega
-    #- godox # detects usage of FIXME, TODO and other keywords inside comments
-    #- goheader # checks is file header matches to pattern
+    ## you may want to enable (maratori)
+    - decorder # checks declaration order and count of types, constants, variables and functions
+    - goheader # checks is file header matches to pattern
     - inamedparam # [great idea, but too strict, need to ignore a lot of cases by default] reports interfaces with unnamed method parameters
                   # https://github.com/macabu/inamedparam
-    #- interfacebloat # checks the number of methods inside an interface
-    #- ireturn # accept interfaces, return concrete types
-    #- prealloc # [premature optimization, but can be used in some cases] finds slice declarations that could potentially be preallocated
-    #- tagalign # checks that struct tags are well aligned
-    #- varnamelen # [great idea, but too many false positives] checks that the length of a variable's name matches its scope
-    #- wrapcheck # checks that errors returned from external packages are wrapped
+    - prealloc # [premature optimization, but can be used in some cases] finds slice declarations that could potentially be preallocated
+    - tagalign # checks that struct tags are well aligned
 
     ## disabled by AaronS
     # - cyclop # checks function and package cyclomatic complexity. AaronS I don't care. If we can't understand it, we can catch that ourselves.
+    # - forcetypeassert # [replaced by errcheck] finds forced type assertions
     # - funlen # tool for detection of long functions. AaronS we can catch that ourselves.
+    # - ginkgolinter # [if you use ginkgo/gomega] enforces standards of using ginkgo and gomega
     # - gocognit # computes and checks the cognitive complexity of functions  AaronS we can catch that ourselves.
     # - godot # checks if comments end in a period. AaronS I don't care
     # - gocyclo # computes and checks the cyclomatic complexity of functions AaronS I don't care. If we can't understand it, we can catch that ourselves.
+    # - gomodguard # [use more powerful depguard] allow and block lists linter for direct Go module dependencies
+    # - interfacebloat # checks the number of methods inside an interface. AaronS I don't care. If we can't understand it, we can catch that ourselves.
+    # - ireturn # accept interfaces, return concrete types. AaronS if I don't know why then don't turn on.
     # - loggercheck # checks key value pairs for common logger libraries (kitlog,klog,logr,zap) AaronS we don't have those.
     # - mnd # detects magic numbers AaronS I like magic numbers, they often make things simpler. If the number is only used a handful of times. DO NOT create a constant.
     # - nestif # reports deeply nested if statements AaronS I'm old. don't care.
+    #- varnamelen # [great idea, but too many false positives] checks that the length of a variable's name matches its scope
+                  # AaronS for now let's trust devs to figure this out. May try later.
     # - zerologlint # detects the wrong usage of zerolog that a user forgets to dispatch zerolog.Event AaronS we don't use zeolog
 
+    ## disablede by AaronS for now. TODO after automated testing.
+    # - testableexamples # checks if examples are testable (have an expected output)
+    # - testifylint # checks usage of github.com/stretchr/testify
+    # - testpackage # makes you use a separate _test package
+    # - tparallel # detects inappropriate usage of t.Parallel() method in your Go test codes
+    #- usetesting # reports uses of functions with replacement inside the testing package
+
     ## disabled by maratori
-    #- containedctx # detects struct contained context.Context field
-    #- contextcheck # [too many false positives] checks the function whether use a non-inherited context
+    - containedctx # detects struct contained context.Context field
+    - contextcheck # [too many false positives] checks the function whether use a non-inherited context
     #- dogsled # checks assignments with too many blank identifiers (e.g. x, _, _, _, := f())
-    #- dupword # [useless without config] checks for duplicate words in the source code
+    - dupword # [useless without config] checks for duplicate words in the source code
     #- err113 # [too strict] checks the errors handling expressions
-    #- errchkjson # [don't see profit + I'm against of omitting errors like in the first example https://github.com/breml/errchkjson] checks types passed to the json encoding functions. Reports unsupported types and optionally reports occasions, where the check for the returned error can be omitted
-    #- forcetypeassert # [replaced by errcheck] finds forced type assertions
-    #- gomodguard # [use more powerful depguard] allow and block lists linter for direct Go module dependencies
-    #- gosmopolitan # reports certain i18n/l10n anti-patterns in your Go codebase
+    #- errchkjson # [don't see profit + I'm against of omitting errors like in the first 
+                  # example https://github.com/breml/errchkjson] checks types passed to the json encoding functions.
+                  # Reports unsupported types and optionally reports occasions, where the check for the returned error can be omitted
+
+    - gosmopolitan # reports certain i18n/l10n anti-patterns in your Go codebase
     #- grouper # analyzes expression groups
     #- importas # enforces consistent import aliases
     #- lll # [replaced by golines] reports long lines
     #- maintidx # measures the maintainability index of each function
-    #- misspell # [useless] finds commonly misspelled English words in comments
+    - misspell # [useless] finds commonly misspelled English words in comments
+               # AaronS doesn't seem useless to me. ??
     #- nlreturn # [too strict and mostly code is not more readable] checks for a new line before return and branch statements to increase code clarity
     #- paralleltest # [too many false positives] detects missing usage of t.Parallel() method in your Go test
     #- tagliatelle # checks the struct tags
@@ -253,6 +261,19 @@ linters:
           deny:
             - pkg: log$
               desc: Use log/slog instead, see https://go.dev/blog/slog
+
+    dupword:
+      # Keywords for detecting duplicate words.
+      # If this list is not empty, only the words defined in this list will be detected.
+      # Default: []
+      # keywords:
+      #   - "the"
+      #   - "and"
+      #   - "a"
+      # Keywords used to ignore detection.
+      # Default: []
+      # ignore:
+      #   - "0C0C"
 
     errcheck:
       # Report about not checking of errors in type assertions: `a := b.(MyStruct)`.
@@ -314,7 +335,13 @@ linters:
           # Whether to skip (*x).method() calls where x is a pointer receiver.
           # Default: true
           skipRecvDeref: false
-
+    gosec:
+      excludes:
+        - G109 # Potential Integer overflow made by strconv.Atoi result conversion to int16/32
+               # TODO how do we fix these?
+        - G115 # Potential integer overflow when converting between integer types
+               # AaronS https://dev.to/ccoveille/about-the-gosec-g115-drama-or-how-i-faced-back-integer-conversion-overflow-in-go-1302
+               # TODO how do we fix these?
     govet:
       # Enable all analyzers.
       # Default: false

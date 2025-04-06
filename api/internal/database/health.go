@@ -18,7 +18,7 @@ func (pg *Postgres) Health(ctx context.Context, logger *slog.Logger) map[string]
 		stats["error"] = "db down"
 
 		// err contains some sensitive information. don't show users.
-		// TOOD do we even want to log these values? or is that a security hole?
+		// TODO do we even want to log these values? or is that a security hole?
 		logger.LogAttrs(
 			ctx,
 			slog.LevelWarn, // Perhaps db will come back up. Warning for now. If stays down that is an error.
