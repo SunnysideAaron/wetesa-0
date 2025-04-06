@@ -55,9 +55,9 @@ func run(
 	httpServer := &http.Server{
 		Addr:         fmt.Sprintf("%s:%s", cfg.APIHost, cfg.APIPort),
 		Handler:      handle,
-		ReadTimeout:  cfg.APIReadTimeout * time.Second,
-		WriteTimeout: cfg.APIWriteTimeout * time.Second,
-		IdleTimeout:  cfg.APIIdleTimeout * time.Second,
+		ReadTimeout:  cfg.APIReadTimeout,
+		WriteTimeout: cfg.APIWriteTimeout,
+		IdleTimeout:  cfg.APIIdleTimeout,
 		ErrorLog:     httpLogger,
 	}
 

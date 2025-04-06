@@ -46,7 +46,7 @@ func newMiddleDefaults(
 	opts ...int,
 ) func(h http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
-		timeout := cfg.APIDefaultWriteTimeout * time.Second
+		timeout := cfg.APIDefaultWriteTimeout
 		maxBytes := cfg.RequestMaxBytes
 
 		// Override defaults if parameters are provided
@@ -62,7 +62,7 @@ func newMiddleDefaults(
 
 				opts[0] = int(cfg.APIWriteTimeout)
 			}
-			timeout = time.Duration(opts[0]) * time.Second
+			timeout = time.Duration(opts[0])
 		}
 		if len(opts) > 1 && opts[1] > 0 {
 			maxBytes = int64(opts[1])

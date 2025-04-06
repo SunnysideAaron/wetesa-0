@@ -18,7 +18,6 @@ const (
 )
 
 // APIConfig stores the API service configuration parameters.
-// All durations are in seconds unless otherwise specified.
 type APIConfig struct {
 	// Environment specifies the running environment (dev/prod)
 	Environment string
@@ -46,10 +45,10 @@ func LoadAPIConfig() *APIConfig {
 		Environment:            EnvironmentProd,
 		APIHost:                "",
 		APIPort:                "8080",
-		APIReadTimeout:         15,
-		APIWriteTimeout:        60,
-		APIDefaultWriteTimeout: 30,
-		APIIdleTimeout:         60,
+		APIReadTimeout:         15 * time.Second,
+		APIWriteTimeout:        60 * time.Second,
+		APIDefaultWriteTimeout: 30 * time.Second,
+		APIIdleTimeout:         60 * time.Second,
 		// common values default is 8k, Other defaults might be 4k, 16k, or 48k.
 		RequestMaxBytes: 8192,
 	}
@@ -62,28 +61,33 @@ func LoadAPIConfig() *APIConfig {
 
 	cnf.APIHost = os.Getenv("API_HOST")
 
+	var err error
+	var parsedDuration time.Duration
 	portStr := os.Getenv("API_PORT")
-	_, err := strconv.Atoi(portStr) // Validate that port is #
+	_, err = strconv.Atoi(portStr) // Validate that port is #
 	if err == nil {
 		cnf.APIPort = portStr
 	} // else if there is an error this will use the default value.
 
 	readTimeoutStr := os.Getenv("API_READ_TIMEOUT")
-	readTimeout, err := strconv.Atoi(readTimeoutStr) // Validate that readTimeoutStr is #
-	if err == nil {
-		cnf.APIReadTimeout = time.Duration(readTimeout)
-	} // else if there is an error this will use the default value.
+	if readTimeoutStr != "" {
+		if parsedDuration, err = time.ParseDuration(readTimeoutStr); err == nil {
+			cnf.APIReadTimeout = parsedDuration
+		}
+	}
 
 	writeTimeoutStr := os.Getenv("API_WRITE_TIMEOUT")
-	writeTimeout, err := strconv.Atoi(writeTimeoutStr) // Validate that writeTimeoutStr is #
-	if err == nil {
-		cnf.APIWriteTimeout = time.Duration(writeTimeout)
-	} // else if there is an error this will use the default value.
+	if writeTimeoutStr != "" {
+		if parsedDuration, err = time.ParseDuration(writeTimeoutStr); err == nil {
+			cnf.APIWriteTimeout = parsedDuration
+		}
+	}
 
 	timeoutStr := os.Getenv("API_DEFAULT_WRITE_TIMEOUT")
-	timeout, err := strconv.Atoi(timeoutStr)
-	if err == nil && timeout > 0 {
-		cnf.APIDefaultWriteTimeout = time.Duration(timeout)
+	if timeoutStr != "" {
+		if parsedDuration, err = time.ParseDuration(timeoutStr); err == nil {
+			cnf.APIDefaultWriteTimeout = parsedDuration
+		}
 	}
 
 	if cnf.APIDefaultWriteTimeout > cnf.APIWriteTimeout {
@@ -91,10 +95,11 @@ func LoadAPIConfig() *APIConfig {
 	}
 
 	idleTimeoutStr := os.Getenv("API_IDLE_TIMEOUT")
-	idleTimeout, err := strconv.Atoi(idleTimeoutStr) // Validate that idleTimeoutStr is #
-	if err == nil {
-		cnf.APIIdleTimeout = time.Duration(idleTimeout)
-	} // else if there is an error this will use the default value.
+	if idleTimeoutStr != "" {
+		if parsedDuration, err = time.ParseDuration(idleTimeoutStr); err == nil {
+			cnf.APIIdleTimeout = parsedDuration
+		}
+	}
 
 	maxBytesStr := os.Getenv("API_REQUEST_MAX_BYTES")
 	maxBytes, err := strconv.ParseInt(maxBytesStr, 10, 64)

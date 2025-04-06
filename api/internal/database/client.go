@@ -103,7 +103,7 @@ func (pg *Postgres) BulkInsertClients(ctx context.Context, clients []Client) err
 				continue
 			}
 
-			fmt.Println("unable to insert row: %w", err)
+			return fmt.Errorf("unable to insert row: %w", err)
 		}
 	}
 
