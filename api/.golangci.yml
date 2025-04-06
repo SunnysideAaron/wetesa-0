@@ -36,7 +36,7 @@ issues:
 
   # Fix found issues (if it's supported by the linter).
   # Default: false
-  #fix: true
+  fix: true
 
 formatters:
   enable:

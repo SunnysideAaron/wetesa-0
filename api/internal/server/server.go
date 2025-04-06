@@ -5,6 +5,7 @@ package server
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -40,15 +41,15 @@ func decode[T database.Validator](r *http.Request) (T, map[string]string, error)
 
 	// Check for common JSON formatting issues
 	if len(body) == 0 {
-		return v, nil, fmt.Errorf("empty request body")
+		return v, nil, errors.New("empty request body")
 	}
 
 	if body[0] == '\'' {
-		return v, nil, fmt.Errorf("invalid JSON - use double quotes (\") instead of single quotes (')")
+		return v, nil, errors.New("invalid JSON - use double quotes (\") instead of single quotes (')")
 	}
 
 	if !strings.Contains(string(body), "\"") {
-		return v, nil, fmt.Errorf("invalid JSON - property names and string values must be enclosed in double quotes")
+		return v, nil, errors.New("invalid JSON - property names and string values must be enclosed in double quotes")
 	}
 
 	err = json.NewDecoder(bytes.NewReader(body)).Decode(&v)

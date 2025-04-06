@@ -278,7 +278,7 @@ func FormatStack(stack []byte) string {
 	lines := strings.Split(string(stack), "\n")
 	var filtered []string
 
-	for i := 0; i < len(lines); i++ {
+	for i := range len(lines) {
 		line := strings.TrimSpace(lines[i])
 		if line == "" || strings.HasPrefix(line, "goroutine") {
 			continue
