@@ -9,6 +9,7 @@ import (
 
 	"api/internal/config"
 	"api/internal/database"
+	"api/internal/logging"
 )
 
 // AddRoutes maps all the API routes
@@ -19,8 +20,6 @@ func AddRoutes(
 	db *database.Postgres,
 	logger *slog.Logger,
 	logLevel *slog.LevelVar,
-	clientLogger *slog.Logger,
-	clientLogLevel *slog.LevelVar,
 ) http.Handler {
 	baseMux := http.NewServeMux()
 	v1Mux := http.NewServeMux()
@@ -32,6 +31,10 @@ func AddRoutes(
 	// directly callable example of an error
 	v1Mux.Handle(http.MethodGet+" /errorexample", middleDefaults(handleErrorExample(logger)))
 	v1Mux.Handle(http.MethodGet+" /loglevel/{level}", middleDefaults(handleLogLevel(logger, logLevel)))
+
+	// Example of some code having a different log level.
+	clientLogger, clientLogLevel := logging.NewLogger(cfg)
+	slog.SetDefault(clientLogger)
 
 	v1Mux.Handle(http.MethodGet+" /clients/loglevel/{level}", middleDefaults(handleLogLevel(clientLogger, clientLogLevel)))
 	v1Mux.Handle(http.MethodGet+" /clients", middleDefaults(handleListClients(clientLogger, db)))

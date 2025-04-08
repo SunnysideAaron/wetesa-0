@@ -37,6 +37,7 @@ all possible. But we are not going to take the time for this example.
 - [Go Wiki: Code Review Comments](https://go.dev/wiki/CodeReviewComments)
 - [Go Wiki: Go Test Comments](https://go.dev/wiki/TestComments)
 - [Google](https://google.github.io/styleguide/go/)
+- [Uber](https://github.com/uber-go/guide/blob/master/style.md)
 
 - Other Style Guides
   - [Awesome Go's List of Style Guides](https://github.com/avelino/awesome-go?tab=readme-ov-file#style-guides)
@@ -50,7 +51,7 @@ all possible. But we are not going to take the time for this example.
   - [Magnetico](https://github.com/boramalper/magnetico/wiki/magnetico-Design-Specification)
   - [Thanos](https://thanos.io/tip/contributing/coding-style-guide.md/)
   - [Trybe](https://github.com/betrybe/playbook-go/blob/main/README_EN.md)
-  - [Uber](https://github.com/uber-go/guide/blob/master/style.md)
+
 
 ### SQL
 - [Postreges Wiki: Don't Do This](https://wiki.postgresql.org/wiki/Don't_Do_This)
