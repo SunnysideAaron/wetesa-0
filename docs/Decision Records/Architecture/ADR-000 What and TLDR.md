@@ -52,8 +52,8 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
   - [Staticcheck](https://staticcheck.dev/)
   - [revive](https://revive.run/)
   - [govulncheck](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck)
-- ADR-013 Coding Standards
-  - **Pending**
+- ADR-013 Go Coding Standards
+  - [Uber](https://github.com/uber-go/guide/blob/master/style.md)
 - ADR-014 Routing
   - Standard library for routing. Adaptor pattern for middleware.
 - ADR-015 Middleware
@@ -68,6 +68,12 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
     - TimeoutHandler
 - ADR-016 gRPC
   - Not using gRPC.
+- ADR-017 API Base Design
+  - **Pending**
+- ADR-018 SQL Coding Standards
+  - **Pending**
+- ADR-019 CI/CD
+  - Not using CI/CD. Yet.
 
 
 ## TODO 

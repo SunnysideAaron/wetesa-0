@@ -119,8 +119,6 @@ linters:
     - goprintffuncname # checks that printf-like functions are named with f at the end
     - gosec # inspects source code for security problems
     - govet # reports suspicious constructs, such as Printf calls whose arguments do not align with the format string
-            # AaronS Note govet does not properly report on shadow variables of multiple returned values that was changed in go. can't find which release.
-            # TODO create issue ticket with golangci
     - iface # checks the incorrect use of interfaces, helping developers avoid interface pollution
     - ineffassign # detects when assignments to existing variables are not used
     - intrange # finds places where for loops could make use of an integer range
