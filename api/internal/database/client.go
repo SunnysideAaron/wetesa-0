@@ -18,7 +18,7 @@ import (
 // It contains basic information about a client including their unique identifier,
 // name, and optional address.
 type Client struct {
-	ClientID int         `json:"client_id"`
+	ClientID string      `json:"client_id"`
 	Name     string      `json:"name"`
 	Address  pgtype.Text `json:"address"`
 }
@@ -41,7 +41,7 @@ func (c Client) Valid(_ context.Context) map[string]string {
 // LogValue implements slog.LogValuer to provide structured logging support.
 // It returns the client's ID as the log value for concise logging.
 func (c Client) LogValue() slog.Value {
-	return slog.IntValue(c.ClientID)
+	return slog.StringValue(c.ClientID)
 }
 
 // InsertClient adds a new client record to the database.
@@ -195,7 +195,7 @@ func (pg *Postgres) UpdateClient(ctx context.Context, c Client) error {
 
 	// Check if any row was actually updated
 	if result.RowsAffected() == 0 {
-		return fmt.Errorf("client with id %d not found", c.ClientID)
+		return fmt.Errorf("client with id %s not found", c.ClientID)
 	}
 
 	return nil

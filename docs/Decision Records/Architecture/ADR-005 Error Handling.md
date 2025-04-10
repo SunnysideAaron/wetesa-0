@@ -23,6 +23,7 @@ For now this should be enough to get going. I'll reevaluate after using.
 - [Standard Library Errors](https://pkg.go.dev/errors)
 - [Standard Libary: http constants](https://pkg.go.dev/net/http#pkg-constants)
 - [A concise guide to error handling in Go](https://medium.com/@andreiboar/a-concise-guide-to-error-handling-in-go-611a42e589ad)
+- [Error Wrapping in Go: A Guide to Enhance Debugging](https://erik.cat/blog/error-wrapping-go/)
 - [Reddit: In larger programs, how do you handle errors?](https://www.reddit.com/r/golang/comments/1iwmeaw/in_larger_programs_how_do_you_handle_errors_so/)
   - Lots of good discussion here. Summary:
   - wrap messages
@@ -31,6 +32,7 @@ For now this should be enough to get going. I'll reevaluate after using.
 	- standard library uses the caller not what is being called. Is this just for legacy reasons?
   - don't prefix function names. 
     - fmt.Errorf("SomeFunc: run other func: %v", err)
+    - Note that some packages in the standard library do this. like bufio. Effective Go as well? Is this just for legacy reasons?
 	- this means you aren't adding context. refactor
   - Don't need a stack trace
     - there are solutions to add stack traces to errors. Since we are using slog and wrapping errors this wont be needed. With proper wrapping, errors aren't usually that deep in Go?
@@ -53,13 +55,18 @@ For now this should be enough to get going. I'll reevaluate after using.
 - How does standard library handle errors?
   - bufio includes package in message. Does not seem like all packages do this. Pre wrapping?
   - ErrInvalidUnreadByte = errors.New("bufio: invalid use of UnreadByte")
-- [Sentinel errors and errors.Is() slow your code down by 500%](https://www.dolthub.com/blog/2024-05-31-benchmarking-go-error-handling/)
+
 
 ## Additional Notes
 
-- [Error Wrapping in Go: A Guide to Enhance Debugging](https://erik.cat/blog/error-wrapping-go/)
 - [Stop Fighting Go Errors: A Modern Approach to Handling Them](https://dev.to/zakariachahboun/mastering-error-handling-in-go-a-pragmatic-approach-leg)
   - [Simple strategy to understand error handling in Go ](https://www.reddit.com/r/golang/comments/1in0tiw/simple_strategy_to_understand_error_handling_in_go/)
+- [Don’t just check errors, handle them gracefully](https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully) 2016-APR
+  - Dated?
+- [Sentinel errors and errors.Is() slow your code down by 500%](https://www.dolthub.com/blog/2024-05-31-benchmarking-go-error-handling/)
+  - This may or may not be actually practical. Take with grain of salt and do further research.Yes any value conversion takes
+   measurable time. In very specific cases this might speed some slow code. Seems like premature optimization. Some ideas
+    OK like how to structure testing for errors for speed.
 
 ## Consequences
 

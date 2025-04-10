@@ -9,7 +9,7 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
 - ADR-001 Using Architecture Decision Records
   - Yes. For Architecture and Technology Stack.
 - ADR-002 API Versioning
-  - **PENDING**
+  - URL versioning. Beginning with v0.1
 - ADR-003 Semantic Versioning
   - Yes
 - ADR-004 Database Columns
@@ -49,9 +49,8 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
 - ADR-011 Validation
   - **Pending**
 - ADR-012 Linters
-  - [Staticcheck](https://staticcheck.dev/)
-  - [revive](https://revive.run/)
-  - [govulncheck](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck)
+  - [golangci-lint](https://golangci-lint.run/)
+  - [govulncheck](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck) 
 - ADR-013 Go Coding Standards
   - [Uber](https://github.com/uber-go/guide/blob/master/style.md)
 - ADR-014 Routing

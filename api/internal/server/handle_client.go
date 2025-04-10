@@ -3,7 +3,6 @@ package server
 import (
 	"log/slog"
 	"net/http"
-	"strconv"
 	"strings"
 
 	"api/internal/database"
@@ -199,13 +198,7 @@ func handleUpdateClient(logger *slog.Logger, db *database.Postgres) http.Handler
 				return
 			}
 
-			clientID, err := strconv.Atoi(id)
-			if err != nil {
-				http.Error(w, "Invalid ID format", http.StatusBadRequest)
-				return
-			}
-
-			updateClient.ClientID = clientID
+			updateClient.ClientID = id
 
 			// Perform the update
 			err = db.UpdateClient(r.Context(), updateClient)
