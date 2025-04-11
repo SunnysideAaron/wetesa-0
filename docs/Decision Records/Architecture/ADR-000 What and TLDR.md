@@ -40,14 +40,10 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
   - Log request, response, and error stack trace
 - ADR-007 Sensitive Information
   - Do not log sensitive information
-- ADR-008 Audit Tables
-  - **PENDING**
 - ADR-009 Automated Testing
   - **PENDING**
 - ADR-010 Package Layout
   - We can do what ever we want. See ADR-010 Package Layout for more notes.
-- ADR-011 Validation
-  - **Pending**
 - ADR-012 Linters
   - [golangci-lint](https://golangci-lint.run/)
   - [govulncheck](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck) 
@@ -69,11 +65,8 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
   - Not using gRPC.
 - ADR-017 API Base Design
   - **Pending**
-- ADR-018 SQL Coding Standards
-  - **Pending**
 - ADR-019 CI/CD
   - Not using CI/CD. Yet.
-
 
 ## TODO 
 

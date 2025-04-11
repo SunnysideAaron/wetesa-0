@@ -14,7 +14,7 @@ How exactly to approach errors.
 - stack trace will be handled by slog
 - msg will be context only. Do not include calling or called function names. **Pending** reevaluate later.
 - Don't use words like "error", "failed", "went wrong" "error occurred", "problem found", "failed to ..." in error messages. **TODO** Linter
- - don't use the ":" character anywhere else except the end of the message. **TODO** Linter
+- don't use the ":" character anywhere else except the end of the message. **TODO** Linter
 
 For now this should be enough to get going. I'll reevaluate after using.
 
