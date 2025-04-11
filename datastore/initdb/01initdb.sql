@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS public.order
 (
     order_id uuid NOT NULL,
     client_id uuid NOT NULL,
-    date_submited character varying COLLATE pg_catalog."default" NOT NULL,
+    submitted_date character varying COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT order_pk PRIMARY KEY (order_id)
 )
 

@@ -14,9 +14,9 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
   - Yes
 - ADR-004 Database Columns
   - table_id not id
-  - Use UUIDs for primary keys
-  - PENDING Date columns
-  - All times in UTC
+  - UUIDs for primary keys
+  - Date / Time Columns: ACTION_WORD_date, ACTION_WORD_datetime, ACTION_WORD_time (times without date)
+  - Time columns will be of type timestamptz and UTC. User timezone in separate column if needed.
 - ADR-005 Error Handling
   - wrap errors
   - stack trace will be handled by slog
