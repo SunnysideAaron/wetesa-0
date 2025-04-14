@@ -18,8 +18,6 @@
 
 
 
-refactor for named parameters / err Error etcs
-
 - [] add end points for the other tables
 
 ## Todo later after implementing testing

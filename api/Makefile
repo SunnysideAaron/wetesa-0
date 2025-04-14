@@ -17,6 +17,8 @@ vulchk:
 
 test:
 	@go test ./... -v
+#   NOTE integration tests require the server to be running.
+#   @go test -v ./internal/test_integration/...
 
 exec:
 	@./tmp/main

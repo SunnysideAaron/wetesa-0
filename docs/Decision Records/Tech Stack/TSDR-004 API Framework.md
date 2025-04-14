@@ -6,7 +6,7 @@ Accepted
 
 ## Context
 
-frameworks are way to quickly package a set of solutions to common problems.
+frameworks are a way to quickly package a set of solutions to common problems.
 Allowing development to get going quickly.
 
 ## Decision

@@ -41,7 +41,7 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
 - ADR-007 Sensitive Information
   - Do not log sensitive information
 - ADR-009 Automated Testing
-  - **PENDING**
+  - Integration testing of API endpoints.
 - ADR-010 Package Layout
   - We can do what ever we want. See ADR-010 Package Layout for more notes.
 - ADR-012 Linters

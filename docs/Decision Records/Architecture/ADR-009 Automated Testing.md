@@ -2,17 +2,18 @@
 
 ## Status
 
-Accepted, Proposed, Deprecated or Superseded (list DR)
+Accepted
 
 ## Context
 
-Autmated testing gives developers confidence that code changes didn't break the function.
+Automated testing gives developers confidence that code changes didn't break the function.
 
 ## Decision
 
 Each API endpoint / method tested for happy path. This will verify a lot of the code.
 
-Automated testing 100% coverage? No. But do test complex business logic. This example doesn't have any. Would add some unit tests if it made sense.
+Automated testing 100% coverage? No. But do test complex business logic. This
+example doesn't have any. Would add some unit tests if it made sense.
 
 ## Why
 
@@ -20,18 +21,14 @@ Automated testing has burned me hard on multiple occasions. Need further researc
 
 What is an appropriate level of testing for a solo dev?
 
-TODO revisit https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#the-newserver-constructor
-when starting to do testing. if using run to do tests. why not just testing of api end points? probably both
-
-3 things open, 13 years, bodner learning go, learning through testing, other?
-
 ## Notes
 
 [Test Driven Development Wars: Detroit vs London, Classicist vs Mockist](https://medium.com/@adrianbooth/test-driven-development-wars-detroit-vs-london-classicist-vs-mockist-9956c78ae95f)
 
 ## Consequences
 
-Anything not tested is at risk of breaking with changes. Testing to many things costs time. Have to balance.
+Anything not tested is at risk of breaking with changes. Testing too many things
+costs time. Have to balance.
 
 ## Other Possible Options
 
@@ -40,7 +37,8 @@ Anything not tested is at risk of breaking with changes. Testing to many things 
 ## Not an Option
 
 - [Learn Go with tests](https://quii.gitbook.io/learn-go-with-tests)
-  - TDD Examples. Personally I believe TDD is only approptiate when the spec is well defined. Not a good fit for greenfield and a lot of unknowns.
+  - TDD Examples. Personally I believe TDD is only appropriate when the spec is
+    well defined. Not a good fit for greenfield and a lot of unknowns.
 - https://jestjs.io/docs/snapshot-testing
   - No UI for this example.
 - [Awesome Go: Testing](https://github.com/avelino/awesome-go?tab=readme-ov-file#testing)
