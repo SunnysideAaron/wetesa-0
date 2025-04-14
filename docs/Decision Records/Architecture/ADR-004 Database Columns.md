@@ -44,13 +44,16 @@ https://github.com/avelino/awesome-go?tab=readme-ov-file#uuid
 
 ### Date / Time Columns
 
-ACTION_WORD_date, ACTION_WORD_datetime, ACTION_WORD_time (times without date.)
+ACTION_WORD_date, ACTION_WORD_datetime, ACTION_WORD_time (times without date.),
+ACTION_WORD_datetime_user_tz (timezone of user), ACTION_WORD_time_user_tz (timezone of user)
 
 Examples:
-created_date, created_time, created_datetime, effective_start_date, effective_end_datetime
+created_date, created_time, created_datetime, effective_start_date,
+effective_end_datetime, created_time_user_tz
 
 I've seen plenty of examples including _at, _on, _date, _datestamp. Any of which
-in practice ends up having any kind of date or time. Lets just say what we mean.
+in practice ends up having any kind of date or time depending on the whims of the
+individual developer during initial development. Lets just say what we mean.
 There is certainly an argument against including column types in column names but
 in this case we make the exception.
 
