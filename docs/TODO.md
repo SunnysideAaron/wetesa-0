@@ -18,6 +18,8 @@
 
 - Alex Edwards’ book “Let’s Go” which features a CRUD app
 
+refactor for named parameters / err Error etcs
+
 - [] add end points for the other tables
 
 ## Todo later after implementing testing
