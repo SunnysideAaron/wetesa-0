@@ -34,6 +34,8 @@ This is further supported by the fact that many routers are now abandoned.
   - [Maker funcs return the handler](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#maker-funcs-return-the-handler)
   - [Writing middleware in #golang and how Go makes it so much fun.](https://medium.com/@matryer/writing-middleware-in-golang-and-how-go-makes-it-so-much-fun-4375c1246e81)
     - explains adaptor pattern for middleware.
+  - [reddit: questions about http.Server graceful shutdown](https://www.reddit.com/r/golang/comments/1jyfu5d/questions_about_httpserver_graceful_shutdown/)
+    - Reviewed. Seems we are handling already.
 - [Middleware Patterns in Go](https://drstearns.github.io/tutorials/gomiddleware/)
   - [Sharing Values with Go Handlers](https://drstearns.github.io/tutorials/gohandlerctx/)
   -  has part about using methods on types (structs) to pass values to middleware

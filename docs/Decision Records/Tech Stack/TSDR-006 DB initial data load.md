@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted, Proposed, Deprecated or Superseded (list DR)
+Accepted
 
 ## Context
 
@@ -12,14 +12,19 @@ Accepted, Proposed, Deprecated or Superseded (list DR)
 
 PostgreSQL image docker initdb folder
 
-
 ## Why / Notes
 
 Built into docker image. Simple SQL
 
 ## Consequences
 
-## Other Options
 
-Possibilities:
+
+## Other Possible Options
+
+
+
+## Not an Option
+
 - [Bun](https://bun.uptrace.dev/)
+  - adds dependency

@@ -2,7 +2,7 @@
 
 ## What we are building.
 
-An example CRUD api. Has a minimum of dependencies. Appropriate for enterprise scale monoliths. 
+An example CRUD api. With a minimum of dependencies.
 
 ## TL;DR of decisions
 
@@ -13,13 +13,13 @@ An example CRUD api. Has a minimum of dependencies. Appropriate for enterprise s
 - TSDR-003 Docker
   - Using Bitnami PostgreSQL Image
 - TSDR-004 API framework
-  - **Pending**
+  - Use the standard library.
 - TSDR-005 SQL Driver
   - pgx
 - TSDR-006 DB Initial Data Load
-  - **Pending** Postgress image docker initdb folder 
+  - Postgress image docker initdb folder 
 - TSDR-008 Live Reload of Code
-  - **PENDING**
+  - [air](https://github.com/air-verse/air)
 - TSDR-009 Non-dependencies
   - Do not attempt Authentication, Authorization, or Cryptography.
   - Don't use any of the database packages that are not in the standard library.

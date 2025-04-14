@@ -43,6 +43,8 @@ down the road.
 
 ## Other Possible Options
 
+- [Microsoft: RESTful web API design](https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design)
+  - lists some different ways to implement versioning.
 - [Googles API Versioning](https://google.aip.dev/185)
 
 ## Not an Option

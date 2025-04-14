@@ -6,7 +6,7 @@ Accepted
 
 ## Context
 
-frameworks are way to quickly packages a set of solutions to common problems.
+frameworks are way to quickly package a set of solutions to common problems.
 Allowing development to get going quickly.
 
 ## Decision
@@ -90,3 +90,8 @@ Chi for routing and mixing, for JSON req-res, I'll use connectrpc. In case I nee
   - Similar problem as goa. Intro docs are light and not complete. Had limited patience for documentation that wasn't working.
 - [swag](https://github.com/swaggo/swag)
   - Seems to just be special comments in code. Ie writing the api spec inline with the code. Not bad but doesn't save typing. That's just typing in the same place.
+- [go-rest-api-service-template ](https://github.com/p2p-b2b/go-rest-api-service-template)
+  - includes dependencies
+  - readme has a bunch of good good links worth following.
+- [ardanlabs](https://github.com/ardanlabs/service)
+  - Seems a bit overly complex to use starting point for a basic example, but may be a good study example

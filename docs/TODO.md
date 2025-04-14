@@ -15,20 +15,9 @@
   - Skipping for now.I want the time consuming stuff to happen when starting the server. not first time a user does something.
 
 ## Broader go as api todo later
-[The Twelve-Factor App](https://12factor.net/)
-	https://www.reddit.com/r/golang/comments/1jcvcsb/how_you_guys_write_your_server_config_db_config/
 
-- https://eblog.fly.dev/backendbasics.html
-  - https://www.reddit.com/r/golang/comments/1jehpba/starting_systems_programming_pt_1_programmers/
-- https://www.krayorn.com/posts/http-server-go-2/
-- [go-rest-api-service-template ](https://github.com/p2p-b2b/go-rest-api-service-template)
-  - readme has a bunch of good good links worth following. 
 - Alex Edwards’ book “Let’s Go” which features a CRUD app
-- [ardanlabs](https://github.com/ardanlabs/service) Seems a bit overly complex but may be a good study example
-  - seems to store vendors??? TODO
-- https://github.com/vbd/Fieldnotes/blob/main/golang.md
-- [] pagination
-  - [go-rest-api-service-template ](https://github.com/p2p-b2b/go-rest-api-service-template) 
+
 - [] add end points for the other tables
 
 ## Todo later after implementing testing

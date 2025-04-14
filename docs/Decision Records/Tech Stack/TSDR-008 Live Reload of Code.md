@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted, Proposed, Deprecated or Superseded (list DR)
+Accepted
 
 ## Context
 
@@ -18,11 +18,10 @@ Randomly stumbled into using air. Need to evaluate other options.
 
 ## Consequences
 
+There may be other solutions out there but for now air is working.
+
+## Other Possible Options
 
 
-## Other Options
 
-Possibilities:
-
-Not an option:
-
+## Not an Option

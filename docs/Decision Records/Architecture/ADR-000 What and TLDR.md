@@ -63,22 +63,7 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
     - TimeoutHandler
 - ADR-016 gRPC
   - Not using gRPC.
-- ADR-017 API Base Design
-  - **Pending**
+- ADR-017 API Standard
+  - [API Standards by Michael Bissell](https://www.michaelbissell.com/2d5a25c0-8d0c-11ed-b6fc-b5eee5a22130/API-Standards)
 - ADR-019 CI/CD
   - Not using CI/CD. Yet.
-
-## TODO 
-
-**PENDING**
-
-DB default encodings
-utf8 (other encodings?)
-
-UTC for server and db
-
-ACID Compliant
-
-DB knows user logged in. Not just a general web log in.
-
-how to handle api breaking changes.
