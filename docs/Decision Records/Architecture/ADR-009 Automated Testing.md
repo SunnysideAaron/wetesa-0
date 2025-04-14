@@ -6,34 +6,42 @@ Accepted, Proposed, Deprecated or Superseded (list DR)
 
 ## Context
 
+Autmated testing gives developers confidence that code changes didn't break the function.
+
+## Decision
+
+Each API endpoint / method tested for happy path. This will verify a lot of the code.
+
+Automated testing 100% coverage? No. But do test complex business logic. This example doesn't have any. Would add some unit tests if it made sense.
+
+## Why
+
 Automated testing has burned me hard on multiple occasions. Need further research.
 
-Automated testing 100% coverage?
+What is an appropriate level of testing for a solo dev?
 
 TODO revisit https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#the-newserver-constructor
 when starting to do testing. if using run to do tests. why not just testing of api end points? probably both
 
-https://jestjs.io/docs/snapshot-testing
+3 things open, 13 years, bodner learning go, learning through testing, other?
 
-## Decision
+## Notes
 
-
-
-## Why / Notes
-
-what is appropriate level of testing for a solo dev?
-
-https://medium.com/@adrianbooth/test-driven-development-wars-detroit-vs-london-classicist-vs-mockist-9956c78ae95f
+[Test Driven Development Wars: Detroit vs London, Classicist vs Mockist](https://medium.com/@adrianbooth/test-driven-development-wars-detroit-vs-london-classicist-vs-mockist-9956c78ae95f)
 
 ## Consequences
 
+Anything not tested is at risk of breaking with changes. Testing to many things costs time. Have to balance.
+
+## Other Possible Options
 
 
-## Other Options
 
-Possibilities:
-- https://github.com/avelino/awesome-go?tab=readme-ov-file#testing
-- https://github.com/avelino/awesome-go?tab=readme-ov-file#mock
+## Not an Option
 
-Not an option:
-
+- [Learn Go with tests](https://quii.gitbook.io/learn-go-with-tests)
+  - TDD Examples. Personally I believe TDD is only approptiate when the spec is well defined. Not a good fit for greenfield and a lot of unknowns.
+- https://jestjs.io/docs/snapshot-testing
+  - No UI for this example.
+- [Awesome Go: Testing](https://github.com/avelino/awesome-go?tab=readme-ov-file#testing)
+- [Awesome Go: Mock](https://github.com/avelino/awesome-go?tab=readme-ov-file#mock)  
