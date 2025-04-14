@@ -44,7 +44,7 @@ func AddRoutes(
 	v1Mux.Handle(http.MethodDelete+" /clients/{id}", middleDefaults(handleDeleteClient(clientLogger, db)))
 
 	// TODO how to do breaking changes to an api. WARNING hot wire topic but something has to be done.
-	baseMux.Handle("/api/v0.1/", http.StripPrefix("/api/v0.1", v1Mux))
+	baseMux.Handle(cfg.BaseURL+"/", http.StripPrefix(cfg.BaseURL, v1Mux))
 	baseMux.Handle(http.MethodGet+" /healthz", middleDefaults(handleHealthz(logger)))
 
 	baseMux.Handle(http.MethodGet+" /healthdbz", middleDefaults(handleHealthDBz(logger, db)))

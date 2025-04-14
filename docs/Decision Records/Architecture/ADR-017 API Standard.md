@@ -30,7 +30,7 @@ TODO long running asynchronous methods, 202 accepted but not completed.
 As the API grows we will probably need to tighten standards. Start simple till we
 know what we need.
 
-For an internal API is HATEOAS (links in response)really necesary?
+For an internal API is HATEOAS (links in response)really necessary?
 
 ## Consequences
 

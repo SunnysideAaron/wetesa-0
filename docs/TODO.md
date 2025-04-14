@@ -16,7 +16,7 @@
 
 ## Broader go as api todo later
 
-- Alex Edwards’ book “Let’s Go” which features a CRUD app
+
 
 refactor for named parameters / err Error etcs
 

@@ -19,6 +19,10 @@ const (
 
 // APIConfig stores the API service configuration parameters.
 type APIConfig struct {
+	// BaseURL is the base URL for the API. Includes API version. Unlike the
+	// other settings do not load BaseURL from an environment variable. Including
+	// here so there is only one source of truth for api version.
+	BaseURL string
 	// Environment specifies the running environment (dev/prod)
 	Environment string
 	// APIHost is the host address to bind the server to
@@ -42,6 +46,7 @@ type APIConfig struct {
 func LoadAPIConfig() *APIConfig {
 	// Set default values.
 	cnf := &APIConfig{
+		BaseURL:                "/api/v0.1",
 		Environment:            EnvironmentProd,
 		APIHost:                "",
 		APIPort:                "8080",
