@@ -23,6 +23,12 @@ type Client struct {
 	Address  pgtype.Text `json:"address"`
 }
 
+// ClientFilters contains the available filter options for client queries
+type ClientFilters struct {
+	Name    string `json:"name,omitempty"`
+	Address string `json:"address,omitempty"`
+}
+
 // Valid implements the Validator interface for Client.
 // It checks if the required fields are properly set and returns a map of validation errors.
 // An empty map indicates the Client is valid.
@@ -139,11 +145,38 @@ func (pg *Postgres) CopyInsertClients(ctx context.Context, clients []Client) err
 }
 
 // GetClients retrieves a list of clients from the database.
-// TODO pagination.
-func (pg *Postgres) GetClients(ctx context.Context) ([]Client, error) {
-	query := `SELECT client_id, name, address FROM client order by client_id desc LIMIT 10`
+func (pg *Postgres) GetClients(
+	ctx context.Context,
+	limit, offset int,
+	sort string,
+	filters ClientFilters,
+) ([]Client, error) {
+	query := `SELECT client_id, name, address
+			  FROM client
+			  WHERE 1=1`
 
-	rows, err := pg.pool.Query(ctx, query)
+	args := []interface{}{}
+	argPosition := 1
+
+	// Add filter conditions if provided
+	if filters.Name != "" {
+		query += fmt.Sprintf(" AND name ILIKE $%d", argPosition)
+		args = append(args, "%"+filters.Name+"%")
+		argPosition++
+	}
+
+	if filters.Address != "" {
+		query += fmt.Sprintf(" AND address ILIKE $%d", argPosition)
+		args = append(args, "%"+filters.Address+"%")
+		argPosition++
+	}
+
+	// Add sorting and pagination
+	query += " ORDER BY name " + sort
+	query += fmt.Sprintf(" LIMIT $%d OFFSET $%d", argPosition, argPosition+1)
+	args = append(args, limit, offset)
+
+	rows, err := pg.pool.Query(ctx, query, args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to query clients: %w", err)
 	}
