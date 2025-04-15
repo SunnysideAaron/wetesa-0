@@ -34,7 +34,9 @@ Possibilities:
 - Python
   - Script not compiled. Will be a bottle neck at scale.
 - Node.js
-  - Javascript is a terrible language. It was a hack developed in a few days. As fast as it is, Node.js is at it's core just a way for javascript developers to not have to learn another language.
+  - Javascript is a terrible language. It was a hack developed in a few days. As
+    fast as it is, Node.js is at it's core just a way for javascript developers
+    to not have to learn another language.
 
 Not an option:
 - c#

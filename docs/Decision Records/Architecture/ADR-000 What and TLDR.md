@@ -8,22 +8,29 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
 
 - ADR-001 Using Architecture Decision Records
   - Yes. For Architecture and Technology Stack.
-- ADR-002 API Versioning
-  - URL versioning. Beginning with v0.1
-- ADR-003 Semantic Versioning
-  - Yes
-- ADR-004 Database Columns
+- ADR-002 Database Columns
   - table_id not id
   - UUIDs for primary keys
   - Date / Time Columns: ACTION_WORD_date, ACTION_WORD_datetime, ACTION_WORD_time (times without date)
   - Time columns will be of type timestamptz and UTC. User timezone in separate column if needed.
-- ADR-005 Error Handling
+- ADR-003 Go Coding Standards
+  - [Uber](https://github.com/uber-go/guide/blob/master/style.md)
+- ADR-004 Linters
+  - [golangci-lint](https://golangci-lint.run/)
+  - [govulncheck](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck) 
+- ADR-005 CI/CD
+  - Not using CI/CD. Yet.
+- ADR-006 Automated Testing
+  - Integration testing of API endpoints.
+- ADR-007 Package Layout
+  - We can do what ever we want. See ADR-010 Package Layout for more notes.
+- ADR-008 Error Handling
   - wrap errors
   - stack trace will be handled by slog
   - msg will be context only. Do not include calling or called function names. 
   - Don't use words like "error", "failed", "went wrong" "error occurred", "problem found", "failed to ..." in error messages.
   - don't use the ":" character anywhere else except the end of the message. 
-- ADR-006 Logging Levels
+- ADR-009 Logging Levels
   - Use default slog levels, in the following manor:
     - DEBUG (-4) Only turn on for in-depth troubleshooting.
     - INFO (0) default level in production. Enough information to troubleshoot basic problems.
@@ -31,24 +38,15 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
     - ERROR (8) Call someone NOW! Something is wrong and needs immediate fixing.
   - Allow changing log level at runtime.
   - Allow different log levels for different parts of the code.
-- ADR-006 Logging Output
+- ADR-010 Logging Output
   - log to STDOUT
-- ADR-006 Logging Package
+- ADR-011 Logging Package
   - use slog
   - use LogAttrs()
-- ADR-006 What to Log
+- ADR-012 What to Log
   - Log request, response, and error stack trace
-- ADR-007 Sensitive Information
+- ADR-013 Sensitive Information
   - Do not log sensitive information
-- ADR-009 Automated Testing
-  - Integration testing of API endpoints.
-- ADR-010 Package Layout
-  - We can do what ever we want. See ADR-010 Package Layout for more notes.
-- ADR-012 Linters
-  - [golangci-lint](https://golangci-lint.run/)
-  - [govulncheck](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck) 
-- ADR-013 Go Coding Standards
-  - [Uber](https://github.com/uber-go/guide/blob/master/style.md)
 - ADR-014 Routing
   - Standard library for routing. Adaptor pattern for middleware.
 - ADR-015 Middleware
@@ -61,9 +59,11 @@ See "../Tech Stack/TSDR-000 What and TLDR.md"
     - Recover
     - RequestID
     - TimeoutHandler
-- ADR-016 gRPC
-  - Not using gRPC.
-- ADR-017 API Standard
+- ADR-016 API Standard
   - [API Standards by Michael Bissell](https://www.michaelbissell.com/2d5a25c0-8d0c-11ed-b6fc-b5eee5a22130/API-Standards)
-- ADR-019 CI/CD
-  - Not using CI/CD. Yet.
+- ADR-017 API Versioning
+  - URL versioning. Beginning with v0.1
+- ADR-018 Semantic Versioning
+  - Yes
+- ADR-019 gRPC
+  - Not using gRPC.  
