@@ -3,7 +3,8 @@
 An example CRUD api. Uses Go as the language and PostgreSQL as a datastore.
 Dependencies are kept to a minimum. pgx is the only dependency and only because
 the standard library does not include a sql driver. The decisions going into making
-this example are documented in docs\Decision Records.
+this example are documented in
+[docs\Decision Records](https://github.com/SunnysideAaron/wetesa-0/tree/main/docs/Decision%20Records).
 
 Since Go 1.22 (2024-FEB) many recommend to not use a framework. Using the standard
 library instead. Most frameworks in Go were developed before Go 1.22 added better
@@ -18,7 +19,8 @@ by Mat Ryer
 Wetesa-0 is not a framework! It's just a fully working example of how to use the
 standard library to build an api. Is this how I would build an api? Nope. There
 are too many great packages out there to simplify the code. See 
-TSDR-009 Non-dependencies.md for more information. I will be using the 
+[TSDR-008 Non-dependencies.md](https://github.com/SunnysideAaron/wetesa-0/blob/main/docs/Decision%20Records/Tech%20Stack/TSDR-008%20Non-dependencies.md) 
+for more information. I will be using the 
 routing from this example and using the rest of the code as a reference when
 evaluating what value packages bring. I personally believe the decision records
 are also valuable. Any api has to answer the same questions. Going through them
