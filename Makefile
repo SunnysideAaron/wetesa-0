@@ -33,7 +33,7 @@ all-up:
 	@docker compose up --remove-orphans
 
 all-down:
-	@docker compose down datastore
+	@docker compose down
 
 # **************************************************
 

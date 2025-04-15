@@ -11,7 +11,6 @@ Go does not include sql drivers in the standard library. [Driver listing](https:
 ## Decision
 
 - [pgx](https://github.com/jackc/pgx)
-- ?with scanny? 
 - Use the pgx interface. Not pgx's database/sql interface.
 
 ## Why / Notes

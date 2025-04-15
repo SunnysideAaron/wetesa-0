@@ -23,9 +23,3 @@ An example CRUD api. With a minimum of dependencies.
 - TSDR-009 Non-dependencies
   - Do not attempt Authentication, Authorization, or Cryptography.
   - Don't use any of the database packages that are not in the standard library.
-
-
-  TODO 
-  GitHub Template Repo https://www.google.com/search?q=GitHub+Template+Repo&oq=GitHub+Template+Repo&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQABiABDIHCAIQABiABDIHCAMQABiABDIHCAQQABiABDIICAUQABgWGB4yCAgGEAAYFhgeMggIBxAAGBYYHjIICAgQABgWGB4yCAgJEAAYFhgeMg0IChAAGIYDGIAEGIoFMg0ICxAAGIYDGIAEGIoFMg0IDBAAGIYDGIAEGIoFMgoIDRAAGIAEGKIEMgoIDhAAGIAEGKIE0gEIMTU3MWowajeoAhSwAgHxBUc3g6IbpFyQ8QVHN4OiG6RckA&client=ms-android-fi&sourceid=chrome-mobile&ie=UTF-8
-
-

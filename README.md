@@ -43,7 +43,7 @@ and finding your own answers is a good way to start your own api.
 
       make all-up
 
-- http://localhost:8080/ and http://localhost:8080/health Should both give responses.
+- http://localhost:8080/healthz, http://localhost:8080/healthdbz, and http://localhost:8080/api/v0.1/clients Should all give responses.
 - make all-up will launch air on the api code. Air rebuilds the binary when ever
   it detects code changes.
 - To end the running services press ctrl-c. Then
@@ -74,7 +74,8 @@ Note there are two Make files. See ./Makefile and ./api/Makefile for additional 
 
 ## Credits
 
-This project borrows heavily from many sources. While it has traveled a bit from them we would like to thank them. Please check them out.
+This project borrows heavily from many sources. While it has traveled a bit from
+them we would like to thank them. Please check them out.
 
 - [How I write HTTP services in Go after 13 years](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/) by Mat Ryer
 - [Go Blueprint Code](https://github.com/Melkeydev/go-blueprint)
