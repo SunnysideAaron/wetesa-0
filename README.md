@@ -9,8 +9,8 @@ For the TLDR see
 [TSDR-000](https://github.com/SunnysideAaron/wetesa-0/blob/main/docs/Decision%20Records/Tech%20Stack/TSDR-000%20What%20and%20TLDR.md)
 and [ADR-000](https://github.com/SunnysideAaron/wetesa-0/blob/main/docs/Decision%20Records/Architecture/ADR-000%20What%20and%20TLDR.md).
 
-Since Go 1.22 (2024-FEB) many recommend to not use a framework. Using the standard
-library instead. Most frameworks in Go were developed before Go 1.22 added better
+Since Go 1.22 (2024-FEB) many recommend using the standard library instead of a 
+framework. Most frameworks in Go were developed before Go 1.22 added better
 routing.
 
 I found myself unable to find good and complete working examples of how to use
@@ -23,11 +23,11 @@ Wetesa-0 is not a framework! It's just a fully working example of how to use the
 standard library to build an api. Is this how I would build an api? Nope. There
 are too many great packages out there to simplify the code. See 
 [TSDR-008 Non-dependencies.md](https://github.com/SunnysideAaron/wetesa-0/blob/main/docs/Decision%20Records/Tech%20Stack/TSDR-008%20Non-dependencies.md) 
-for more information. I will be using the 
-routing from this example and using the rest of the code as a reference when
-evaluating what value packages bring. I personally believe the decision records
-are also valuable. Any api has to answer the same questions. Going through them
-and finding your own answers is a good way to start your own api.
+for more information. I will be using the routing from this example and using
+the rest of the code as a reference when evaluating what value new packages
+bring. I personally believe the decision records are also valuable. Any api has
+to answer the same questions. Going through them and finding your own answers is
+a good way to start your own api.
 
 ## Requirements
 
