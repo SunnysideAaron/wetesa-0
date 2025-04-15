@@ -17,7 +17,7 @@ There is no standard. We do want to be consistent throughout the API.
 - Avoid requiring resource URIs more complex than collection/item/collection
 
 TODO subcollections, totalCount, created, and modified (date) in response. This 
-is all waiting on other code I may or may not include in initial example.
+is all waiting on other code I may or may not include in this example.
 
 TODO field selection
 

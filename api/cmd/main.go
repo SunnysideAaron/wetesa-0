@@ -100,8 +100,6 @@ func main() {
 	cfg := config.LoadAPIConfig()
 	pCfg := config.LoadDBConfig()
 
-	// TODO break all these single line error check statements into multiple lines.
-	// finder linter and formatter
 	if err := run(ctx, cfg, pCfg); err != nil {
 		slog.LogAttrs(
 			ctx,

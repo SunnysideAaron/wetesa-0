@@ -302,7 +302,6 @@ func handleDeleteClient(logger *slog.Logger, db *database.Postgres) http.Handler
 		func(w http.ResponseWriter, r *http.Request) {
 			id := r.PathValue("id")
 
-			// TODO research i don't think it's possible to get to this method without an id
 			if id == "" {
 				http.Error(w, "Missing ID", http.StatusBadRequest)
 				return

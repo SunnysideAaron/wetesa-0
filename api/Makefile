@@ -1,4 +1,3 @@
-# TODO why does this end in "."?
 build:
 	@golangci-lint fmt
 	@go mod tidy

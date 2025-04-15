@@ -15,7 +15,10 @@ PostgreSQL
 ## Why / Notes
 
   - Pros. Enterprise scale.
-  - TODO (Can't remember off hand why it's better than MariaDB. Scale? ACID? I remember there were good reasons just can't remember them right now. I'm sure there are articles on topic.)
+  - ACID
+    - At one time in the past using triggers was not recommended. Perhaps that is no longer the case.
+  - Other reasons 
+    - (Can't remember off hand why it's better than MariaDB. Scale? ACID? I remember there were good reasons just can't remember them right now. I'm sure there are articles on topic.)
 
 ## Consequences
 

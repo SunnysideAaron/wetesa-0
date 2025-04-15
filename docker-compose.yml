@@ -3,35 +3,26 @@ services:
     # https://github.com/bitnami/containers/blob/main/bitnami/postgresql/README.md
     image: bitnami/postgresql:17-debian-12
     container_name: datastore
-    #TODO restart may mask errors. Leave commented out till production
-    #restart: unless-stopped
+    # TODO restart may mask errors. Leave commented out till production
+    # restart: unless-stopped
     networks:
       - app-tier
     environment:
       POSTGRESQL_DATABASE: ${POSTGRESQL_DATABASE}
       POSTGRESQL_USERNAME: ${POSTGRESQL_USERNAME}
       POSTGRESQL_PASSWORD: ${POSTGRESQL_PASSWORD}
-      # TODO timezone and timezone in log
-      # https://github.com/bitnami/containers/blob/main/bitnami/postgresql/README.md#configuring-time-zone
     ports:
       - '${DATASTORE_PORT}:${DATASTORE_PORT}'  
     volumes:
        - ./datastore/initdb:/docker-entrypoint-initdb.d
        - ./datastore/persistence:/bitnami/postgresql
-    # TODO this was part of go-Blueprint. Isn't used by the code though. determine how and if to use.   
-    # healthcheck:
-    #   test: ["CMD-SHELL", "sh -c 'pg_isready -U ${BLUEPRINT_DB_USERNAME} -d ${BLUEPRINT_DB_DATABASE}'"]
-    #   interval: 5s
-    #   timeout: 5s
-    #   retries: 3
-    #   start_period: 15s   
   api:
     build:
       context: ./api
       dockerfile: Dockerfile
     container_name: api
-    #TODO restart may mask errors. Leave commented out till production
-    #restart: unless-stopped
+    # TODO restart may mask errors. Leave commented out till production
+    # restart: unless-stopped
     networks:
       - app-tier
     environment:
@@ -64,10 +55,3 @@ services:
 networks:
   app-tier:
     driver: bridge
-# TODO building code for production
-
-  # api:
-
-  #   depends_on:
-  #     datastore:
-  #       condition: service_healthy

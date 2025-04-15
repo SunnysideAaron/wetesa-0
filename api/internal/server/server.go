@@ -23,8 +23,6 @@ func encode(w http.ResponseWriter, _ *http.Request, status int, v any) error {
 
 	err := json.NewEncoder(w).Encode(v)
 	if err != nil {
-		// TODO logging / error handling
-		// we can probably refactor this to do the http error return. here
 		return fmt.Errorf("encode json: %w", err)
 	}
 	return nil

@@ -12,8 +12,6 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-// TODO convert to error constants and types. rest of code as well.
-
 // Client represents a client record in the database.
 // It contains basic information about a client including their unique identifier,
 // name, and optional address.
@@ -209,7 +207,6 @@ func (pg *Postgres) GetClient(ctx context.Context, id string) (Client, error) {
 
 // UpdateClient updates an existing client's information.
 // Returns an error if the client doesn't exist or if the update operation fails.
-// TODO this is for a PUT request. Which is OK but we might want to use PATCH instead.
 func (pg *Postgres) UpdateClient(ctx context.Context, c Client) error {
 	query := `UPDATE client 
 			  SET name = @name, address = @address 

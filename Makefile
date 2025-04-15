@@ -37,8 +37,4 @@ all-down:
 
 # **************************************************
 
-# TODO Production commands
-
-# **************************************************
-
 .PHONY: ds-up ds-bash ds-down api-build api-bash api-watch all-up all-down

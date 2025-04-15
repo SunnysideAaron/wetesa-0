@@ -1,9 +1,9 @@
 // Package logging provides structured logging functionality with support for
 // different output formats based on the environment.
 //
-// TODO Someday read through this guide and see if PrettyHandler could be better.
-// https://github.com/golang/example/blob/master/slog-handler-guide/README.md#the-%60enabled%60-method
-// actually it would be better to simple add an already developed pretty handler as a dependency
+// WARNING: Pretty handler is pretty basic. There are several packages for pretty
+// output it's probably better to use one of those. This is just for the example
+// without dependencies.
 package logging
 
 import (
