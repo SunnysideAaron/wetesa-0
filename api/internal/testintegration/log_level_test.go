@@ -1,4 +1,5 @@
-package test_integration
+//nolint:noctx // context isn't needed for tests
+package testintegration
 
 import (
 	"io"
@@ -27,7 +28,11 @@ func TestLogLevelEndpoint(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to make request: %v", err)
 			}
-			defer resp.Body.Close()
+			defer func() {
+				if err = resp.Body.Close(); err != nil {
+					t.Errorf("failed to close response body: %v", err)
+				}
+			}()
 
 			if resp.StatusCode != tc.expectedStatus {
 				t.Errorf("expected status code %d, got %d", tc.expectedStatus, resp.StatusCode)

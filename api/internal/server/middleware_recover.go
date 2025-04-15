@@ -25,7 +25,10 @@ func recoverMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
 						slog.String("request_id", requestIDFromContext(r.Context())),
 						slog.String("method", r.Method),
 						slog.String("path", r.URL.Path),
-						slog.Any("panic", p), // TODO verify if this slog.Any will actually log.
+						slog.Any(
+							"panic",
+							p,
+						), // TODO verify if this slog.Any will actually log. pretty handler might ignore slog.Any
 					)
 					http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 				}

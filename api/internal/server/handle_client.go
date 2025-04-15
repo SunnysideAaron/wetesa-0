@@ -50,12 +50,12 @@ func handleListClients(logger *slog.Logger, db *database.Postgres) http.Handler 
 			// Parse sort from query parameter
 			if sortStr := r.URL.Query().Get("sort"); sortStr != "" {
 				sortLower := strings.ToLower(sortStr)
-				if sortLower == "asc" || sortLower == "desc" {
-					sort = sortLower
-				} else {
+				if sortLower != "asc" && sortLower != "desc" {
 					http.Error(w, "Invalid sort parameter. Must be 'asc' or 'desc'", http.StatusBadRequest)
 					return
 				}
+
+				sort = sortLower
 			}
 
 			// Get filter parameters
@@ -79,7 +79,7 @@ func handleListClients(logger *slog.Logger, db *database.Postgres) http.Handler 
 				return
 			}
 
-			response := map[string]interface{}{
+			response := map[string]any{
 				"clients":  clients,
 				"page":     page,
 				"size":     size,

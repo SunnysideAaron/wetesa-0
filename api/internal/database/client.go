@@ -16,7 +16,7 @@ import (
 // It contains basic information about a client including their unique identifier,
 // name, and optional address.
 type Client struct {
-	ClientID string      `json:"client_id"`
+	ClientID string      `json:"client_id,omitempty"`
 	Name     string      `json:"name"`
 	Address  pgtype.Text `json:"address"`
 }
@@ -153,7 +153,7 @@ func (pg *Postgres) GetClients(
 			  FROM client
 			  WHERE 1=1`
 
-	args := []interface{}{}
+	args := []any{}
 	argPosition := 1
 
 	// Add filter conditions if provided

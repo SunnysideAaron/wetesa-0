@@ -1,4 +1,5 @@
-package test_integration
+//nolint:noctx // context isn't needed for tests
+package testintegration
 
 import (
 	"io"
@@ -19,7 +20,11 @@ func TestHealthzEndpoint(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to make request: %v", err)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if err = resp.Body.Close(); err != nil {
+			t.Errorf("failed to close response body: %v", err)
+		}
+	}()
 
 	// Read the response body
 	body, err := io.ReadAll(resp.Body)
@@ -46,7 +51,12 @@ func TestHealthDBzEndpoint(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to make request: %v", err)
 	}
-	defer resp.Body.Close()
+
+	defer func() {
+		if err = resp.Body.Close(); err != nil {
+			t.Errorf("failed to close response body: %v", err)
+		}
+	}()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {

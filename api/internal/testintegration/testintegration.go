@@ -1,7 +1,9 @@
-package test_integration
+// Package testintegration provides integration tests for the API.
+// Note that server has to be running for these tests to pass.
+package testintegration
 
 import (
-	"fmt"
+	"net"
 
 	"api/internal/config"
 )
@@ -12,7 +14,7 @@ func getServerAddress() string {
 	if host == "" {
 		host = "localhost"
 	}
-	return fmt.Sprintf("http://%s:%s", host, cfg.APIPort)
+	return "http://" + net.JoinHostPort(host, cfg.APIPort)
 }
 
 func getAPIAddress() string {
@@ -21,5 +23,5 @@ func getAPIAddress() string {
 	if host == "" {
 		host = "localhost"
 	}
-	return fmt.Sprintf("http://%s:%s%s", host, cfg.APIPort, cfg.BaseURL)
+	return "http://" + net.JoinHostPort(host, cfg.APIPort) + cfg.BaseURL
 }
