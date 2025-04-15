@@ -1,6 +1,6 @@
 # Wetesa-0
 
-An example CRUD api. Uses Go as the language and PostgreSQL as a datastore.
+An example CRUD API. Uses Go as the language and PostgreSQL as a datastore.
 Dependencies are kept to a minimum. pgx is the only dependency and only because
 the standard library does not include a sql driver. The decisions going into making
 this example are documented in
@@ -14,7 +14,7 @@ framework. Most frameworks in Go were developed before Go 1.22 added better
 routing.
 
 I found myself unable to find good and complete working examples of how to use
-the standard library to build an api. Specifically around routing. Built the
+the standard library to build an API. Specifically, around routing. Built the
 example I wanted! Leaned heavily on the information from
 [How I write HTTP services in Go after 13 years](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/)
 by Mat Ryer
