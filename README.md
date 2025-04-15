@@ -5,6 +5,9 @@ Dependencies are kept to a minimum. pgx is the only dependency and only because
 the standard library does not include a sql driver. The decisions going into making
 this example are documented in
 [docs\Decision Records](https://github.com/SunnysideAaron/wetesa-0/tree/main/docs/Decision%20Records).
+For the TLDR see
+[TSDR-000](https://github.com/SunnysideAaron/wetesa-0/blob/main/docs/Decision%20Records/Tech%20Stack/TSDR-000%20What%20and%20TLDR.md)
+and [ADR-000](https://github.com/SunnysideAaron/wetesa-0/blob/main/docs/Decision%20Records/Architecture/ADR-000%20What%20and%20TLDR.md).
 
 Since Go 1.22 (2024-FEB) many recommend to not use a framework. Using the standard
 library instead. Most frameworks in Go were developed before Go 1.22 added better
