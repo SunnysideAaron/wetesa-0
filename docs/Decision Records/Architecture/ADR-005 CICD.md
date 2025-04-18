@@ -26,6 +26,8 @@ Runs the risk of code going live that isn's properly tested.
 
 - [How I Tuned My CI/CD Pipeline To Be Done in 60 Seconds](https://mzfit.app/blog/the_one_where_i_tune_my_cdcd_pipeline/)
   - [golang_cicd_template](https://github.com/sethgecko13/golang_cicd_template)
+- [What am I supposed to know by now?](https://www.reddit.com/r/devops/comments/1jsc3ti/what_am_i_supposed_to_know_by_now/)
+- https://www.reddit.com/r/devops/comments/1jutazf/i_wrote_a_free_github_actions_guide_based_on/
 
 ## Not an Option
 

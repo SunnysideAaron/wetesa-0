@@ -44,20 +44,19 @@ https://github.com/avelino/awesome-go?tab=readme-ov-file#uuid
 
 ### Date / Time Columns
 
-ACTION_WORD_date, ACTION_WORD_datetime, ACTION_WORD_time (times without date.),
-ACTION_WORD_datetime_user_tz (timezone of user), ACTION_WORD_time_user_tz (timezone of user)
+ACTION_WORD_on (datetime, date or time), ACTION_WORD_on_date (date no time),
+ACTION_WORD_on_time (times without date.), ACTION_WORD_on_user_tz (timezone of user),
+effective_start, effective_end
 
 Examples:
-created_date, created_time, created_datetime, effective_start_date,
-effective_end_datetime, created_time_user_tz
+created_on, created_on_user_tz
 
-I've seen plenty of examples including _at, _on, _date, _datestamp. Any of which
-in practice ends up having any kind of date or time depending on the whims of the
-individual developer during initial development. Lets just say what we mean.
-There is certainly an argument against including column types in column names but
-in this case we make the exception.
+Most dates should _on and be datetime set to UTC. _on can be a date or a time if needed.
+Only use _date and _time in name when there is a specific reason for both fields
+to exist in the same table. _on is better than _at which might be confused for a
+place where an action occurred **at**.
 
-- don't use timetz for ACTION_WORD_time columns see:
+Don't use timetz for ACTION_WORD_time columns see:
   [Postreges Wiki: Don't Do This](https://wiki.postgresql.org/wiki/Don't_Do_This)
 
 ### timestamptz and UTC
@@ -74,11 +73,19 @@ in this case we make the exception.
 
 ## Other Possible Options
 
+ACTION_WORD_date, ACTION_WORD_datetime, ACTION_WORD_time (times without date.),
+ACTION_WORD_datetime_user_tz (timezone of user), ACTION_WORD_time_user_tz (timezone of user)
 
+Examples:
+created_date, created_time, created_datetime, effective_start_date,
+effective_end_datetime, created_time_user_tz
+
+This just says what the column is. There is certainly an argument against
+including column types in column names but perhaps this would be a good exception.
 
 ## Not an Option
-- How about xyz_at for a timestamp and xyz_on for a date field - eg start_at or start_on?
-  - Not too bad but if going that far then just use _date and _time.
+- ACTION_WORD_at for a timestamp and ACTION_WORD_on for a date field - eg start_at or start_on?
+  - No way a group of developers keep a mix straight.
 
 
 

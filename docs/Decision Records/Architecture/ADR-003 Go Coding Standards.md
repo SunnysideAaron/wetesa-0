@@ -17,6 +17,7 @@ See file "Uber Go Style.md"
 ## Why / Notes
 
 Of the core go community style guides I like the layout and writing style the best.
+Markdown is a plus. 1 page. Good and bad examples.
 
 ## Consequences
 
