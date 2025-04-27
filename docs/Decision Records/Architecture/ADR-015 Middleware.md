@@ -22,19 +22,13 @@ Installed middleware:
 
 ### Pending
 
-What other middleware should be implemented? Rate limiting?
-
-Rate limiting seems a smidge complex with saving IPs. I'm punting that ball for now.
-- [api-std-lib](https://github.com/youngjun827/api-std-lib/blob/main/cmd/api/middleware.go)
-  - has a simple rate limiter.
-
-## Why / Notes
-
-
-
-## Consequences
-
-
+- [Alice](https://github.com/justinas/alice)
+  - Middleware chaining
+- [nosurf](https://github.com/justinas/nosurf)
+  - prevents Cross-Site Request Forgery attacks. Is this related to CORS?
+- Rate limiting seems a smidge complex with saving IPs. I'm punting that ball for now.
+  - [api-std-lib](https://github.com/youngjun827/api-std-lib/blob/main/cmd/api/middleware.go)
+    - has a simple rate limiter.
 
 ## Sources of Middlewares
 
