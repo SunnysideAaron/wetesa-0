@@ -20,6 +20,7 @@ An example CRUD api. With a minimum of dependencies.
   - [air](https://github.com/air-verse/air)
 - TSDR-007 API framework
   - Use the standard library.
-- TSDR-008 Non-dependencies
-  - Do not attempt Authentication, Authorization, or Cryptography.
-  - Don't use any of the database packages that are not in the standard library.
+- TSDR-008 Possible Future Dependencies
+  - See document.
+- TSDR-009 Commit Messages
+  - Commits without messages are OK. For now.

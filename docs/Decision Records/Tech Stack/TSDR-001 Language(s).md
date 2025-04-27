@@ -42,4 +42,5 @@ Not an option:
 - c#
   - Microsoft dependant. Cost
 - c++
-  - Ecosystem is a mess. Not used for much web development today.
+  - Ecosystem is a mess. Not used for much web development today beyond highly
+    optimized for speed code.

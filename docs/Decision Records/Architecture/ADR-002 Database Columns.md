@@ -13,7 +13,7 @@ from the beginning will F*** your team / project hard later.
 
 - table_id not id
 - UUIDs for primary keys
-- Date / Time Columns: ACTION_WORD_date, ACTION_WORD_datetime, ACTION_WORD_time (times without date)
+- Date / Time Columns: ACTION_WORD_on (datetime, date, or time)
 - Time columns will be of type timestamptz and UTC. User timezone in separate column if needed.
 
 ## Why / Notes
@@ -44,7 +44,7 @@ https://github.com/avelino/awesome-go?tab=readme-ov-file#uuid
 
 ### Date / Time Columns
 
-ACTION_WORD_on (datetime, date or time), ACTION_WORD_on_date (date no time),
+ACTION_WORD_on (datetime, date, or time), ACTION_WORD_on_date (date no time),
 ACTION_WORD_on_time (times without date.), ACTION_WORD_on_user_tz (timezone of user),
 effective_start, effective_end
 
