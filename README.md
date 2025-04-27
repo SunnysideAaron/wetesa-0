@@ -13,21 +13,25 @@ Since Go 1.22 (2024-FEB) many recommend using the standard library instead of a
 framework. Most frameworks in Go were developed before Go 1.22 added better
 routing.
 
-I found myself unable to find good and complete working examples of how to use
+Found myself unable to find good, complete, and working examples of how to use
 the standard library to build an API. Specifically, around routing. Built the
 example I wanted! Leaned heavily on the information from
 [How I write HTTP services in Go after 13 years](https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/)
 by Mat Ryer
 
-Wetesa-0 is not a framework! It's just a fully working example of how to use the
-standard library to build an api. Is this how I would build an api? Nope. There
-are too many great packages out there to simplify the code. See 
-[TSDR-008 Non-dependencies.md](https://github.com/SunnysideAaron/wetesa-0/blob/main/docs/Decision%20Records/Tech%20Stack/TSDR-008%20Non-dependencies.md) 
-for more information. I will be using the routing from this example and using
-the rest of the code as a reference when evaluating what value new packages
-bring. I personally believe the decision records are also valuable. Any api has
+Wetesa-0 is not a framework! It is a fully working example of how to use the
+standard library to build an api. Is this how I would build an api? Possibly. If
+the project was small enough or if I was very concerned about having too many
+dependencies. [TSDR-008 Possible Future Dependencies.md](https://github.com/SunnysideAaron/wetesa-0/blob/main/docs/Decision%20Records/Tech%20Stack/TSDR-008%20Possible%20Future%20Dependencies.md) 
+covers some ideas that might make sense to add / change depending on the project.
+
+Ways to use Wetesa-0:
+- Example code for api routing using the standard library.
+- A base line for evaluating packages. How they would change code? What specific
+  benefits do they bring.
+- The decision records as a starting point for any new project. Any api / project has
 to answer the same questions. Going through them and finding your own answers is
-a good way to start your own api.
+a good way to start a new api / project.
 
 ## Requirements
 

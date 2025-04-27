@@ -19,6 +19,10 @@ to get wrong. With catastrophic results. They should not be "home-brewed" in a
 production setting. Find libraries that do those things right or at least have a
 good reputation and lots of other eyes on the code.
 
+### Code Generation
+
+For larger projects this could save a lot of time.
+
 ### Database
 
 There are a lot of ways to skin the database cat. Some options worth mentioning:

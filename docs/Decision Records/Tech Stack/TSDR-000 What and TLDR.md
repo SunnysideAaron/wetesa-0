@@ -8,7 +8,7 @@ An example CRUD api. With a minimum of dependencies.
 
 - TSDR-001 Language(s)
   - Go
-- TSDR-002 Data storage
+- TSDR-002 Data Storage
   - PostgreSQL
 - TSDR-003 Docker
   - Using Bitnami PostgreSQL Image

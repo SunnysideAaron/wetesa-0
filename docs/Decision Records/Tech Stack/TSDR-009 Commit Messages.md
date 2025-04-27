@@ -31,7 +31,7 @@ some significant change to code. I remember the old days of frequent computer
 crashes. I tend to "save" / commit often. Because of this I tend to have a lot
 of small minor commits. For these commits I don't need or even want a message. A
 lack of a message is short hand for me that says I can probably ignore that commit
-if I'm looking for a change.
+if I'm looking for a change. This works for me and the way I write code for myself.
 
 A commit message should add value. I've found for small changes the file diffs
 add more than enough context.
