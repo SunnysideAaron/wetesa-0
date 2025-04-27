@@ -1,4 +1,4 @@
-package server
+package middleware
 
 import (
 	"context"
@@ -63,7 +63,7 @@ func generateID() (string, error) {
 	return b64[0:10], nil
 }
 
-// requestIDMiddleware is an HTTP middleware that ensures each request has a unique ID.
+// requestID is an HTTP middleware that ensures each request has a unique ID.
 // If a request ID is not already present in the context, it generates a new one using
 // generateID() and adds it to the context. This ID can be used for request tracing
 // and correlation across logs and services.
@@ -73,7 +73,7 @@ func generateID() (string, error) {
 // 2. Generate a new ID if none exists
 // 3. Add the ID to the request context
 // 4. Return a 500 error if ID generation fails
-func requestIDMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
+func requestID(logger *slog.Logger, next http.Handler) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			ctx := r.Context()

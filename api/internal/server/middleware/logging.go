@@ -1,4 +1,4 @@
-package server
+package middleware
 
 import (
 	"fmt"
@@ -34,9 +34,9 @@ func (rw *responseWriter) Write(b []byte) (int, error) {
 	return size, fmt.Errorf("ResponseWriter broke: %w", err)
 }
 
-// loggingMiddleware logs the start and completion of each request including
+// requestLogging logs the start and completion of each request including
 // timing, status code, and response size.
-func loggingMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
+func requestLogging(logger *slog.Logger, next http.Handler) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			start := time.Now()

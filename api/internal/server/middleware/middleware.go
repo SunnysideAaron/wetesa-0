@@ -1,9 +1,9 @@
-// Package server does the api work.
+// Package middleware has different middleware functions.
 // middleware includes groups of middleware.
 //
 // [The adapter pattern for middleware]
 // (https://grafana.com/blog/2024/02/09/how-i-write-http-services-in-go-after-13-years/#the-adapter-pattern-for-middleware)
-package server
+package middleware
 
 import (
 	"context"
@@ -14,21 +14,19 @@ import (
 	"api/internal/config"
 )
 
-// newMiddleCore returns a middleware chain that applies core middleware functions
+// NewCore returns a middleware chain that applies core middleware functions
 // in the correct order. It handles cross-cutting concerns like logging, recovery,
 // and CORS.
-// note how this chains middlewares together but also handles dependencies so
-// that calling code doesn't have to.
-func newMiddleCore(
+func NewCore(
 	logger *slog.Logger,
 ) func(h http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
 		// Apply middlewares in reverse order - last one is applied first
-		return requestIDMiddleware(logger,
-			ipMiddleware(
-				loggingMiddleware(logger,
-					recoverMiddleware(logger,
-						corsMiddleware(
+		return requestID(logger,
+			ip(
+				requestLogging(logger,
+					panicRecovery(logger,
+						cors(
 							http.AllowQuerySemicolons(h),
 						),
 					),
@@ -38,9 +36,9 @@ func newMiddleCore(
 	}
 }
 
-// newMiddleDefaults returns a middleware chain that applies default middleware
+// NewDefaults returns a middleware chain that applies default middleware
 // functions with configurable timeouts and request size limits.
-func newMiddleDefaults(
+func NewDefaults(
 	ctx context.Context,
 	cfg *config.APIConfig,
 	logger *slog.Logger,

@@ -10,6 +10,7 @@ import (
 	"api/internal/config"
 	"api/internal/database"
 	"api/internal/logging"
+	"api/internal/server/middleware"
 )
 
 // AddRoutes maps all the API routes
@@ -24,10 +25,10 @@ func AddRoutes(
 	baseMux := http.NewServeMux()
 	v1Mux := http.NewServeMux()
 
-	middleDefaults := newMiddleDefaults(ctx, cfg, logger)
+	middleDefaults := middleware.NewDefaults(ctx, cfg, logger)
 
 	// example of overriding defaults
-	v1Mux.Handle(http.MethodGet+" /bigopportunity", newMiddleDefaults(ctx, cfg, logger, 50)(handleBigOpportunity(logger)))
+	v1Mux.Handle(http.MethodGet+" /bigopportunity", middleware.NewDefaults(ctx, cfg, logger, 50)(handleBigOpportunity(logger)))
 	// directly callable example of an error
 	v1Mux.Handle(http.MethodGet+" /errorexample", middleDefaults(handleErrorExample(logger)))
 	v1Mux.Handle(http.MethodGet+" /loglevel/{level}", middleDefaults(handleLogLevel(logger, logLevel)))
@@ -54,5 +55,5 @@ func AddRoutes(
 	baseMux.Handle("/", http.NotFoundHandler())
 
 	// Wrap the entire baseMux with core middleware
-	return newMiddleCore(logger)(baseMux)
+	return middleware.NewCore(logger)(baseMux)
 }

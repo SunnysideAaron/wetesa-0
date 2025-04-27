@@ -1,4 +1,4 @@
-package server
+package middleware
 
 import (
 	"context"
@@ -57,7 +57,7 @@ func getIP(r *http.Request) string {
 	return strings.Split(r.RemoteAddr, ":")[0]
 }
 
-// ipMiddleware is an HTTP middleware that ensures each request has the client's IP
+// ip is an HTTP middleware that ensures each request has the client's IP
 // address available in its context. The IP address is also added to the request's
 // structured logging context.
 //
@@ -68,7 +68,7 @@ func getIP(r *http.Request) string {
 //
 // This middleware should be placed early in the middleware chain to ensure the IP
 // is available for subsequent middleware and request handlers.
-func ipMiddleware(next http.Handler) http.Handler {
+func ip(next http.Handler) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			ctx := r.Context()

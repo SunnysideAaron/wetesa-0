@@ -1,11 +1,11 @@
-package server
+package middleware
 
 import (
 	"log/slog"
 	"net/http"
 )
 
-// recoverMiddleware recovers from panics in HTTP handlers, logs the error,
+// panicRecovery recovers from panics in HTTP handlers, logs the error,
 // and returns a 500 Internal Server Error response to the client.
 // Copied from https://github.com/google/exposure-notifications-server/blob/main/internal/middleware/recovery.go
 // This is simple and should cover us for now.
@@ -13,7 +13,7 @@ import (
 // trace or enough info try one of the others.
 // https://github.com/labstack/echo/blob/master/middleware/recover.go
 // https://github.com/go-chi/chi/blob/v1.5.5/middleware/recoverer.go#L21
-func recoverMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
+func panicRecovery(logger *slog.Logger, next http.Handler) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			defer func() {
