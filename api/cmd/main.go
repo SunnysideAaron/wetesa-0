@@ -65,7 +65,7 @@ func run(
 			ctx,
 			slog.LevelInfo,
 			"server starting",
-			slog.String("addr", httpServer.Addr),
+			slog.Any("config", cfg),
 		)
 		serverErrors <- httpServer.ListenAndServe()
 	}()
