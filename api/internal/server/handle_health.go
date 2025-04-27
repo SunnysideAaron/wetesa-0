@@ -34,12 +34,12 @@ func handleHealthDBz(logger *slog.Logger, db *database.Postgres) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			status := http.StatusServiceUnavailable
-			stats := db.Health(r.Context(), logger)
-			if stats["status"] == "up" {
+			healthStatus := db.Health(r.Context(), logger)
+			if healthStatus.Status == "up" {
 				status = http.StatusOK
 			}
 
-			err := encode(w, r, status, stats)
+			err := encode(w, r, status, healthStatus)
 			if err != nil {
 				logger.LogAttrs(
 					r.Context(),
