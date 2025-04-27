@@ -36,15 +36,15 @@ a good way to start a new api / project.
 ## Requirements
 
 - [Docker](https://www.docker.com/)
+- Make
+  - There are several different ways to get Make installed. Google for your
+      operating system.
 
 ## Usage
 
 ### Quick start
 
-- Install [Docker](https://www.docker.com/)
-- Install Make
-    - There are several different ways to get Make installed. Google for your
-      operating system.
+- Install Requirements
 - Clone the Wetesa-0 repo to your computer
 - In your command prompt change your working directory to where you cloned Wetesa-0
 - This example uses 2 docker containers. "datastore" for PostreSQL and "api" for
