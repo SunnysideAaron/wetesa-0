@@ -1,7 +1,9 @@
 # Wetesa
 
-Wetasa-0 is the very first example of a [Wetesa](https://github.com/SunnysideAaron/wetesa-0/wiki)! To learn more about the Wetesa
-idea see the [wiki](https://github.com/SunnysideAaron/wetesa-0/wiki). The rest of this readme is about Wetesa-0.
+Wetasa-0 is the very first example of a 
+[Wetesa](https://github.com/SunnysideAaron/wetesa-0/wiki)! To learn more about
+the Wetesa concept see the [wiki](https://github.com/SunnysideAaron/wetesa-0/wiki).
+The rest of this readme is about Wetesa-0.
 
 # Wetesa-0
 
