@@ -1,10 +1,4 @@
-# TSDR-000 What and TLDR
-
-## What we are building.
-
-An example CRUD api. With a minimum of dependencies.
-
-## TL;DR of decisions
+# TSDR-000 TL;DR of Decisions
 
 - TSDR-001 Language(s)
   - Go
