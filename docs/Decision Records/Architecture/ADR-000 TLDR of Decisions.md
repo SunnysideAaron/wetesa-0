@@ -1,10 +1,4 @@
-# ADR-000 What and TLDR
-
-## What we are building.
-
-See "../Tech Stack/TSDR-000 What and TLDR.md"
-
-## TL;DR of decisions
+# ADR-000 TL;DR of Decisions
 
 - ADR-001 Using Architecture Decision Records
   - Yes. For Architecture and Technology Stack.
