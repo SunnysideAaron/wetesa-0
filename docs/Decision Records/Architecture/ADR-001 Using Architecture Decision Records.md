@@ -23,3 +23,7 @@ We will separate Architecture and Technology Stack Decisions.
 [Architecture vs. tech stack](https://rishat.us/architecture-vs-tech-stack/)
 
 ## Consequences
+
+## Notes
+
+[ADR Github Org](https://adr.github.io/)
