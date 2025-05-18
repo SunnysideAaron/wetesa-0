@@ -35,7 +35,7 @@ covers some ideas that might make sense to add / change depending on the project
 Ways to use Wetesa-0:
 - Example code for api routing using the standard library.
 - A base line for evaluating packages. How they would change code? What specific
-  benefits do they bring.
+  benefits do they bring?
 - The decision records as a starting point for any new project. Any api / project has
 to answer the same questions. Going through them and finding your own answers is
 a good way to start a new api / project.
