@@ -2,7 +2,7 @@
 # NOTE to see logs take off -d flag OR
 # docker logs -f datastore
 ds-up:
-	@docker compose up --remove-orphans datastore -d
+	@docker compose up --remove-orphans datastore --detach
 
 # connect to an already running datastore service
 ds-bash:
