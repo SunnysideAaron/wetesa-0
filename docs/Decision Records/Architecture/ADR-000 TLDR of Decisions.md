@@ -5,6 +5,7 @@
 - ADR-002 Database Columns
   - table_id not id
   - UUIDs for primary keys
+  - UUIDv4
   - Date / Time Columns: ACTION_WORD_on (datetime, date, or time)
   - Time columns will be of type timestamptz and UTC. User timezone in separate column if needed.
 - ADR-003 Go Coding Standards

@@ -20,7 +20,7 @@ from the beginning will F*** your team / project hard later.
 
 ### table_id not id
 
-tables id columns are named are "table_id" not "id" so that when doing joins the
+tables id columns are named as "table_id" not "id" so that when doing joins the
 developer knows the id's match and links are not on mis matched ids.
 
 When joining multiple tables in complex queries it is far less confusing to have
@@ -41,6 +41,12 @@ https://ntietz.com/blog/til-uses-for-the-different-uuid-versions/
 https://neon.tech/postgresql/postgresql-tutorial/postgresql-uuid
 https://www.reddit.com/r/golang/comments/1jdakzs/recommended_way_to_use_uuid_typesto_type_or_not/
 https://github.com/avelino/awesome-go?tab=readme-ov-file#uuid
+
+### UUID v4 vs v7
+
+Use v4 unless v7 is specifically needed on a per use case bases.
+
+v7 may be faster for specific high performative use cases. However, it is also leaks potentially private information like creation date.
 
 ### Date / Time Columns
 

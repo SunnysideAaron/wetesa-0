@@ -35,6 +35,7 @@ Chi for routing and mixing, for JSON req-res, I'll use connectrpc. In case I nee
 
 - [Atreugo](https://github.com/savsgio/atreugo) - High performance and extensible micro web framework with zero memory allocations in hot paths.
 - [Beego](https://github.com/beego/beego) - beego is an open-source, high-performance web framework for the Go programming language.
+0 [buffalo](https://gobuffalo.io/)
 - [Chi]()
   - **SHORT LIST TO TRY** should complement standard library
   - "Chi's middleware, httplog and render packages are fantastic."
