@@ -29,6 +29,7 @@ Runs the risk of code going live that isn's properly tested.
 - [What am I supposed to know by now?](https://www.reddit.com/r/devops/comments/1jsc3ti/what_am_i_supposed_to_know_by_now/)
 - https://www.reddit.com/r/devops/comments/1jutazf/i_wrote_a_free_github_actions_guide_based_on/
 - https://depot.dev/docs/container-builds/how-to-guides/continuous-integration
+- https://github.com/toddmotto/public-apis?tab=readme-ov-file#continuous-integration
 
 ## Not an Option
 
