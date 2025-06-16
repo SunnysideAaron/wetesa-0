@@ -14,8 +14,6 @@ There is no standard. We do want to be consistent throughout the API.
   - like this. Short and sweet. Use this ish.
 - [Set the right tone (for error messages)](https://developers.google.com/tech-writing/error-messages/set-tone)
 
-- Avoid requiring resource URIs more complex than collection/item/collection
-
 TODO subcollections, totalCount, created, and modified (date) in response. This 
 is all waiting on other code I may or may not include in this example.
 
@@ -29,8 +27,6 @@ TODO long running asynchronous methods, 202 accepted but not completed.
 
 As the API grows we will probably need to tighten standards. Start simple till we
 know what we need.
-
-For an internal API is HATEOAS (links in response)really necessary?
 
 ## Consequences
 
